@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:Ssomero.Components"
+             x:Class="Ssomero.Views.Announcements.AnnouncementsPage"
+             Title="Announcements">
+
+  <Grid>
+    <!-- Loading indicator -->
+    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+      <CollectionView ItemsSource="{Binding Items}">
+        <CollectionView.EmptyView>
+          <VerticalStackLayout Padding="24" HorizontalOptions="Center" VerticalOptions="Center">
+            <Label Text="No announcements yet." Style="{StaticResource BodyLabelStyle}"
+                   HorizontalTextAlignment="Center" />
+          </VerticalStackLayout>
+        </CollectionView.EmptyView>
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <components:CardView>
+              <VerticalStackLayout Spacing="4">
+                <Label Text="{Binding Title}" Style="{StaticResource TitleLabelStyle}" />
+                <Label Text="{Binding Body}" Style="{StaticResource BodyLabelStyle}" MaxLines="3" />
+                <Label Text="{Binding Date, StringFormat='{0:MMM dd, yyyy}'}"
+                       FontSize="12" TextColor="{StaticResource MutedText}" />
+              </VerticalStackLayout>
+            </components:CardView>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+    </RefreshView>
+  </Grid>
+</ContentPage>

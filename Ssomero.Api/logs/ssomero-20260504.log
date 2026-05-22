@@ -1,0 +1,56 @@
+2026-05-04 10:07:39.757 +03:00 [INF] OTP cleanup service started
+2026-05-04 10:07:40.311 +03:00 [WRN] The WebRootPath was not found: C:\Users\ISAAC L KABUYE\source\repos\Ssomero\Ssomero.Api\wwwroot. Static files may be unavailable.
+2026-05-04 10:07:41.855 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-04 10:07:41.886 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-04 10:07:42.137 +03:00 [INF] Server desktop-b8rchhq:8416:c4b80bd7 successfully announced in 21.5141 ms
+2026-05-04 10:07:42.232 +03:00 [INF] Server desktop-b8rchhq:8416:c4b80bd7 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-04 10:07:42.951 +03:00 [INF] Server desktop-b8rchhq:8416:c4b80bd7 all the dispatchers started
+2026-05-04 10:18:24.939 +03:00 [INF] HTTP GET /api/health responded 200 in 397.8706 ms
+2026-05-04 10:18:27.277 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-04 10:18:29.246 +03:00 [INF] Student login successful for unclezaac6@gmail.com
+2026-05-04 10:18:29.462 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 2385ms
+2026-05-04 10:18:29.757 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 2714.1815 ms
+2026-05-04 10:18:37.290 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 577.5774 ms
+2026-05-04 10:18:38.500 +03:00 [INF] HTTP GET /api/api/student/schedule responded 404 in 5.5627 ms
+2026-05-04 10:19:05.690 +03:00 [INF] HTTP GET /api/courses responded 200 in 97.3261 ms
+2026-05-04 10:19:06.401 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 2.3955 ms
+2026-05-04 10:19:13.271 +03:00 [INF] HTTP GET /api/courses/01295a87-168d-404d-92b3-34daf00c002a responded 200 in 532.8095 ms
+2026-05-04 10:19:21.904 +03:00 [INF] HTTP GET /api/api/student/schedule responded 404 in 3.1056 ms
+2026-05-04 10:19:22.126 +03:00 [INF] HTTP GET /api/api/student/schedule responded 404 in 1.6153 ms
+2026-05-04 10:19:22.361 +03:00 [INF] HTTP GET /api/api/attendance/my-history responded 404 in 2.9402 ms
+2026-05-04 10:19:22.602 +03:00 [INF] HTTP GET /api/api/attendance/my-report responded 404 in 1.0326 ms
+2026-05-04 10:19:32.939 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 20.6186 ms
+2026-05-04 10:19:33.012 +03:00 [INF] HTTP GET /api/api/student/schedule responded 404 in 0.9669 ms
+2026-05-04 10:19:33.266 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 3.4050 ms
+2026-05-04 10:19:33.479 +03:00 [INF] HTTP GET /api/api/student/schedule responded 404 in 0.6919 ms
+2026-05-04 10:19:33.793 +03:00 [INF] HTTP GET /api/api/student/schedule responded 404 in 0.7817 ms
+2026-05-04 10:19:43.825 +03:00 [INF] HTTP GET /api/materials responded 404 in 1.2795 ms
+2026-05-04 10:19:57.434 +03:00 [INF] HTTP GET /api/groups responded 404 in 1.4153 ms
+2026-05-04 10:20:12.528 +03:00 [INF] HTTP GET /api/api/attendance/my-report responded 404 in 1.3670 ms
+2026-05-04 10:20:53.434 +03:00 [INF] HTTP GET /api/health responded 200 in 2.7156 ms
+2026-05-04 10:20:53.758 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-04 10:20:54.359 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-04 10:20:54.365 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 609ms
+2026-05-04 10:20:54.383 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 629.6602 ms
+2026-05-04 10:20:57.522 +03:00 [INF] HTTP GET /api/api/admin/stats responded 404 in 1.8702 ms
+2026-05-04 10:21:13.658 +03:00 [INF] HTTP GET /api/api/admin/students responded 404 in 2.0716 ms
+2026-05-04 10:21:13.723 +03:00 [INF] HTTP GET /api/api/admin/lecturers responded 404 in 0.4291 ms
+2026-05-04 10:21:19.641 +03:00 [INF] HTTP GET /api/api/admin/students responded 404 in 1.1358 ms
+2026-05-04 10:21:19.668 +03:00 [INF] HTTP GET /api/api/admin/lecturers responded 404 in 0.6350 ms
+2026-05-04 10:21:26.960 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 146.0059 ms
+2026-05-04 10:21:42.854 +03:00 [INF] HTTP GET /api/universities responded 200 in 48.7398 ms
+2026-05-04 10:21:43.264 +03:00 [INF] HTTP GET /api/faculties/details responded 404 in 0.7289 ms
+2026-05-04 10:21:55.375 +03:00 [INF] HTTP GET /api/api/admin/stats responded 404 in 1.6251 ms
+2026-05-04 10:21:55.627 +03:00 [INF] HTTP GET /api/api/admin/stats responded 404 in 1.3256 ms
+2026-05-04 10:21:55.740 +03:00 [INF] HTTP GET /api/api/admin/departments responded 404 in 0.5941 ms
+2026-05-04 10:21:56.008 +03:00 [INF] HTTP GET /api/api/admin/programs responded 404 in 1.0530 ms
+2026-05-04 10:22:24.205 +03:00 [INF] HTTP GET /api/api/admin/audit-logs responded 404 in 0.9399 ms
+2026-05-04 10:23:13.108 +03:00 [INF] HTTP GET /api/health responded 200 in 2.8039 ms
+2026-05-04 10:23:13.815 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-04 10:23:13.910 +03:00 [WRN] Lecturer login blocked — not approved: hnamyalo776@gmail.com
+2026-05-04 10:23:13.921 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=403 | 115ms
+2026-05-04 10:23:13.929 +03:00 [INF] HTTP POST /api/auth/login responded 403 in 124.0870 ms

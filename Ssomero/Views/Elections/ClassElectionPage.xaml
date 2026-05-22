@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             xmlns:shared="clr-namespace:Ssomero.Views.Shared"
+             xmlns:conv="clr-namespace:Ssomero.Converters"
+             x:Class="Ssomero.Views.Elections.ClassElectionPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0F172A}">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <shared:AppTopBar Grid.Row="0" Title="Class Rep Elections"/>
+
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding RefreshCommand}">
+            <ScrollView>
+                <VerticalStackLayout Padding="16,12,16,24" Spacing="16">
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                       Color="{StaticResource Primary}"
+                                       HorizontalOptions="Center" Margin="0,24,0,0"/>
+
+                    <!-- Resolving class helper text -->
+                    <Label IsVisible="{Binding ShowResolvingLabel}"
+                           Text="⏳ Loading your main class..."
+                           FontSize="13" HorizontalTextAlignment="Center"
+                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                           HorizontalOptions="Center" Margin="0,8,0,0"/>
+
+                    <!-- Winner activation banner -->
+                    <Border IsVisible="{Binding IsCurrentUserWinner}"
+                            BackgroundColor="#FEF9C3" StrokeShape="RoundRectangle 12"
+                            Stroke="#FDE047" Padding="16,12">
+                        <Label Text="🏆 You are the new Class Representative! Please sign out and sign in to activate your new permissions."
+                               TextColor="#92400E" FontSize="13" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"/>
+                    </Border>
+
+                    <!-- Error banner -->
+                    <Border IsVisible="{Binding HasError}"
+                            BackgroundColor="#FEE2E2" StrokeShape="RoundRectangle 10"
+                            Stroke="#FCA5A5" Padding="12,10">
+                        <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="13"/>
+                    </Border>
+
+                    <!-- Toast -->
+                    <Border IsVisible="{Binding ToastIsVisible}"
+                            BackgroundColor="{Binding ToastColor}"
+                            StrokeShape="RoundRectangle 10" Padding="14,10">
+                        <Label Text="{Binding ToastMessage}" TextColor="White"
+                               FontSize="13" HorizontalTextAlignment="Center"/>
+                    </Border>
+
+                    <!-- ══════════════════════════════════════════════════════ -->
+                    <!-- NO ELECTION — Stand for Class Rep                     -->
+                    <!-- ══════════════════════════════════════════════════════ -->
+                    <VerticalStackLayout IsVisible="{Binding HasElection, Converter={StaticResource InvBool}}"
+                                         Spacing="16">
+
+                        <Border StrokeShape="RoundRectangle 14" Padding="24"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                            <Border.Shadow>
+                                <Shadow Brush="#1A000000" Offset="0,3" Radius="8" Opacity="0.08"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="16" HorizontalOptions="Center">
+                                <Label Text="🗳️" FontSize="52" HorizontalOptions="Center"/>
+                                <Label Text="Class Representative Election"
+                                       FontSize="18" FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                       HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                <Label Text="No election is currently running for your class. You can start a 60-second election and nominate yourself as a candidate. Other students can then join and vote."
+                                       FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#475569, Dark=#94A3B8}"
+                                       HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                                <Button Text="✋ Stand for Class Representative"
+                                        Command="{Binding StartElectionCommand}"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="White" CornerRadius="12"
+                                        HeightRequest="50" FontAttributes="Bold"
+                                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvBool}}"
+                                        HorizontalOptions="Fill"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <!-- ══════════════════════════════════════════════════════ -->
+                    <!-- ACTIVE ELECTION                                       -->
+                    <!-- ══════════════════════════════════════════════════════ -->
+                    <VerticalStackLayout IsVisible="{Binding CurrentElection.IsActive}"
+                                         Spacing="16">
+
+                        <!-- Countdown card -->
+                        <Border StrokeShape="RoundRectangle 14" Padding="20"
+                                BackgroundColor="#7C3AED"
+                                Stroke="Transparent">
+                            <Border.Shadow>
+                                <Shadow Brush="#7C3AED" Offset="0,4" Radius="12" Opacity="0.30"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                                <Label Text="⏱ Election in Progress"
+                                       FontSize="13" TextColor="#DDD6FE"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="{Binding SecondsRemaining, StringFormat='{0}s'}"
+                                       FontSize="52" FontAttributes="Bold"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="remaining"
+                                       FontSize="13" TextColor="#DDD6FE"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="{Binding CurrentElection.TotalVotesLabel}"
+                                       FontSize="12" TextColor="#C4B5FD"
+                                       HorizontalOptions="Center" Margin="0,4,0,0"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- Candidates header -->
+                        <Label Text="Candidates" FontSize="15" FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+
+                        <!-- Empty candidates -->
+                        <Label IsVisible="{Binding Candidates.Count, Converter={conv:ZeroToBoolConverter}}"
+                               Text="No candidates yet. Be the first to stand!"
+                               FontSize="13"
+                               TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                               HorizontalTextAlignment="Center" HorizontalOptions="Center"/>
+
+                        <!-- Candidates list -->
+                        <CollectionView ItemsSource="{Binding Candidates}"
+                                        SelectionMode="None"
+                                        HeightRequest="{Binding Candidates.Count, Converter={conv:ZeroToBoolConverter}}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:ElectionCandidateModel">
+                                    <Border Padding="14"
+                                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                            StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                        <Border.Shadow>
+                                            <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                        </Border.Shadow>
+                                        <Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="12"
+                                              VerticalOptions="Center">
+
+                                            <!-- Avatar -->
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="#EDE9FE"
+                                                    StrokeShape="RoundRectangle 22"
+                                                    WidthRequest="44" HeightRequest="44">
+                                                <Label Text="{Binding Initials}"
+                                                       FontSize="16" FontAttributes="Bold"
+                                                       TextColor="#6D28D9"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Border>
+
+                                            <!-- Name + student number + votes -->
+                                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                                <Label Text="{Binding StudentName}"
+                                                       FontSize="14" FontAttributes="Bold"
+                                                       TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                                       LineBreakMode="TailTruncation"/>
+                                                <Label Text="{Binding StudentNumber}"
+                                                       FontSize="12"
+                                                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"/>
+                                                <Label Text="{Binding VoteCountLabel}"
+                                                       FontSize="12" TextColor="#7C3AED"/>
+                                            </VerticalStackLayout>
+
+                                            <!-- Vote button -->
+                                            <Button Grid.Column="2"
+                                                    Text="Vote"
+                                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:ClassElectionViewModel}}, Path=IsVotingOpen}"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClassElectionViewModel}}, Path=VoteCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="{StaticResource Primary}"
+                                                    TextColor="White" CornerRadius="8"
+                                                    FontSize="13" HeightRequest="36"
+                                                    Padding="14,0"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </VerticalStackLayout>
+
+                    <!-- ══════════════════════════════════════════════════════ -->
+                    <!-- COMPLETED ELECTION                                    -->
+                    <!-- ══════════════════════════════════════════════════════ -->
+                    <VerticalStackLayout IsVisible="{Binding IsCompleted}" Spacing="16">
+
+                        <!-- Winner card -->
+                        <Border StrokeShape="RoundRectangle 14" Padding="24"
+                                BackgroundColor="#F0FDF4"
+                                Stroke="#BBF7D0">
+                            <Border.Shadow>
+                                <Shadow Brush="#22C55E" Offset="0,4" Radius="12" Opacity="0.20"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Label Text="🏆" FontSize="52" HorizontalOptions="Center"/>
+                                <Label Text="Election Complete"
+                                       FontSize="16" FontAttributes="Bold"
+                                       TextColor="#15803D"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="{Binding CurrentElection.WinnerDisplay}"
+                                       FontSize="22" FontAttributes="Bold"
+                                       TextColor="#166534"
+                                       HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                <Label Text="is the new Class Representative"
+                                       FontSize="13" TextColor="#15803D"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="{Binding CurrentElection.TotalVotesLabel}"
+                                       FontSize="12" TextColor="#4ADE80"
+                                       HorizontalOptions="Center" Margin="0,4,0,0"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- Final results header -->
+                        <Label Text="Final Results" FontSize="15" FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+
+                        <!-- Candidates results -->
+                        <CollectionView ItemsSource="{Binding Candidates}"
+                                        SelectionMode="None">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:ElectionCandidateModel">
+                                    <Border Padding="14"
+                                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                            StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                        <Border.Shadow>
+                                            <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                        </Border.Shadow>
+                                        <Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="12"
+                                              VerticalOptions="Center">
+
+                                            <!-- Avatar -->
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="#EDE9FE"
+                                                    StrokeShape="RoundRectangle 22"
+                                                    WidthRequest="44" HeightRequest="44">
+                                                <Label Text="{Binding Initials}"
+                                                       FontSize="16" FontAttributes="Bold"
+                                                       TextColor="#6D28D9"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Border>
+
+                                            <!-- Name + student number -->
+                                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                                <Label Text="{Binding StudentName}"
+                                                       FontSize="14" FontAttributes="Bold"
+                                                       TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                                       LineBreakMode="TailTruncation"/>
+                                                <Label Text="{Binding StudentNumber}"
+                                                       FontSize="12"
+                                                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"/>
+                                            </VerticalStackLayout>
+
+                                            <!-- Vote count badge -->
+                                            <Border Grid.Column="2"
+                                                    BackgroundColor="#EDE9FE"
+                                                    StrokeShape="RoundRectangle 8" Padding="10,4">
+                                                <Label Text="{Binding VoteCountLabel}"
+                                                       FontSize="12" FontAttributes="Bold"
+                                                       TextColor="#6D28D9"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

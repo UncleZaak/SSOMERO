@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             xmlns:conv="clr-namespace:Ssomero.Converters"
+             x:Class="Ssomero.Views.Lecturer.LecturerClassesPage"
+             Shell.TabBarIsVisible="True"
+             BackgroundColor="#F1F5F9"
+             Title="My Classes">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <VerticalStackLayout Grid.Row="0" Padding="20,16,20,14" BackgroundColor="#5B21B6">
+            <Label Text="My Classes" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Assigned subclasses" FontSize="13" TextColor="#C4B5FD" Margin="0,2,0,0"/>
+        </VerticalStackLayout>
+
+        <RefreshView Grid.Row="1" IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+            <Grid>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                   Color="#5B21B6" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+                <VerticalStackLayout IsVisible="{Binding HasError}"
+                                     HorizontalOptions="Center" VerticalOptions="Center" Spacing="12">
+                    <Label Text="Could not load classes. Pull to retry." FontSize="14" TextColor="#64748B"
+                           HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                    <Button Text="Retry" Command="{Binding LoadCommand}"
+                            BackgroundColor="#5B21B6" TextColor="White"
+                            CornerRadius="10" Padding="24,10" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                     HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                    <Label Text="No classes assigned yet." FontSize="15" TextColor="#64748B"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <CollectionView ItemsSource="{Binding Classes}"
+                                IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                                SelectionMode="None"
+                                Margin="0,8,0,0">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="16,0" Padding="16" BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,3" Radius="8" Opacity="0.08"/>
+                                </Border.Shadow>
+                                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding Name}"
+                                           FontSize="15" FontAttributes="Bold" TextColor="#0F172A"
+                                           LineBreakMode="TailTruncation"/>
+
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                           Text="{Binding CourseCode}"
+                                           FontSize="12" TextColor="#64748B" Margin="0,2,0,0"/>
+
+                                    <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                                            Padding="10,6" BackgroundColor="#EDE9FE"
+                                            StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                                            VerticalOptions="Center">
+                                        <VerticalStackLayout Spacing="0" HorizontalOptions="Center">
+                                            <Label Text="{Binding EnrolledStudents}"
+                                                   FontSize="18" FontAttributes="Bold"
+                                                   TextColor="#5B21B6" HorizontalOptions="Center"/>
+                                            <Label Text="students" FontSize="10" TextColor="#7C3AED"
+                                                   HorizontalOptions="Center"/>
+                                        </VerticalStackLayout>
+                                    </Border>
+
+                                    <Button Grid.Row="2" Grid.ColumnSpan="2"
+                                            Text="View Class"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:LecturerClassesViewModel}}, Path=SelectClassCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#5B21B6" TextColor="White"
+                                            FontSize="12" CornerRadius="8"
+                                            HeightRequest="36" Margin="0,10,0,0"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </Grid>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,116 @@
+2026-05-11 07:56:27.675 +03:00 [INF] OTP cleanup service started
+2026-05-11 07:56:28.843 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-11 07:56:28.862 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-11 07:56:29.021 +03:00 [INF] Server desktop-b8rchhq:47456:c3531085 successfully announced in 7.0915 ms
+2026-05-11 07:56:29.048 +03:00 [INF] Server desktop-b8rchhq:47456:c3531085 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-11 07:56:29.336 +03:00 [INF] Server desktop-b8rchhq:47456:c3531085 all the dispatchers started
+2026-05-11 07:57:02.256 +03:00 [INF] HTTP GET /api/health responded 200 in 329.9714 ms
+2026-05-11 07:57:03.211 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-11 07:57:04.646 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-11 07:57:04.804 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 1772ms
+2026-05-11 07:57:04.814 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 1804.6397 ms
+2026-05-11 07:57:09.038 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 279.3237 ms
+2026-05-11 07:57:09.261 +03:00 [INF] HTTP GET /api/profile responded 200 in 57.1549 ms
+2026-05-11 07:57:26.871 +03:00 [INF] HTTP GET /api/universities responded 200 in 45.3652 ms
+2026-05-11 07:57:27.464 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 265.6553 ms
+2026-05-11 07:58:09.517 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 9.5238 ms
+2026-05-11 07:58:09.723 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.1954 ms
+2026-05-11 07:58:13.716 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 14.2674 ms
+2026-05-11 07:58:14.032 +03:00 [INF] HTTP GET /api/admin/departments responded 200 in 110.4559 ms
+2026-05-11 07:59:09.871 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.1333 ms
+2026-05-11 07:59:09.942 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.1810 ms
+2026-05-11 07:59:19.706 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 63.9712 ms
+2026-05-11 07:59:50.488 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 85.1952 ms
+2026-05-11 07:59:50.546 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 152.5949 ms
+2026-05-11 08:00:00.256 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 7.1033 ms
+2026-05-11 08:00:10.068 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.3534 ms
+2026-05-11 08:00:10.219 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.1549 ms
+2026-05-11 08:00:23.834 +03:00 [INF] HTTP GET /api/profile responded 200 in 12.4233 ms
+2026-05-11 08:01:32.170 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 9.4457 ms
+2026-05-11 08:01:38.041 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 7.5808 ms
+2026-05-11 08:01:38.212 +03:00 [INF] HTTP GET /api/admin/departments responded 200 in 6.8214 ms
+2026-05-11 08:02:17.892 +03:00 [INF] Admin created Department SOFTWARE ("6a23e8a7-b1b4-43a1-bed0-3210b51f957d") under Faculty "34996141-e35b-4bf1-9730-bcb8dcf02594"
+2026-05-11 08:02:17.922 +03:00 [INF] AUDIT POST /api/admin/departments | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 726ms
+2026-05-11 08:02:17.930 +03:00 [INF] HTTP POST /api/admin/departments responded 201 in 736.5702 ms
+2026-05-11 08:02:40.699 +03:00 [INF] HTTP GET /api/admin/departments responded 200 in 6.3158 ms
+2026-05-11 08:02:40.955 +03:00 [INF] HTTP GET /api/admin/programs responded 200 in 63.4952 ms
+2026-05-11 08:03:29.366 +03:00 [INF] Admin created Program SOFTWAREENGING ("707c08c7-5fe7-46fd-ae66-734eed73cc07") under Department "6a23e8a7-b1b4-43a1-bed0-3210b51f957d"
+2026-05-11 08:03:29.382 +03:00 [INF] AUDIT POST /api/admin/programs | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 202ms
+2026-05-11 08:03:29.390 +03:00 [INF] HTTP POST /api/admin/programs responded 201 in 212.9779 ms
+2026-05-11 08:03:37.119 +03:00 [INF] HTTP GET /api/admin/programs responded 200 in 5.3187 ms
+2026-05-11 08:03:37.481 +03:00 [INF] HTTP GET /api/semesters responded 200 in 40.8660 ms
+2026-05-11 08:03:37.680 +03:00 [INF] HTTP GET /api/admin/curriculum responded 200 in 79.1903 ms
+2026-05-11 13:32:07.371 +03:00 [INF] OTP cleanup service started
+2026-05-11 13:32:08.081 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-11 13:32:08.086 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-11 13:32:08.167 +03:00 [INF] Server desktop-b8rchhq:46664:94a076b6 successfully announced in 3.5093 ms
+2026-05-11 13:32:08.202 +03:00 [INF] Server desktop-b8rchhq:46664:94a076b6 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-11 13:32:08.452 +03:00 [INF] Server desktop-b8rchhq:46664:94a076b6 all the dispatchers started
+2026-05-11 13:40:48.003 +03:00 [INF] HTTP GET /api/health responded 200 in 308.4178 ms
+2026-05-11 13:40:49.167 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-11 13:40:50.757 +03:00 [INF] Student login successful for unclezaac6@gmail.com as Student
+2026-05-11 13:40:50.900 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 1892ms
+2026-05-11 13:40:50.906 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 1923.2856 ms
+2026-05-11 13:40:56.077 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 400.1993 ms
+2026-05-11 13:40:56.389 +03:00 [INF] HTTP GET /api/profile responded 200 in 156.4151 ms
+2026-05-11 13:40:57.047 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 273.1026 ms
+2026-05-11 13:41:24.060 +03:00 [INF] HTTP GET /api/courses responded 200 in 38.1536 ms
+2026-05-11 13:41:24.203 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 0.9423 ms
+2026-05-11 13:41:28.802 +03:00 [INF] HTTP GET /api/courses/01295a87-168d-404d-92b3-34daf00c002a responded 200 in 208.8820 ms
+2026-05-11 13:41:37.810 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 15.7540 ms
+2026-05-11 13:41:51.085 +03:00 [INF] HTTP GET /api/materials responded 404 in 0.6371 ms
+2026-05-11 13:41:57.225 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 2.6122 ms
+2026-05-11 13:41:57.366 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 2.0702 ms
+2026-05-11 13:42:05.905 +03:00 [INF] HTTP GET /api/profile responded 200 in 8.6428 ms
+2026-05-11 13:42:10.174 +03:00 [INF] HTTP GET /api/profile responded 200 in 6.3867 ms
+2026-05-11 13:42:13.087 +03:00 [INF] HTTP GET /api/profile responded 200 in 4.4473 ms
+2026-05-11 13:42:15.941 +03:00 [INF] HTTP GET /api/profile responded 200 in 3.4523 ms
+2026-05-11 21:42:26.815 +03:00 [WRN] Entity 'ClassElection' has a global query filter defined and is the required end of a relationship with the entity 'ClassElectionCandidate'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-11 21:42:26.890 +03:00 [WRN] Entity 'ClassElection' has a global query filter defined and is the required end of a relationship with the entity 'ClassElectionVote'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-11 21:42:27.784 +03:00 [WRN] Entity 'ClassElection' has a global query filter defined and is the required end of a relationship with the entity 'ClassElectionCandidate'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-11 21:42:27.786 +03:00 [WRN] Entity 'ClassElection' has a global query filter defined and is the required end of a relationship with the entity 'ClassElectionVote'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-11 21:45:24.921 +03:00 [WRN] Entity 'ClassElection' has a global query filter defined and is the required end of a relationship with the entity 'ClassElectionCandidate'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-11 21:45:24.958 +03:00 [WRN] Entity 'ClassElection' has a global query filter defined and is the required end of a relationship with the entity 'ClassElectionVote'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-11 21:45:37.573 +03:00 [WRN] Entity 'ClassElection' has a global query filter defined and is the required end of a relationship with the entity 'ClassElectionCandidate'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-11 21:45:37.607 +03:00 [WRN] Entity 'ClassElection' has a global query filter defined and is the required end of a relationship with the entity 'ClassElectionVote'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-11 21:48:39.168 +03:00 [INF] OTP cleanup service started
+2026-05-11 21:48:39.802 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-11 21:48:39.811 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-11 21:48:39.878 +03:00 [INF] Server desktop-b8rchhq:80208:30ada618 successfully announced in 5.9921 ms
+2026-05-11 21:48:39.902 +03:00 [INF] Server desktop-b8rchhq:80208:30ada618 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-11 21:48:40.196 +03:00 [INF] Server desktop-b8rchhq:80208:30ada618 all the dispatchers started
+2026-05-11 21:49:43.402 +03:00 [INF] HTTP GET /api/health responded 200 in 240.8503 ms
+2026-05-11 21:49:44.910 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-11 21:49:46.390 +03:00 [INF] Student login successful for unclezaac6@gmail.com as Student
+2026-05-11 21:49:46.504 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 1736ms
+2026-05-11 21:49:46.509 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 1760.9270 ms
+2026-05-11 21:49:54.325 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 265.1077 ms
+2026-05-11 21:49:54.503 +03:00 [INF] HTTP GET /api/profile responded 200 in 157.2305 ms
+2026-05-11 21:49:55.235 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 320.4385 ms
+2026-05-11 21:50:16.290 +03:00 [INF] HTTP GET /api/courses responded 200 in 45.5170 ms
+2026-05-11 21:50:16.513 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 1.1406 ms
+2026-05-11 21:50:23.003 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 15.8026 ms
+2026-05-11 21:50:23.622 +03:00 [INF] HTTP GET /api/attendance/my-history responded 200 in 43.7911 ms
+2026-05-11 21:50:23.946 +03:00 [INF] HTTP GET /api/attendance/my-report responded 200 in 126.2277 ms
+2026-05-11 21:50:31.784 +03:00 [INF] HTTP GET /api/materials responded 404 in 1.0361 ms
+2026-05-11 21:50:41.588 +03:00 [INF] HTTP GET /api/profile responded 200 in 8.5101 ms
+2026-05-11 21:50:55.282 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 9.1859 ms
+2026-05-11 21:50:55.533 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 3.8124 ms
+2026-05-11 21:51:08.362 +03:00 [INF] HTTP GET /api/attendance/my-report responded 200 in 7.2995 ms
+2026-05-11 21:51:25.602 +03:00 [INF] HTTP GET /api/profile responded 200 in 14.5920 ms
+2026-05-11 21:51:55.878 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 6.1826 ms
+2026-05-11 21:51:56.060 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.3416 ms
+2026-05-11 21:52:56.298 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.3980 ms
+2026-05-11 21:52:56.480 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.0203 ms

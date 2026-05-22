@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ssomero.Views.Auth.LecturerRegisterPage"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             AutomationId="LecturerRegisterPage">
+
+  <ScrollView>
+    <VerticalStackLayout Padding="24" Spacing="16">
+
+      <Label Text="Lecturer Registration" Style="{StaticResource TitleLabelStyle}"
+             SemanticProperties.HeadingLevel="Level1" />
+
+      <!-- Step progress indicator -->
+      <Label Text="{Binding StepLabel}" FontAttributes="Bold"
+             TextColor="{StaticResource PrimaryColor}" FontSize="14"
+             HorizontalOptions="Center" />
+
+      <!-- Error banner -->
+      <Label Text="{Binding ErrorMessage}" TextColor="Red"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}"
+             FontSize="13" />
+
+      <!-- Loading indicator -->
+      <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                         Color="{StaticResource PrimaryColor}" HorizontalOptions="Center" />
+
+      <!-- ========== STEP 1: Email + OTP ========== -->
+      <VerticalStackLayout Spacing="12" IsVisible="{Binding IsStep1}">
+        <Label Text="Verify your institutional email" FontAttributes="Bold" FontSize="16" />
+
+        <Entry Placeholder="Institutional email address" Text="{Binding Email}" Keyboard="Email"
+               IsEnabled="{Binding IsOtpVerified, Converter={StaticResource InvertBoolConverter}}"
+               AutomationId="LecRegEmailEntry" />
+
+        <Label Text="✓ Email verified successfully" TextColor="Green"
+               IsVisible="{Binding IsOtpVerified}" FontSize="13" />
+
+        <Button Text="Send OTP" Command="{Binding SendOtpCommand}"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                IsVisible="{Binding IsOtpVerified, Converter={StaticResource InvertBoolConverter}}"
+                AutomationId="LecSendOtpButton" />
+
+        <VerticalStackLayout Spacing="10" IsVisible="{Binding IsOtpSent}">
+          <Entry Placeholder="Enter 6-digit OTP code" Text="{Binding OtpCode}" Keyboard="Numeric"
+                 MaxLength="6" AutomationId="LecOtpEntry" />
+
+          <Button Text="Verify OTP" Command="{Binding VerifyOtpCommand}"
+                  IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                  IsVisible="{Binding IsOtpVerified, Converter={StaticResource InvertBoolConverter}}"
+                  AutomationId="LecVerifyOtpButton" />
+
+          <Button Text="{Binding OtpCooldownText}" Command="{Binding ResendOtpCommand}"
+                  IsEnabled="{Binding CanResendOtp}"
+                  IsVisible="{Binding IsOtpVerified, Converter={StaticResource InvertBoolConverter}}"
+                  BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}"
+                  AutomationId="LecResendOtpButton" />
+        </VerticalStackLayout>
+      </VerticalStackLayout>
+
+      <!-- ========== STEP 2: Personal Info ========== -->
+      <VerticalStackLayout Spacing="12" IsVisible="{Binding IsStep2}">
+        <Label Text="Personal information" FontAttributes="Bold" FontSize="16" />
+
+        <Entry Placeholder="First name" Text="{Binding FirstName}"
+               Keyboard="Default" AutomationId="LecFirstNameEntry" />
+        <Entry Placeholder="Last name" Text="{Binding LastName}"
+               Keyboard="Default" AutomationId="LecLastNameEntry" />
+        <Entry Placeholder="Phone number (e.g. +256700000000)" Text="{Binding Phone}"
+               Keyboard="Telephone" AutomationId="LecPhoneEntry" />
+        <Entry Placeholder="Staff ID (optional)" Text="{Binding StaffId}"
+               AutomationId="LecStaffIdEntry" />
+
+        <!-- Password with visibility toggle -->
+        <Grid ColumnDefinitions="*,44">
+          <Entry Grid.Column="0" Placeholder="Password (min 8 characters)"
+                 IsPassword="{Binding IsPasswordHidden}" Text="{Binding Password}"
+                 AutomationId="LecPasswordEntry" />
+          <Button Grid.Column="1" Text="{Binding PasswordToggleIcon}"
+                  Command="{Binding TogglePasswordCommand}"
+                  BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}"
+                  Padding="0" FontSize="18" />
+        </Grid>
+
+        <!-- Confirm password with visibility toggle -->
+        <Grid ColumnDefinitions="*,44">
+          <Entry Grid.Column="0" Placeholder="Confirm password"
+                 IsPassword="{Binding IsConfirmPasswordHidden}" Text="{Binding ConfirmPassword}"
+                 AutomationId="LecConfirmPasswordEntry" />
+          <Button Grid.Column="1" Text="{Binding ConfirmPasswordToggleIcon}"
+                  Command="{Binding ToggleConfirmPasswordCommand}"
+                  BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}"
+                  Padding="0" FontSize="18" />
+        </Grid>
+
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+          <Button Grid.Column="0" Text="← Back" Command="{Binding GoBackCommand}"
+                  BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}"
+                  AutomationId="LecBackToStep1Button" />
+          <Button Grid.Column="1" Text="Submit Registration" Command="{Binding RegisterCommand}"
+                  IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                  AutomationId="LecRegisterButton"
+                  SemanticProperties.Hint="Tap to submit lecturer registration" />
+        </Grid>
+      </VerticalStackLayout>
+
+      <!-- Back to login -->
+      <Button Text="Already have an account? Login" BackgroundColor="Transparent"
+              TextColor="{StaticResource PrimaryColor}"
+              AutomationId="LecGoToLoginButton"
+              Clicked="OnGoToLoginClicked" />
+
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

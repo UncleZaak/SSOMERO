@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             xmlns:conv="clr-namespace:Ssomero.Converters"
+             x:Class="Ssomero.Views.ClassRep.ClassRepStudentsPage"
+             Shell.NavBarIsVisible="True"
+             Title="Students"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0F172A}">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*">
+        <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+            <Grid>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                   Color="{StaticResource Primary}"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+
+                <!-- Error banner -->
+                <Border IsVisible="{Binding HasError}"
+                        BackgroundColor="#FEE2E2" StrokeShape="RoundRectangle 10"
+                        Stroke="#FCA5A5" Padding="12,10" Margin="16"
+                        VerticalOptions="Start">
+                    <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="13"/>
+                </Border>
+
+                <!-- Empty state -->
+                <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                     HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                    <Label Text="🎓" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="No students enrolled yet." FontSize="15"
+                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <CollectionView ItemsSource="{Binding Students}"
+                                IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                                SelectionMode="None"
+                                Margin="16,12,16,24">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ClassRepStudentModel">
+                            <Border Padding="14" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                    StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                </Border.Shadow>
+                                <Grid ColumnDefinitions="48,*,Auto" ColumnSpacing="12">
+                                    <!-- Avatar / initials -->
+                                    <Border Grid.Column="0" BackgroundColor="{StaticResource Primary}"
+                                            StrokeShape="RoundRectangle 24" WidthRequest="44" HeightRequest="44">
+                                        <Label Text="{Binding Initials}" FontSize="15" FontAttributes="Bold"
+                                               TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                        <Label Text="{Binding FullName}" FontSize="14" FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                               LineBreakMode="TailTruncation"/>
+                                        <Label Text="{Binding Email}" FontSize="12"
+                                               TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                               LineBreakMode="TailTruncation"/>
+                                    </VerticalStackLayout>
+
+                                    <Button Grid.Column="2" Text="Remove"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClassRepStudentsViewModel}}, Path=RemoveStudentCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#FEE2E2" TextColor="#B91C1C"
+                                            FontSize="12" CornerRadius="8"
+                                            Padding="10,6" VerticalOptions="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

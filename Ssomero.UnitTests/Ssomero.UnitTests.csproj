@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TargetFramework>net10.0-windows10.0.19041</TargetFramework>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+    <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
+    <!-- SAFE FIX: Prevents the MAUI Resizetizer from running in this test project.
+         Without this, referencing Ssomero.csproj (a MAUI project) causes MauiIcon items
+         (e.g. appicon.svg) to be processed twice — once in the MAUI project and again
+         here — resulting in a "duplicate file names" build error from the Resizetizer. -->
+    <UseMaui>false</UseMaui>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="MSTest" Version="4.2.3" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ssomero\Ssomero.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+  <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0-android'))">
+    <Compile Remove="Platforms\Android\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Platforms\iOS\" />
+    <Folder Include="Platforms\MacCatalyst\" />
+  </ItemGroup>
+
+</Project>

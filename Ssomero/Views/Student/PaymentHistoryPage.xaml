@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Ssomero.Views.Student.PaymentHistoryPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Ssomero.ViewModels"
+    xmlns:models="clr-namespace:Ssomero.Models"
+    xmlns:conv="clr-namespace:Ssomero.Converters"
+    x:DataType="vm:PaymentHistoryViewModel"
+    BackgroundColor="#F1F5F9"
+    Title="Payment History">
+
+    <ContentPage.Resources>
+        <conv:NullToBoolConverter x:Key="NullToBoolConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- Header -->
+            <VerticalStackLayout Padding="20,16,20,20" BackgroundColor="#5B21B6" Spacing="4">
+                <Label Text="Payment History" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                <Label Text="Your transaction records" FontSize="13" TextColor="#C4B5FD"/>
+            </VerticalStackLayout>
+
+            <!-- Loading -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               Color="#5B21B6"
+                               Margin="0,24,0,0"/>
+
+            <!-- Error -->
+            <Border Margin="16,16,16,0" Padding="14,12" BackgroundColor="#FEF2F2"
+                    StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                    IsVisible="{Binding HasError}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding ErrorMessage}" FontSize="13" TextColor="#DC2626"/>
+                    <Button Text="Retry" Command="{Binding LoadCommand}"
+                            BackgroundColor="#5B21B6" TextColor="White"
+                            CornerRadius="8" HeightRequest="38" WidthRequest="80"
+                            HorizontalOptions="Start"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Empty state -->
+            <VerticalStackLayout IsVisible="{Binding IsEmpty}" Spacing="8"
+                                 Margin="0,60,0,0" HorizontalOptions="Center">
+                <Label Text="💳" FontSize="48" HorizontalOptions="Center"/>
+                <Label Text="No payments yet" FontSize="16" FontAttributes="Bold"
+                       TextColor="#64748B" HorizontalOptions="Center"/>
+                <Label Text="Your transactions will appear here" FontSize="13"
+                       TextColor="#94A3B8" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- History list -->
+            <CollectionView ItemsSource="{Binding Items}" Margin="16,16,16,24">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:PaymentHistoryDto">
+                        <Border Padding="16" BackgroundColor="White"
+                                StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <Border.Shadow>
+                                <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="8">
+
+                                <!-- Top row: Plan + Amount -->
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding Plan, StringFormat='{0} Plan'}"
+                                           FontSize="15" FontAttributes="Bold" TextColor="#0F172A"/>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding AmountLabel}"
+                                           FontSize="15" FontAttributes="Bold" TextColor="#5B21B6"/>
+                                </Grid>
+
+                                <!-- Status badge -->
+                                <Grid ColumnDefinitions="Auto,*">
+                                    <Border Grid.Column="0"
+                                            Padding="8,3" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                        <Border.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="Completed">
+                                                <Setter Property="BackgroundColor" Value="#DCFCE7"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="Failed">
+                                                <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="Pending">
+                                                <Setter Property="BackgroundColor" Value="#FEF3C7"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="Cancelled">
+                                                <Setter Property="BackgroundColor" Value="#F1F5F9"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="Expired">
+                                                <Setter Property="BackgroundColor" Value="#F1F5F9"/>
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                        <Label Text="{Binding StatusLabel}" FontSize="11" FontAttributes="Bold">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Completed">
+                                                    <Setter Property="TextColor" Value="#16A34A"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Failed">
+                                                    <Setter Property="TextColor" Value="#DC2626"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Pending">
+                                                    <Setter Property="TextColor" Value="#D97706"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Cancelled">
+                                                    <Setter Property="TextColor" Value="#64748B"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="Expired">
+                                                    <Setter Property="TextColor" Value="#64748B"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Border>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding DateLabel}"
+                                           FontSize="12" TextColor="#94A3B8"
+                                           VerticalOptions="Center" Margin="8,0,0,0"/>
+                                </Grid>
+
+                                <!-- Reference -->
+                                <Label Text="{Binding ExternalReference, StringFormat='Ref: {0}'}"
+                                       FontSize="11" TextColor="#94A3B8"
+                                       LineBreakMode="TailTruncation"/>
+
+                                <!-- Provider -->
+                                <Label Text="{Binding Provider, StringFormat='Via {0}'}"
+                                       FontSize="11" TextColor="#94A3B8"
+                                       IsVisible="{Binding Provider, Converter={StaticResource NullToBoolConverter}}"/>
+
+                                <!-- Failure reason -->
+                                <Label Text="{Binding FailureReason}"
+                                       FontSize="12" TextColor="#DC2626"
+                                       IsVisible="{Binding FailureReason, Converter={StaticResource NullToBoolConverter}}"/>
+
+                                <!-- Receipt button -->
+                                <Button Text="View Receipt"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PaymentHistoryViewModel}}, Path=ViewReceiptCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#EDE9FE" TextColor="#5B21B6"
+                                        CornerRadius="6" HeightRequest="36" FontSize="12"
+                                        HorizontalOptions="Start"
+                                        IsVisible="{Binding ReceiptUrl, Converter={StaticResource NullToBoolConverter}}"/>
+
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

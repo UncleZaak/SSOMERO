@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Ssomero.Views.Student.PaymentsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Ssomero.ViewModels"
+    xmlns:conv="clr-namespace:Ssomero.Converters"
+    x:DataType="vm:PaymentsViewModel"
+    BackgroundColor="#F1F5F9"
+    Title="Payments">
+
+    <ContentPage.Resources>
+        <conv:NullToBoolConverter x:Key="NullToBoolConverter" />
+        <conv:InvertBoolConverter x:Key="InvBool" />
+    </ContentPage.Resources>
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Spacing="0">
+
+                <!-- Header -->
+                <VerticalStackLayout Padding="20,16,20,20" BackgroundColor="#5B21B6" Spacing="4">
+                    <Label Text="Subscription" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Choose a plan to unlock all features" FontSize="13" TextColor="#C4B5FD"/>
+                </VerticalStackLayout>
+
+                <!-- Current Plan Card -->
+                <Border Margin="16,16,16,0" Padding="16" BackgroundColor="White"
+                        StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                    <Border.Shadow>
+                        <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="3">
+                            <Label Text="Current Plan" FontSize="12" TextColor="#64748B"/>
+                            <Label Text="{Binding CurrentPlan}" FontSize="16"
+                                   FontAttributes="Bold" TextColor="#0F172A"/>
+                            <Label Text="{Binding ExpiryLabel}" FontSize="12" TextColor="#94A3B8"/>
+                        </VerticalStackLayout>
+                        <Border Grid.Column="1"
+                                Padding="10,6" StrokeShape="RoundRectangle 20" StrokeThickness="0">
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding HasActivePlan}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="#DCFCE7"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Border" Binding="{Binding HasActivePlan}" Value="False">
+                                    <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Label Text="{Binding StatusLabel}" FontSize="12" FontAttributes="Bold">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding HasActivePlan}" Value="True">
+                                        <Setter Property="TextColor" Value="#16A34A"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding HasActivePlan}" Value="False">
+                                        <Setter Property="TextColor" Value="#DC2626"/>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Payment status banner (shown during and after payment) -->
+                <Border Margin="16,12,16,0" Padding="14,12" StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                        IsVisible="{Binding StatusInfo, Converter={StaticResource NullToBoolConverter}}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding UxState}" Value="Success">
+                            <Setter Property="BackgroundColor" Value="#F0FDF4"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding UxState}" Value="Failed">
+                            <Setter Property="BackgroundColor" Value="#FEF2F2"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding UxState}" Value="Initiating">
+                            <Setter Property="BackgroundColor" Value="#EFF6FF"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding UxState}" Value="WaitingConfirmation">
+                            <Setter Property="BackgroundColor" Value="#FFFBEB"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding UxState}" Value="Verifying">
+                            <Setter Property="BackgroundColor" Value="#EFF6FF"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding StatusInfo}" FontSize="13">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding UxState}" Value="Success">
+                                    <Setter Property="TextColor" Value="#16A34A"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding UxState}" Value="Failed">
+                                    <Setter Property="TextColor" Value="#DC2626"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding UxState}" Value="WaitingConfirmation">
+                                    <Setter Property="TextColor" Value="#D97706"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <ActivityIndicator IsRunning="{Binding IsInProgress}"
+                                           IsVisible="{Binding IsInProgress}"
+                                           Color="#5B21B6" HeightRequest="20"/>
+                        <!-- Retry button shown when polling exhausted -->
+                        <Button Text="Retry Verification"
+                                Command="{Binding RetryVerifyCommand}"
+                                IsVisible="{Binding CanRetry}"
+                                BackgroundColor="#5B21B6" TextColor="White"
+                                CornerRadius="8" HeightRequest="38" FontSize="13"
+                                HorizontalOptions="Start"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Phone Number Entry -->
+                <Border Margin="16,12,16,0" Padding="14,10" BackgroundColor="White"
+                        StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                        IsVisible="{Binding IsInProgress, Converter={StaticResource InvBool}}">
+                    <Border.Shadow>
+                        <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Mobile Money Number" FontSize="12"
+                               TextColor="#64748B" FontAttributes="Bold"/>
+                        <Entry Placeholder="e.g. 0771234567"
+                               Text="{Binding PhoneNumber}"
+                               Keyboard="Telephone"
+                               FontSize="14"
+                               TextColor="#0F172A"
+                               PlaceholderColor="#94A3B8"/>
+                        <Label Text="Enter your MTN or Airtel Mobile Money number"
+                               FontSize="11" TextColor="#94A3B8"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Plan List -->
+                <Label Text="Available Plans" FontSize="16" FontAttributes="Bold"
+                       TextColor="#0F172A" Margin="16,20,16,8"
+                       IsVisible="{Binding IsInProgress, Converter={StaticResource InvBool}}"/>
+
+                <CollectionView ItemsSource="{Binding Plans}" Margin="16,0,16,16"
+                                IsVisible="{Binding IsInProgress, Converter={StaticResource InvBool}}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:PlanItem">
+                            <Border Padding="16" BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                </Border.Shadow>
+                                <VerticalStackLayout Spacing="8">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Grid.Column="0" Text="{Binding Name}"
+                                               FontSize="16" FontAttributes="Bold" TextColor="#0F172A"/>
+                                        <Label Grid.Column="1" Text="{Binding Price}"
+                                               FontSize="15" FontAttributes="Bold" TextColor="#5B21B6"/>
+                                    </Grid>
+                                    <Label Text="{Binding Description}" FontSize="13" TextColor="#64748B"/>
+                                    <Button Text="Subscribe"
+                                            BackgroundColor="#5B21B6" TextColor="White"
+                                            CornerRadius="8"
+                                            IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type vm:PaymentsViewModel}}, Path=IsSubscribing, Converter={StaticResource InvBool}}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PaymentsViewModel}}, Path=SubscribeCommand}"
+                                            CommandParameter="{Binding .}"
+                                            HeightRequest="44"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- View history link -->
+                <Button Text="View Payment History"
+                        Command="{Binding ViewHistoryCommand}"
+                        BackgroundColor="Transparent" TextColor="#5B21B6"
+                        FontSize="13" Margin="16,0,16,24"
+                        HorizontalOptions="Start"/>
+
+                <!-- Error banner -->
+                <Border Margin="16,0,16,24" Padding="12,10" BackgroundColor="#FEF2F2"
+                        StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                        IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}">
+                    <Label Text="{Binding ErrorMessage}" FontSize="13" TextColor="#DC2626"/>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Toast overlay -->
+        <Border BackgroundColor="{Binding ToastColor}"
+                Padding="20,12" StrokeShape="RoundRectangle 14" Stroke="Transparent"
+                HorizontalOptions="Center" VerticalOptions="End"
+                Margin="24,0,24,56"
+                IsVisible="{Binding ToastIsVisible}"
+                ZIndex="10">
+            <Label Text="{Binding ToastMessage}" TextColor="White"
+                   FontSize="14" HorizontalTextAlignment="Center"/>
+        </Border>
+    </Grid>
+
+</ContentPage>

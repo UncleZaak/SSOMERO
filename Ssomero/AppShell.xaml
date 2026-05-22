@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Ssomero.AppShell"
+    x:Name="shell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:lecturer="clr-namespace:Ssomero.Views.Lecturer"
+    xmlns:student="clr-namespace:Ssomero.Views.Student"
+    xmlns:dashboard="clr-namespace:Ssomero.Views.Dashboard"
+    xmlns:schedule="clr-namespace:Ssomero.Views.Schedule"
+    xmlns:grades="clr-namespace:Ssomero.Views.Grades"
+    xmlns:profile="clr-namespace:Ssomero.Views.Profile"
+    xmlns:auth="clr-namespace:Ssomero.Views.Auth"
+    xmlns:admin="clr-namespace:Ssomero.Views.Admin"
+    xmlns:nav="clr-namespace:Ssomero.Navigation"
+    xmlns:conv="clr-namespace:Ssomero.Converters"
+    xmlns:shared="clr-namespace:Ssomero.Views.Shared"
+    Title="Ssomero"
+    FlyoutBehavior="Flyout">
+
+    <Shell.Resources>
+        <conv:InvertBoolConverter x:Key="InvertBool" />
+    </Shell.Resources>
+
+    <!-- ═══ CUSTOM FLYOUT CONTENT ═══
+         Replaces the default Shell flyout rendering entirely.
+         Bound to AppShell (x:Name="shell") which exposes:
+           • FlyoutUserName  — authenticated user's full name
+           • FlyoutUserRole  — human-readable role label
+           • FlyoutInitials  — computed avatar initials
+           • CurrentNavItems — ObservableCollection<NavigationItemDefinition>
+           • NavigateCommand — handles routing + logout -->
+    <Shell.FlyoutContent>
+        <Grid RowDefinitions="Auto,*"
+              BackgroundColor="White"
+              BindingContext="{x:Reference shell}">
+
+            <!-- Header: avatar + name + role -->
+            <Grid Grid.Row="0"
+                  BackgroundColor="#1A237E"
+                  Padding="20,44,20,24"
+                  RowDefinitions="Auto,Auto,Auto">
+
+                <shared:UserAvatarView
+                    Grid.Row="0"
+                    Size="48"
+                    HorizontalOptions="Start"
+                    Initials="{Binding FlyoutInitials, Source={x:Reference shell}}"
+                    HasPhoto="{Binding FlyoutHasPhoto, Source={x:Reference shell}}"
+                    PhotoUrl="{Binding FlyoutPhotoUrl, Source={x:Reference shell}}"
+                    UserRole="{Binding FlyoutRoleKey, Source={x:Reference shell}}" />
+
+                <Label Grid.Row="1"
+                       Text="{Binding FlyoutUserName}"
+                       FontSize="16" FontAttributes="Bold"
+                       TextColor="White"
+                       LineBreakMode="TailTruncation" MaxLines="1"
+                       Margin="0,10,0,2" />
+
+                <Label Grid.Row="2"
+                       Text="{Binding FlyoutUserRole}"
+                       FontSize="12" TextColor="#90CAF9" />
+            </Grid>
+
+            <!-- Navigation items -->
+            <CollectionView Grid.Row="1"
+                            ItemsSource="{Binding CurrentNavItems}"
+                            Margin="0,8,0,0"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="nav:NavigationItemDefinition">
+                        <Grid>
+                            <!-- Separator row -->
+                            <BoxView HeightRequest="1"
+                                     BackgroundColor="#E2E8F0"
+                                     Margin="16,6"
+                                     IsVisible="{Binding IsSeparator}" />
+
+                            <!-- Tappable nav row (hidden for separator) -->
+                            <Grid ColumnDefinitions="36,*"
+                                  Padding="16,14"
+                                  IsVisible="{Binding IsSeparator, Converter={StaticResource InvertBool}}">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding NavigateCommand, Source={x:Reference shell}}"
+                                        CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0"
+                                       Text="{Binding Icon}"
+                                       FontSize="18"
+                                       VerticalOptions="Center" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding Title}"
+                                       FontSize="14"
+                                       TextColor="{Binding TextColor}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+    </Shell.FlyoutContent>
+
+    <!-- ═══ ROUTES ═══
+         All ShellItems use FlyoutItemIsVisible="False" so the custom FlyoutContent
+         above is the SOLE navigation surface. Routes are preserved exactly. -->
+
+    <!-- Login (flyout + tab bar suppressed) -->
+    <ShellContent Route="LoginPage"
+                  Shell.TabBarIsVisible="False"
+                  Shell.FlyoutBehavior="Disabled"
+                  ContentTemplate="{DataTemplate auth:LoginPage}" />
+
+    <!-- Student -->
+    <ShellItem Route="StudentApp" FlyoutItemIsVisible="False">
+        <ShellContent Route="DashboardPage"  Title="Home"       ContentTemplate="{DataTemplate dashboard:StudentDashboardPage}" />
+        <ShellContent Route="ClassesPage"    Title="Classes"    ContentTemplate="{DataTemplate student:ClassesPage}" />
+        <ShellContent Route="AttendancePage" Title="Attendance" ContentTemplate="{DataTemplate student:AttendancePage}" />
+        <ShellContent Route="MaterialsPage"  Title="Materials"  ContentTemplate="{DataTemplate student:MaterialsPage}" />
+        <ShellContent Route="GroupsPage"     Title="Groups"     ContentTemplate="{DataTemplate student:GroupsPage}" />
+        <ShellContent Route="StudentProfile" Title="Profile"    ContentTemplate="{DataTemplate profile:ProfilePage}" />
+    </ShellItem>
+
+    <!-- Lecturer -->
+    <ShellItem Route="LecturerApp" FlyoutItemIsVisible="False">
+        <ShellContent Route="LecturerDashboardPage" Title="Home"     ContentTemplate="{DataTemplate dashboard:LecturerDashboardPage}" />
+        <ShellContent Route="LecturerClassesPage"   Title="Classes"  ContentTemplate="{DataTemplate lecturer:LecturerClassesPage}" />
+        <ShellContent Route="LecturerSchedule"      Title="Schedule" ContentTemplate="{DataTemplate schedule:SchedulePage}" />
+        <ShellContent Route="LecturerProfile"       Title="Profile"  ContentTemplate="{DataTemplate profile:ProfilePage}" />
+    </ShellItem>
+
+    <!-- Admin -->
+    <ShellItem Route="AdminApp" FlyoutItemIsVisible="False">
+        <ShellContent Route="AdminDashboardPage" Title="Dashboard"   ContentTemplate="{DataTemplate dashboard:AdminDashboardPage}" />
+        <ShellContent Route="UsersPage"          Title="Users"       ContentTemplate="{DataTemplate admin:UsersPage}" />
+        <ShellContent Route="UniversitiesPage"   Title="Universities" ContentTemplate="{DataTemplate admin:UniversitiesPage}" />
+        <ShellContent Route="FacultiesPage"      Title="Faculties"   ContentTemplate="{DataTemplate admin:FacultiesPage}" />
+        <ShellContent Route="DepartmentsPage"    Title="Departments" ContentTemplate="{DataTemplate admin:DepartmentsPage}" />
+        <ShellContent Route="ProgramsPage"       Title="Programs"    ContentTemplate="{DataTemplate admin:ProgramsPage}" />
+        <ShellContent Route="CurriculumPage"     Title="Curriculum"  ContentTemplate="{DataTemplate admin:CurriculumPage}" />
+        <ShellContent Route="AdminAnalyticsPage" Title="Analytics"   ContentTemplate="{DataTemplate admin:AdminAnalyticsPage}" />
+        <ShellContent Route="AuditLogsPage"      Title="Audit Logs"  ContentTemplate="{DataTemplate admin:AuditLogsPage}" />
+        <ShellContent Route="AdminProfile"       Title="Profile"     ContentTemplate="{DataTemplate profile:ProfilePage}" />
+    </ShellItem>
+
+    <!-- Class Representative -->
+    <ShellItem Route="ClassRepApp" FlyoutItemIsVisible="False">
+        <ShellContent Route="ClassRepDashboardPage" Title="Home"     ContentTemplate="{DataTemplate dashboard:ClassRepDashboardPage}" />
+        <ShellContent Route="ClassRepSchedule"      Title="Schedule" ContentTemplate="{DataTemplate schedule:SchedulePage}" />
+        <ShellContent Route="ClassRepGrades"        Title="Grades"   ContentTemplate="{DataTemplate grades:GradesPage}" />
+        <ShellContent Route="ClassRepProfile"       Title="Profile"  ContentTemplate="{DataTemplate profile:ProfilePage}" />
+    </ShellItem>
+
+</Shell>

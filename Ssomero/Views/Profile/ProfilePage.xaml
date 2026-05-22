@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ssomero.Views.Profile.ProfilePage"
+             Title="Profile"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             AutomationId="ProfilePage">
+
+  <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+    <ScrollView>
+      <VerticalStackLayout Padding="16" Spacing="16">
+
+        <!-- Error / retry banner -->
+        <Border IsVisible="{Binding HasError}"
+                BackgroundColor="#FEF2F2" Padding="14,10"
+                StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="#FECACA">
+          <Grid ColumnDefinitions="*,Auto">
+            <Label Grid.Column="0" Text="{Binding ErrorMessage}" TextColor="#DC2626" FontSize="13" />
+            <Button Grid.Column="1" Text="Retry" Command="{Binding LoadCommand}"
+                    BackgroundColor="Transparent" TextColor="#DC2626" FontSize="12" Padding="8,0"/>
+          </Grid>
+        </Border>
+
+        <!-- Toast -->
+        <Frame BackgroundColor="{Binding ToastColor}" CornerRadius="8" Padding="12,8"
+               IsVisible="{Binding ToastIsVisible}" HasShadow="False">
+          <Label Text="{Binding ToastMessage}" TextColor="White" FontSize="13"
+                 HorizontalTextAlignment="Center" />
+        </Frame>
+
+        <!-- Loading indicator -->
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                           Color="{StaticResource PrimaryColor}" HorizontalOptions="Center" />
+
+        <!-- ═══ HEADER: Avatar + Name + Role badge ═══ -->
+        <Border StrokeShape="RoundRectangle 16" Padding="16"
+                BackgroundColor="{StaticResource PrimaryColor}" StrokeThickness="0">
+          <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+
+            <!-- Tappable avatar area: tap to change photo -->
+            <Grid WidthRequest="88" HeightRequest="88" HorizontalOptions="Center">
+
+              <!-- Initials fallback -->
+              <Border StrokeShape="RoundRectangle 44" WidthRequest="88" HeightRequest="88"
+                      BackgroundColor="#7C3AED" StrokeThickness="3" Stroke="White"
+                      IsVisible="{Binding HasPhoto, Converter={StaticResource InvertBoolConverter}}">
+                <Label Text="{Binding Initials}" FontSize="30" FontAttributes="Bold"
+                       TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+              </Border>
+
+              <!-- Photo -->
+              <Border StrokeShape="RoundRectangle 44" WidthRequest="88" HeightRequest="88"
+                      StrokeThickness="3" Stroke="White"
+                      IsVisible="{Binding HasPhoto}">
+                <Image Source="{Binding PhotoUrl}" Aspect="AspectFill" />
+              </Border>
+
+              <!-- Upload spinner overlay -->
+              <Border StrokeShape="RoundRectangle 44" WidthRequest="88" HeightRequest="88"
+                      BackgroundColor="#AA000000" StrokeThickness="0"
+                      IsVisible="{Binding IsUploading}">
+                <ActivityIndicator IsRunning="{Binding IsUploading}" Color="White"
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
+              </Border>
+
+              <!-- Camera badge -->
+              <Border StrokeShape="RoundRectangle 12" WidthRequest="24" HeightRequest="24"
+                      BackgroundColor="#5B21B6" StrokeThickness="1" Stroke="White"
+                      HorizontalOptions="End" VerticalOptions="End"
+                      IsVisible="{Binding IsUploading, Converter={StaticResource InvertBoolConverter}}">
+                <Label Text="📷" FontSize="11"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+              </Border>
+
+              <!-- Tap to trigger ActionSheet -->
+              <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ChangePhotoCommand}" />
+              </Grid.GestureRecognizers>
+            </Grid>
+
+            <Label Text="{Binding FullName}" FontSize="20" FontAttributes="Bold"
+                   TextColor="White" HorizontalOptions="Center" />
+
+            <Label Text="{Binding Email}" FontSize="12" TextColor="#C4B5FD"
+                   HorizontalOptions="Center" />
+
+            <Border StrokeShape="RoundRectangle 12" Padding="12,4"
+                    BackgroundColor="#7C3AED" StrokeThickness="0"
+                    HorizontalOptions="Center">
+              <Label Text="{Binding Role}" FontSize="12" FontAttributes="Bold" TextColor="White" />
+            </Border>
+
+            <Label Text="{Binding UniversityName}" FontSize="12" TextColor="#DDD6FE"
+                   HorizontalOptions="Center"
+                   IsVisible="{Binding UniversityName, Converter={StaticResource NullToBoolConverter}}" />
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- ═══ PERSONAL INFO CARD ═══ -->
+        <Border StrokeShape="RoundRectangle 12" Padding="16" BackgroundColor="White"
+                StrokeThickness="1" Stroke="#E2E8F0" AutomationId="PersonalInfoCard">
+          <VerticalStackLayout Spacing="12">
+
+            <!-- Card header + edit toggle -->
+            <Grid ColumnDefinitions="*,Auto">
+              <Label Grid.Column="0" Text="Personal Information"
+                     FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+              <Button Grid.Column="1"
+                      Text="Edit"
+                      Command="{Binding ToggleEditCommand}"
+                      IsVisible="{Binding IsViewMode}"
+                      BackgroundColor="Transparent"
+                      TextColor="{StaticResource PrimaryColor}"
+                      FontSize="13" Padding="0"
+                      AutomationId="ToggleEditButton" />
+            </Grid>
+
+            <!-- Inline error for save -->
+            <Label Text="{Binding ErrorMessage}" TextColor="Red" FontSize="12"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}" />
+
+            <!-- VIEW MODE -->
+            <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto,Auto,Auto"
+                  RowSpacing="8" IsVisible="{Binding IsViewMode}">
+              <Label Grid.Row="0" Grid.Column="0" Text="First Name"  FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="0" Grid.Column="1" Text="{Binding EditFirstName}" FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="1" Grid.Column="0" Text="Last Name"   FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="1" Grid.Column="1" Text="{Binding EditLastName}"  FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="2" Grid.Column="0" Text="Email"       FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="2" Grid.Column="1" Text="{Binding Email}"         FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="3" Grid.Column="0" Text="Phone"       FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="3" Grid.Column="1" Text="{Binding EditPhone}"     FontSize="13" FontAttributes="Bold"/>
+            </Grid>
+
+            <!-- EDIT MODE -->
+            <VerticalStackLayout Spacing="10" IsVisible="{Binding IsEditMode}">
+              <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                  <Label Text="First Name" FontSize="12" TextColor="Gray"/>
+                  <Entry Text="{Binding EditFirstName}" Placeholder="First name"
+                         AutomationId="EditFirstNameEntry"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                  <Label Text="Last Name" FontSize="12" TextColor="Gray"/>
+                  <Entry Text="{Binding EditLastName}" Placeholder="Last name"
+                         AutomationId="EditLastNameEntry"/>
+                </VerticalStackLayout>
+              </Grid>
+
+              <VerticalStackLayout Spacing="4">
+                <Label Text="Phone Number" FontSize="12" TextColor="Gray"/>
+                <Entry Text="{Binding EditPhone}" Placeholder="Phone number"
+                       Keyboard="Telephone" AutomationId="EditPhoneEntry"/>
+              </VerticalStackLayout>
+
+              <VerticalStackLayout Spacing="4">
+                <Label Text="Email (read-only)" FontSize="12" TextColor="Gray"/>
+                <Entry Text="{Binding Email}" IsEnabled="False" TextColor="Gray" />
+              </VerticalStackLayout>
+
+              <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                <Button Grid.Column="0" Text="Save"
+                        Command="{Binding SaveCommand}"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                        AutomationId="SaveProfileButton" />
+                <Button Grid.Column="1" Text="Cancel"
+                        Command="{Binding CancelEditCommand}"
+                        BackgroundColor="#E2E8F0" TextColor="#334155"
+                        AutomationId="CancelEditButton" />
+              </Grid>
+            </VerticalStackLayout>
+
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- ═══ STUDENT ROLE CARD ═══ -->
+        <Border StrokeShape="RoundRectangle 12" Padding="16" BackgroundColor="White"
+                StrokeThickness="1" Stroke="#E2E8F0"
+                IsVisible="{Binding IsStudent}" AutomationId="StudentCard">
+          <VerticalStackLayout Spacing="10">
+            <Label Text="Academic Profile" FontSize="15" FontAttributes="Bold" TextColor="#0F172A"/>
+            <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="8">
+              <Label Grid.Row="0" Grid.Column="0" Text="Student ID"  FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="0" Grid.Column="1" Text="{Binding StudentId}" FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="1" Grid.Column="0" Text="Program"     FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="1" Grid.Column="1" Text="{Binding Program}"   FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="2" Grid.Column="0" Text="Faculty"     FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="2" Grid.Column="1" Text="{Binding Faculty}"   FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="3" Grid.Column="0" Text="Department"  FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="3" Grid.Column="1" Text="{Binding Department}" FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="4" Grid.Column="0" Text="Attendance"  FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="4" Grid.Column="1" Text="{Binding AttendancePct, StringFormat='{0:F1}%'}" FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="5" Grid.Column="0" Text="Subscription" FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="5" Grid.Column="1" Text="{Binding SubscriptionStatus}" FontSize="13" FontAttributes="Bold"/>
+            </Grid>
+            <Label Text="Quick Actions" FontSize="13" FontAttributes="Bold" TextColor="#64748B" Margin="0,4,0,0"/>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+              <Button Grid.Column="0" Text="💳 Payments"
+                      Command="{Binding NavigateToPaymentsCommand}"
+                      BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
+                      FontSize="13" AutomationId="StudentPaymentsButton"/>
+              <Button Grid.Column="1" Text="📊 Analytics"
+                      Command="{Binding NavigateToAnalyticsCommand}"
+                      BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
+                      FontSize="13" AutomationId="StudentAnalyticsButton"/>
+            </Grid>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- ═══ LECTURER ROLE CARD ═══ -->
+        <Border StrokeShape="RoundRectangle 12" Padding="16" BackgroundColor="White"
+                StrokeThickness="1" Stroke="#E2E8F0"
+                IsVisible="{Binding IsLecturer}" AutomationId="LecturerCard">
+          <VerticalStackLayout Spacing="10">
+            <Label Text="Teaching Profile" FontSize="15" FontAttributes="Bold" TextColor="#0F172A"/>
+            <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="8">
+              <Label Grid.Row="0" Grid.Column="0" Text="Staff ID"            FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="0" Grid.Column="1" Text="{Binding StaffId}"       FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="1" Grid.Column="0" Text="Assigned Classes"    FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="1" Grid.Column="1" Text="{Binding AssignedClassesCount}" FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="2" Grid.Column="0" Text="Materials Uploaded"  FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="2" Grid.Column="1" Text="{Binding MaterialsCount}"  FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="3" Grid.Column="0" Text="Sessions Managed"    FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="3" Grid.Column="1" Text="{Binding SessionsManaged}" FontSize="13" FontAttributes="Bold"/>
+            </Grid>
+            <Label Text="Quick Actions" FontSize="13" FontAttributes="Bold" TextColor="#64748B" Margin="0,4,0,0"/>
+            <Button Text="📚 My Classes" Command="{Binding NavigateToClassesCommand}"
+                    BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
+                    FontSize="13" AutomationId="LecturerClassesButton"/>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- ═══ ADMIN ROLE CARD ═══ -->
+        <Border StrokeShape="RoundRectangle 12" Padding="16" BackgroundColor="White"
+                StrokeThickness="1" Stroke="#E2E8F0"
+                IsVisible="{Binding IsAdmin}" AutomationId="AdminCard">
+          <VerticalStackLayout Spacing="10">
+            <Label Text="Admin Profile" FontSize="15" FontAttributes="Bold" TextColor="#0F172A"/>
+            <Grid ColumnDefinitions="160,*" RowDefinitions="Auto,Auto" RowSpacing="8">
+              <Label Grid.Row="0" Grid.Column="0" Text="System Role"    FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="0" Grid.Column="1" Text="{Binding SystemRole}"    FontSize="13" FontAttributes="Bold"/>
+              <Label Grid.Row="1" Grid.Column="0" Text="Universities"   FontSize="13" TextColor="Gray"/>
+              <Label Grid.Row="1" Grid.Column="1" Text="{Binding ManagedUniversities}" FontSize="13" FontAttributes="Bold"/>
+            </Grid>
+            <Label Text="Quick Actions" FontSize="13" FontAttributes="Bold" TextColor="#64748B" Margin="0,4,0,0"/>
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+              <Button Grid.Column="0" Text="👥 Users"
+                      Command="{Binding NavigateToUsersCommand}"
+                      BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
+                      FontSize="12" AutomationId="AdminUsersButton"/>
+              <Button Grid.Column="1" Text="📋 Audit"
+                      Command="{Binding NavigateToAuditLogsCommand}"
+                      BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
+                      FontSize="12" AutomationId="AdminAuditButton"/>
+              <Button Grid.Column="2" Text="📊 Analytics"
+                      Command="{Binding NavigateToAdminAnalyticsCommand}"
+                      BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
+                      FontSize="12" AutomationId="AdminAnalyticsButton"/>
+            </Grid>
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- ═══ SECURITY CARD ═══ -->
+        <Border StrokeShape="RoundRectangle 12" Padding="16" BackgroundColor="White"
+                StrokeThickness="1" Stroke="#E2E8F0" AutomationId="SecurityCard">
+          <VerticalStackLayout Spacing="10">
+            <Label Text="Security" FontSize="15" FontAttributes="Bold" TextColor="#0F172A"/>
+            <Button Text="🔒 Change Password"
+                    Command="{Binding NavigateToChangePasswordCommand}"
+                    BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
+                    FontSize="14" HorizontalOptions="Start"
+                    AutomationId="ChangePasswordButton" />
+          </VerticalStackLayout>
+        </Border>
+
+        <!-- ═══ LOGOUT ═══ -->
+        <Button Text="Log Out"
+                Command="{Binding LogoutCommand}"
+                BackgroundColor="#EF4444" TextColor="White"
+                FontAttributes="Bold" FontSize="15"
+                CornerRadius="12" HeightRequest="50"
+                Margin="0,8,0,24"
+                AutomationId="LogoutButton" />
+
+      </VerticalStackLayout>
+    </ScrollView>
+  </RefreshView>
+
+</ContentPage>

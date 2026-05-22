@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             xmlns:conv="clr-namespace:Ssomero.Converters"
+             x:Class="Ssomero.Views.ClassRep.ClassRepLecturersPage"
+             Shell.NavBarIsVisible="True"
+             Title="Assign Lecturer"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0F172A}">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*,Auto">
+        <RefreshView Grid.Row="0" IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+            <Grid>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                   Color="{StaticResource Primary}"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+
+                <!-- Error banner -->
+                <Border IsVisible="{Binding HasError}"
+                        BackgroundColor="#FEE2E2" StrokeShape="RoundRectangle 10"
+                        Stroke="#FCA5A5" Padding="12,10" Margin="16"
+                        VerticalOptions="Start">
+                    <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="13"/>
+                </Border>
+
+                <!-- Empty state -->
+                <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                     HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                    <Label Text="👨‍🏫" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="No approved lecturers found." FontSize="15"
+                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <CollectionView ItemsSource="{Binding Lecturers}"
+                                IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                                SelectionMode="Single"
+                                SelectedItem="{Binding SelectedLecturer, Mode=TwoWay}"
+                                Margin="16,12,16,8">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ClassRepLecturerModel">
+                            <Border Padding="14" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                    StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                </Border.Shadow>
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="3">
+                                        <Label Text="{Binding FullName}" FontSize="14" FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                               LineBreakMode="TailTruncation"/>
+                                        <Label Text="{Binding StaffIdDisplay}" FontSize="12"
+                                               TextColor="{StaticResource Primary}"/>
+                                        <Label Text="{Binding Email}" FontSize="12"
+                                               TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                               LineBreakMode="TailTruncation"/>
+                                    </VerticalStackLayout>
+                                    <RadioButton Grid.Column="1" VerticalOptions="Center"
+                                                 IsChecked="{Binding Source={RelativeSource AncestorType={x:Type vm:ClassRepLecturersViewModel}}, Path=SelectedLecturer, Converter={StaticResource InvBool}}"
+                                                 IsEnabled="False"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </RefreshView>
+
+        <!-- Assign button pinned to bottom -->
+        <Border Grid.Row="1" Padding="16,12" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                StrokeThickness="0">
+            <Button Text="Assign Selected Lecturer"
+                    Command="{Binding AssignLecturerCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White" CornerRadius="12" HeightRequest="48"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvBool}}"/>
+        </Border>
+    </Grid>
+
+</ContentPage>

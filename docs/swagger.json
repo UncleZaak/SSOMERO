@@ -1,0 +1,401 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Ssomero API",
+    "version": "1.0.0",
+    "description": "OpenAPI description for Ssomero backend (students, courses, auth, etc.)."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Local"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "StudentDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "registrationNumber": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "universityId": { "type": "string", "format": "uuid" },
+          "programmeId": { "type": "string", "format": "uuid" }
+        },
+        "required": ["id","registrationNumber","email","universityId","programmeId"]
+      },
+      "CreateStudentDto": {
+        "type": "object",
+        "properties": {
+          "registrationNumber": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "universityId": { "type": "string", "format": "uuid" },
+          "programmeId": { "type": "string", "format": "uuid" }
+        },
+        "required": ["registrationNumber","email","universityId","programmeId"]
+      },
+      "UpdateStudentDto": { "$ref": "#/components/schemas/CreateStudentDto" },
+
+      "CourseDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "title": { "type": "string" },
+          "code": { "type": "string" },
+          "programmeId": { "type": "string", "format": "uuid" },
+          "credits": { "type": "integer", "format": "int32" }
+        },
+        "required": ["id","title","programmeId","credits"]
+      },
+      "CreateCourseDto": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "code": { "type": "string" },
+          "programmeId": { "type": "string", "format": "uuid" },
+          "credits": { "type": "integer", "format": "int32" }
+        },
+        "required": ["title","programmeId"]
+      },
+      "UpdateCourseDto": { "$ref": "#/components/schemas/CreateCourseDto" },
+
+      "EnrollmentDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "studentId": { "type": "string", "format": "uuid" },
+          "classId": { "type": "string", "format": "uuid" },
+          "enrolledAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id","studentId","classId"]
+      },
+      "CreateEnrollmentDto": {
+        "type": "object",
+        "properties": {
+          "studentId": { "type": "string", "format": "uuid" },
+          "classId": { "type": "string", "format": "uuid" }
+        },
+        "required": ["studentId","classId"]
+      },
+      "UpdateEnrollmentDto": { "$ref": "#/components/schemas/CreateEnrollmentDto" },
+
+      "AssessmentDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "classId": { "type": "string", "format": "uuid" },
+          "title": { "type": "string" },
+          "maxScore": { "type": "integer" },
+          "dueDate": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id","classId","title","maxScore"]
+      },
+      "CreateAssessmentDto": {
+        "type": "object",
+        "properties": {
+          "classId": { "type": "string", "format": "uuid" },
+          "title": { "type": "string" },
+          "maxScore": { "type": "integer" },
+          "dueDate": { "type": "string", "format": "date-time" }
+        },
+        "required": ["classId","title","maxScore"]
+      },
+      "UpdateAssessmentDto": { "$ref": "#/components/schemas/CreateAssessmentDto" },
+
+      "AnnouncementDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "classId": { "type": "string", "format": "uuid", "nullable": true },
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "postedAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id","title","postedAt"]
+      },
+      "CreateAnnouncementDto": {
+        "type": "object",
+        "properties": {
+          "classId": { "type": "string", "format": "uuid", "nullable": true },
+          "title": { "type": "string" },
+          "body": { "type": "string" }
+        },
+        "required": ["title"]
+      },
+      "UpdateAnnouncementDto": { "$ref": "#/components/schemas/CreateAnnouncementDto" },
+
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "email": { "type": "string", "format": "email" },
+          "role": { "type": "integer", "format": "int32" }
+        },
+        "required": ["id","email","role"]
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" },
+          "role": { "type": "integer", "format": "int32" }
+        },
+        "required": ["email","password"]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "role": { "type": "integer", "format": "int32" }
+        },
+        "required": ["email"]
+      },
+
+      "RefreshTokenDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "token": { "type": "string" },
+          "expires": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id","token","expires"]
+      },
+
+      "LoginRequestDto": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" }
+        },
+        "required": ["email","password"]
+      },
+      "RegisterUserDto": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" },
+          "fullName": { "type": "string" }
+        },
+        "required": ["email","password"]
+      },
+      "AuthResponseDto": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string" },
+          "refreshToken": { "type": "string" }
+        },
+        "required": ["token","refreshToken"]
+      },
+      "RefreshRequestDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": { "type": "string" }
+        },
+        "required": ["refreshToken"]
+      },
+
+      "ProblemResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" },
+          "errors": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    { "bearerAuth": [] }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "responses": { "200": { "description": "OK" } },
+        "security": []
+      }
+    },
+    "/smoke": {
+      "get": {
+        "summary": "Smoke test - DB connectivity",
+        "responses": { "200": { "description": "OK" } },
+        "security": []
+      }
+    },
+    "/seed": {
+      "post": {
+        "summary": "Development-only seed data (creates admin/instructor/user)",
+        "responses": {
+          "200": {
+            "description": "seeded"
+          }
+        },
+        "security": []
+      }
+    },
+
+    "/api/auth/login": {
+      "post": {
+        "summary": "User login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/LoginRequestDto" } }
+          }
+        },
+        "responses": {
+          "200": { "description": "Auth response", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthResponseDto" } } } },
+          "401": { "description": "Unauthorized" }
+        },
+        "security": []
+      }
+    },
+
+    "/api/auth/register": {
+      "post": {
+        "summary": "Register user",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RegisterUserDto" } } }
+        },
+        "responses": {
+          "200": { "description": "Auth response", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthResponseDto" } } } },
+          "400": { "description": "Bad request" }
+        },
+        "security": []
+      }
+    },
+
+    "/api/auth/refresh": {
+      "post": {
+        "summary": "Refresh JWT using refresh token",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RefreshRequestDto" } } }
+        },
+        "responses": {
+          "200": { "description": "Auth response", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthResponseDto" } } } },
+          "401": { "description": "Unauthorized" }
+        },
+        "security": []
+      }
+    },
+
+    "/api/students": {
+      "get": {
+        "summary": "Get all students",
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/StudentDto" } } } } }
+        }
+      },
+      "post": {
+        "summary": "Create student (Admin only)",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateStudentDto" } } } },
+        "responses": {
+          "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/StudentDto" } } } },
+          "400": { "description": "Bad request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProblemResponse" } } } }
+        }
+      }
+    },
+    "/api/students/{id}": {
+      "get": {
+        "summary": "Get student by id",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/StudentDto" } } } }, "404": { "description": "Not found" } }
+      },
+      "put": {
+        "summary": "Update student (Admin only)",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateStudentDto" } } } },
+        "responses": { "204": { "description": "No Content" }, "404": { "description": "Not found" } }
+      },
+      "delete": {
+        "summary": "Delete student (Admin only)",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }],
+        "responses": { "204": { "description": "No Content" }, "404": { "description": "Not found" } }
+      }
+    },
+
+    "/api/courses": {
+      "get": {
+        "summary": "Get all courses",
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "type":"array", "items": { "$ref": "#/components/schemas/CourseDto" } } } } }
+        }
+      },
+      "post": {
+        "summary": "Create course (Admin only)",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateCourseDto" } } } },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CourseDto" } } } } }
+      }
+    },
+    "/api/courses/{id}": {
+      "get": {
+        "summary": "Get course by id",
+        "parameters": [{ "name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],
+        "responses": { "200": { "description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CourseDto"}}}}, "404": { "description":"Not found"} }
+      },
+      "put": {
+        "summary": "Update course (Admin only)",
+        "parameters": [{ "name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],
+        "requestBody": { "required":true, "content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateCourseDto"}}} },
+        "responses": { "204": { "description":"No Content" }, "404": { "description":"Not found" } }
+      },
+      "delete": {
+        "summary": "Delete course (Admin only)",
+        "parameters": [{ "name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],
+        "responses": { "204": { "description":"No Content" }, "404": { "description":"Not found" } }
+      }
+    },
+
+    "/api/enrollments": {
+      "get": { "summary": "Get all enrollments", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type":"array","items": { "$ref":"#/components/schemas/EnrollmentDto" } } } } } } },
+      "post": { "summary": "Create enrollment (Admin or Instructor)", "requestBody": { "required":true, "content": { "application/json": { "schema": { "$ref":"#/components/schemas/CreateEnrollmentDto" } } } }, "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref":"#/components/schemas/EnrollmentDto" } } } } } }
+    },
+
+    "/api/enrollments/{id}": {
+      "get": { "summary": "Get enrollment by id", "parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EnrollmentDto"}}}},"404":{"description":"Not found"}} },
+      "put": { "summary":"Update enrollment","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateEnrollmentDto"}}}},"responses":{"204":{"description":"No Content"},"404":{"description":"Not found"}} },
+      "delete": { "summary":"Delete enrollment","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"204":{"description":"No Content"},"404":{"description":"Not found"}} }
+    },
+
+    "/api/assessments": {
+      "get": { "summary":"Get all assessments","responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/AssessmentDto"}}}}}} },
+      "post": { "summary":"Create assessment (Admin or Instructor)","requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateAssessmentDto"}}}},"responses":{"201":{"description":"Created","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AssessmentDto"}}}}} }
+    },
+
+    "/api/assessments/{id}": {
+      "get": { "summary":"Get assessment by id","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AssessmentDto"}}}},"404":{"description":"Not found"}} },
+      "put": { "summary":"Update assessment","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateAssessmentDto"}}}},"responses":{"204":{"description":"No Content"},"404":{"description":"Not found"}} },
+      "delete": { "summary":"Delete assessment","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"204":{"description":"No Content"},"404":{"description":"Not found"}} }
+    },
+
+    "/api/announcements": {
+      "get": { "summary":"Get all announcements","responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/AnnouncementDto"}}}}}} },
+      "post": { "summary":"Create announcement (Admin only)","requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateAnnouncementDto"}}}},"responses":{"201":{"description":"Created","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AnnouncementDto"}}}}} }
+    },
+
+    "/api/announcements/{id}": {
+      "get": { "summary":"Get announcement by id","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AnnouncementDto"}}}},"404":{"description":"Not found"}} },
+      "put": { "summary":"Update announcement","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateAnnouncementDto"}}}},"responses":{"204":{"description":"No Content"},"404":{"description":"Not found"}} },
+      "delete": { "summary":"Delete announcement","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"204":{"description":"No Content"},"404":{"description":"Not found"}} }
+    },
+
+    "/api/users": { "get": { "summary":"Get all users (Admin only)","responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/UserDto"}}}}}} },
+      "post": { "summary":"Create user (registration allowed)","requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateUserDto"}}}},"responses":{"201":{"description":"Created","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserDto"}}}},"400":{"description":"Bad request"}} }
+    },
+    "/api/users/{id}": { "get": { "summary":"Get user by id","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserDto"}}}},"404":{"description":"Not found"}} },"put": { "summary":"Update user (Admin only)","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateUserDto"}}}},"responses":{"204":{"description":"No Content"},"404":{"description":"Not found"}} },"delete": { "summary":"Delete user (Admin only)","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"204":{"description":"No Content"},"404":{"description":"Not found"}} } },
+
+    "/api/refreshTokens": { "get": { "summary":"Get all refresh tokens (Admin only)","responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/RefreshTokenDto"}}}}}} }, "post": { "summary":"Create refresh token (internal)","requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RefreshTokenDto"}}}},"responses":{"201":{"description":"Created"}} } },
+    "/api/refreshTokens/{id}": { "get": { "summary":"Get refresh token by id","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"200":{"description":"OK","content":{"application/json":{"schema":{"$ref":"#/components/schemas/RefreshTokenDto"}}}},"404":{"description":"Not found"}} }, "delete": { "summary":"Delete refresh token","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","format":"uuid"}}],"responses":{"204":{"description":"No Content"},"404":{"description":"Not found"}} } }
+  }
+}

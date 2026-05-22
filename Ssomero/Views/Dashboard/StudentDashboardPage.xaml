@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             xmlns:conv="clr-namespace:Ssomero.Converters"
+             xmlns:shared="clr-namespace:Ssomero.Views.Shared"
+             x:Class="Ssomero.Views.Dashboard.StudentDashboardPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F1F5F9">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+        <conv:AttendanceColorConverter x:Key="AttColor"/>
+        <conv:PercentToDoubleConverter x:Key="PercentToDouble"/>
+    </ContentPage.Resources>
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="0">
+
+                <!-- ═══ SECTION 1: TOP BAR + BANNERS ═══ -->
+                <shared:AppTopBar
+                    Title="Dashboard"
+                    Subtitle="{Binding StudentName, StringFormat='Hello, {0} 👋'}" />
+
+                <!-- Next class banner -->
+                <Border Margin="16,0,16,0" Padding="14,10"
+                        BackgroundColor="#5B21B6" StrokeShape="RoundRectangle 12"
+                        StrokeThickness="0" IsVisible="{Binding HasNextClass}">
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Label Grid.Column="0" Text="⏰" FontSize="18" VerticalOptions="Center"/>
+                        <VerticalStackLayout Grid.Column="1" Margin="10,0,0,0" Spacing="1">
+                            <Label Text="{Binding NextClassLabel}" FontSize="13"
+                                   FontAttributes="Bold" TextColor="White"/>
+                            <Label Text="{Binding NextClass.Location}" FontSize="11"
+                                   TextColor="#C4B5FD"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Attendance warning banner -->
+                <Border Margin="16,8,16,0" Padding="12,10"
+                        BackgroundColor="#EF4444" StrokeShape="RoundRectangle 12"
+                        StrokeThickness="0"
+                        IsVisible="{Binding AttendanceWarning}">
+                    <Label Text="{Binding AttendancePercentage, StringFormat='⚠️ Attendance {0}% — below the 75% requirement!'}"
+                           FontSize="12" FontAttributes="Bold" TextColor="White"/>
+                </Border>
+
+                <!-- Error banner -->
+                <Border IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}"
+                        BackgroundColor="#FEF2F2" Padding="14,10" Margin="16,12,16,0"
+                        StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="#FECACA">
+                    <Label Text="{Binding ErrorMessage}" TextColor="#DC2626" FontSize="13"/>
+                </Border>
+
+                <!-- ═══ SECTION 2: QUICK ACTIONS ═══ -->
+                <VerticalStackLayout Padding="16,20,16,0" Spacing="10">
+                    <Label Text="Quick Actions" FontSize="16" FontAttributes="Bold" TextColor="#0F172A"/>
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="8">
+                        <!-- Classes -->
+                        <Border Grid.Column="0" Padding="0,14" BackgroundColor="White"
+                                StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                            <Border.Shadow><Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/></Border.Shadow>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToClassesCommand}"/>
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                                <Label Text="📚" FontSize="22" HorizontalOptions="Center"/>
+                                <Label Text="Classes" FontSize="11" FontAttributes="Bold"
+                                       TextColor="#5B21B6" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        <!-- Attendance -->
+                        <Border Grid.Column="1" Padding="0,14" BackgroundColor="White"
+                                StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                            <Border.Shadow><Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/></Border.Shadow>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToAttendanceCommand}"/>
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                                <Label Text="✅" FontSize="22" HorizontalOptions="Center"/>
+                                <Label Text="Attendance" FontSize="11" FontAttributes="Bold"
+                                       TextColor="#5B21B6" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        <!-- Materials -->
+                        <Border Grid.Column="2" Padding="0,14" BackgroundColor="White"
+                                StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                            <Border.Shadow><Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/></Border.Shadow>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToMaterialsCommand}"/>
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                                <Label Text="📄" FontSize="22" HorizontalOptions="Center"/>
+                                <Label Text="Materials" FontSize="11" FontAttributes="Bold"
+                                       TextColor="#5B21B6" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        <!-- Analytics -->
+                        <Border Grid.Column="3" Padding="0,14" BackgroundColor="White"
+                                StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                            <Border.Shadow><Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/></Border.Shadow>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToAnalyticsCommand}"/>
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                                <Label Text="📊" FontSize="22" HorizontalOptions="Center"/>
+                                <Label Text="Analytics" FontSize="11" FontAttributes="Bold"
+                                       TextColor="#5B21B6" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+
+                <!-- ═══ SECTION 3: ATTENDANCE SNAPSHOT ═══ -->
+                <Border Margin="16,16,16,0" Padding="18" BackgroundColor="#5B21B6"
+                        StrokeShape="RoundRectangle 16" StrokeThickness="0">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToAnalyticsCommand}"/>
+                    </Border.GestureRecognizers>
+                    <Border.Shadow><Shadow Brush="#335B21B6" Offset="0,4" Radius="12" Opacity="0.2"/></Border.Shadow>
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="10">
+                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Attendance Snapshot" FontSize="13"
+                                   TextColor="#C4B5FD" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Text="View Details →" FontSize="12"
+                                   TextColor="#C4B5FD"/>
+                        </Grid>
+                        <Label Grid.Row="1" Text="{Binding AttendancePercentage, StringFormat='{0}%'}"
+                               TextColor="White" FontSize="44" FontAttributes="Bold"/>
+                        <ProgressBar Grid.Row="2"
+                                     Progress="{Binding AttendancePercentage, Converter={StaticResource PercentToDouble}}"
+                                     ProgressColor="White" HeightRequest="8"/>
+                        <HorizontalStackLayout Grid.Row="3" Spacing="8">
+                            <BoxView CornerRadius="4" WidthRequest="8" HeightRequest="8"
+                                     VerticalOptions="Center"
+                                     Color="{Binding AttendancePercentage, Converter={StaticResource AttColor}}"/>
+                            <Label Text="{Binding AttendanceStatus}" TextColor="#C4B5FD" FontSize="13"/>
+                            <Label Text="•" TextColor="#C4B5FD" FontSize="13"/>
+                            <Label Text="{Binding ActiveCourses, StringFormat='{0} active courses'}"
+                                   TextColor="#C4B5FD" FontSize="13"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- ═══ SECTION 4: TODAY'S SCHEDULE ═══ -->
+                <VerticalStackLayout Padding="16,20,16,0" Spacing="10" IsVisible="{Binding HasClasses}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0" Text="Today's Schedule" FontSize="16"
+                               FontAttributes="Bold" TextColor="#0F172A"/>
+                        <Label Grid.Column="1" Text="View All →" FontSize="13"
+                               TextColor="#5B21B6">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToClassesCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding TodayClasses}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ClassModel">
+                                <Border StrokeThickness="0" Padding="14"
+                                        StrokeShape="RoundRectangle 12"
+                                        BackgroundColor="{Binding StatusColor}">
+                                    <Border.Shadow>
+                                        <Shadow Brush="#1A000000" Offset="0,1" Radius="4" Opacity="0.06"/>
+                                    </Border.Shadow>
+                                    <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="12">
+                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                            <Label Text="{Binding Time}" FontSize="15"
+                                                   FontAttributes="Bold" TextColor="#5B21B6"/>
+                                            <Label Text="{Binding EndTime}" FontSize="11"
+                                                   TextColor="#94A3B8"/>
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                            <Label Text="{Binding CourseName}" FontSize="14"
+                                                   FontAttributes="Bold" TextColor="#0F172A"
+                                                   LineBreakMode="TailTruncation"/>
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Label Text="📍" FontSize="11"/>
+                                                <Label Text="{Binding Location}" FontSize="12"
+                                                       TextColor="#64748B" LineBreakMode="TailTruncation"/>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                        <Border Grid.Column="2" Padding="10,5" VerticalOptions="Center"
+                                                StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                                BackgroundColor="{Binding StatusColor}">
+                                            <Label Text="{Binding StatusText}" FontSize="11"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{Binding StatusTextColor}"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- ═══ SECTION 5: ANNOUNCEMENTS ═══ -->
+                <VerticalStackLayout Padding="16,20,16,0" Spacing="10"
+                                     IsVisible="{Binding HasAnnouncement}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0" Text="Announcements" FontSize="16"
+                               FontAttributes="Bold" TextColor="#0F172A"/>
+                        <Label Grid.Column="1" Text="View All →" FontSize="13"
+                               TextColor="#5B21B6">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToNewsCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding RecentAnnouncements}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:AnnouncementDto">
+                                <Border Padding="14" BackgroundColor="White"
+                                        StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                    <Border.Shadow>
+                                        <Shadow Brush="#1A000000" Offset="0,1" Radius="4" Opacity="0.06"/>
+                                    </Border.Shadow>
+                                    <Grid ColumnDefinitions="8,*" ColumnSpacing="12">
+                                        <BoxView Grid.Column="0" BackgroundColor="#5B21B6"
+                                                 WidthRequest="4" CornerRadius="2"
+                                                 VerticalOptions="Fill"/>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                            <Label Text="{Binding Title}" FontSize="14"
+                                                   FontAttributes="Bold" TextColor="#0F172A"
+                                                   LineBreakMode="TailTruncation"/>
+                                            <Label Text="{Binding Body}" FontSize="12"
+                                                   TextColor="#64748B" MaxLines="2"
+                                                   LineBreakMode="TailTruncation"/>
+                                            <Label Text="{Binding Date, StringFormat='{0:MMM dd, yyyy}'}"
+                                                   FontSize="11" TextColor="#94A3B8"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- ═══ SECTION 6: SMART INSIGHTS ═══ -->
+                <VerticalStackLayout Padding="16,20,16,28" Spacing="10"
+                                     IsVisible="{Binding HasSmartInsights}">
+                    <Label Text="🤖 Smart Insights" FontSize="16"
+                           FontAttributes="Bold" TextColor="#0F172A"/>
+                    <Border Padding="16" BackgroundColor="#EDE9FE"
+                            StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                        <CollectionView ItemsSource="{Binding SmartInsights}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Border Padding="12,10" BackgroundColor="White"
+                                            StrokeShape="RoundRectangle 10" StrokeThickness="0">
+                                        <Label Text="{Binding .}" FontSize="13"
+                                               TextColor="#3730A3" LineBreakMode="WordWrap"/>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Loading state (initial) -->
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                   Color="#5B21B6" Margin="0,40,0,0"
+                                   HorizontalOptions="Center"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

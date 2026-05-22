@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:components="clr-namespace:Ssomero.Components"
+             x:Class="Ssomero.Views.Courses.CoursesPage"
+             Title="Courses">
+
+  <Grid>
+    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+      <CollectionView ItemsSource="{Binding Items}" SelectionMode="Single"
+                      AutomationId="CoursesList">
+        <CollectionView.EmptyView>
+          <VerticalStackLayout Padding="24" HorizontalOptions="Center" VerticalOptions="Center">
+            <Label Text="No courses found." Style="{StaticResource BodyLabelStyle}"
+                   HorizontalTextAlignment="Center" />
+          </VerticalStackLayout>
+        </CollectionView.EmptyView>
+        <CollectionView.ItemsLayout>
+          <GridItemsLayout Orientation="Vertical" Span="2" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <components:CardView>
+              <VerticalStackLayout>
+                <Label Text="{Binding Name}" Style="{StaticResource TitleLabelStyle}" />
+                <Label Text="{Binding Lecturer}" Style="{StaticResource BodyLabelStyle}" />
+                <ProgressBar Progress="{Binding Progress, Converter={StaticResource PercentToDoubleConverter}}" />
+                <Button Text="Open" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoursesViewModel}}, Path=OpenCourseCommand}" CommandParameter="{Binding Id}"
+                        SemanticProperties.Hint="Open course details" />
+              </VerticalStackLayout>
+            </components:CardView>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+    </RefreshView>
+  </Grid>
+</ContentPage>

@@ -1,0 +1,73 @@
+2026-05-04 11:47:49.999 +03:00 [INF] OTP cleanup service started
+2026-05-04 11:47:50.562 +03:00 [WRN] The WebRootPath was not found: C:\Users\ISAAC L KABUYE\source\repos\Ssomero\Ssomero.Api\wwwroot. Static files may be unavailable.
+2026-05-04 11:47:52.011 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-04 11:47:52.043 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-04 11:47:52.167 +03:00 [INF] Server desktop-b8rchhq:7268:f6b6cfd7 successfully announced in 21.0083 ms
+2026-05-04 11:47:52.294 +03:00 [INF] Server desktop-b8rchhq:7268:f6b6cfd7 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-04 11:47:52.993 +03:00 [INF] Server desktop-b8rchhq:7268:f6b6cfd7 all the dispatchers started
+2026-05-04 11:48:42.624 +03:00 [INF] HTTP GET /api/health responded 200 in 609.7065 ms
+2026-05-04 11:48:44.045 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-04 11:48:46.498 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-04 11:48:46.721 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 2985ms
+2026-05-04 11:48:46.769 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 3073.3538 ms
+2026-05-04 11:48:53.440 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 769.3377 ms
+2026-05-04 11:49:02.181 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 209.3756 ms
+2026-05-04 11:49:02.254 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 290.8230 ms
+2026-05-04 11:49:30.740 +03:00 [INF] Lecturer approved: "03978a8f-8382-4c87-9cbe-b9fdbacb35b0"
+2026-05-04 11:49:30.805 +03:00 [INF] AUDIT POST /api/admin/lecturers/03978a8f-8382-4c87-9cbe-b9fdbacb35b0/approve | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 972ms
+2026-05-04 11:49:30.855 +03:00 [INF] HTTP POST /api/admin/lecturers/03978a8f-8382-4c87-9cbe-b9fdbacb35b0/approve responded 200 in 1028.9227 ms
+2026-05-04 11:49:39.623 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 230.1429 ms
+2026-05-04 11:49:47.947 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 30.5835 ms
+2026-05-04 11:49:48.056 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 8.5784 ms
+2026-05-04 11:49:56.137 +03:00 [INF] AUDIT POST /api/universities | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 325ms
+2026-05-04 11:49:56.151 +03:00 [INF] HTTP POST /api/universities responded 201 in 341.5946 ms
+2026-05-04 11:50:05.482 +03:00 [INF] HTTP GET /api/universities responded 200 in 54.7879 ms
+2026-05-04 11:50:05.955 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 113.4564 ms
+2026-05-04 11:50:28.103 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 11.6959 ms
+2026-05-04 11:50:29.194 +03:00 [INF] HTTP GET /api/admin/departments responded 200 in 114.8716 ms
+2026-05-04 11:50:45.640 +03:00 [INF] HTTP GET /api/admin/audit-logs responded 200 in 96.1021 ms
+2026-05-04 11:50:48.316 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.5808 ms
+2026-05-04 11:50:48.420 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.0421 ms
+2026-05-04 11:50:54.927 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.6832 ms
+2026-05-04 11:50:56.893 +03:00 [INF] HTTP GET /api/admin/attendance/summary responded 200 in 233.7864 ms
+2026-05-04 11:50:57.391 +03:00 [INF] HTTP GET /api/admin/audit-logs responded 200 in 63.7172 ms
+2026-05-04 11:50:57.927 +03:00 [INF] HTTP GET /api/admin/analytics/trends responded 200 in 239.3135 ms
+2026-05-04 11:52:08.847 +03:00 [INF] HTTP GET /api/health responded 200 in 4.8264 ms
+2026-05-04 11:52:09.341 +03:00 [INF] Login attempt for uncle_zaac6@gmail.com
+2026-05-04 11:52:09.420 +03:00 [WRN] Login failed: no account found for uncle_zaac6@gmail.com
+2026-05-04 11:52:09.437 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 97ms
+2026-05-04 11:52:09.462 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 124.1855 ms
+2026-05-04 11:52:27.644 +03:00 [INF] HTTP GET /api/health responded 200 in 3.1958 ms
+2026-05-04 11:52:27.843 +03:00 [INF] Login attempt for uncle_zaac6@gmail.com
+2026-05-04 11:52:27.857 +03:00 [WRN] Login failed: no account found for uncle_zaac6@gmail.com
+2026-05-04 11:52:27.871 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 36ms
+2026-05-04 11:52:27.922 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 88.5369 ms
+2026-05-04 11:52:37.173 +03:00 [INF] HTTP GET /api/health responded 200 in 0.6975 ms
+2026-05-04 11:52:37.351 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-04 11:52:38.106 +03:00 [INF] Student login successful for unclezaac6@gmail.com
+2026-05-04 11:52:38.116 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 766ms
+2026-05-04 11:52:38.138 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 788.4434 ms
+2026-05-04 11:52:40.480 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 204.0269 ms
+2026-05-04 11:52:41.289 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 420.7182 ms
+2026-05-04 11:52:49.715 +03:00 [INF] HTTP GET /api/courses responded 200 in 85.8922 ms
+2026-05-04 11:52:50.147 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 2.9369 ms
+2026-05-04 11:52:57.086 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 22.5757 ms
+2026-05-04 11:52:58.215 +03:00 [INF] HTTP GET /api/attendance/my-history responded 200 in 97.0460 ms
+2026-05-04 11:52:58.833 +03:00 [INF] HTTP GET /api/attendance/my-report responded 200 in 302.2041 ms
+2026-05-04 11:53:08.819 +03:00 [INF] HTTP GET /api/materials responded 404 in 1.4602 ms
+2026-05-04 11:53:33.891 +03:00 [INF] HTTP GET /api/courses/01295a87-168d-404d-92b3-34daf00c002a responded 200 in 782.3539 ms
+2026-05-04 11:53:38.717 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 9.6122 ms
+2026-05-04 11:53:38.991 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 4.8887 ms
+2026-05-04 11:54:11.270 +03:00 [INF] HTTP GET /api/health responded 200 in 1.5831 ms
+2026-05-04 11:54:14.640 +03:00 [INF] Login attempt for hnamyalo@gmail.com
+2026-05-04 11:54:16.111 +03:00 [WRN] Login failed: no account found for hnamyalo@gmail.com
+2026-05-04 11:54:17.423 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 2785ms
+2026-05-04 11:54:20.341 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 5704.7421 ms
+2026-05-04 11:54:28.203 +03:00 [INF] HTTP GET /api/health responded 200 in 4.1506 ms
+2026-05-04 11:54:30.633 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-04 11:54:32.871 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 2238ms
+2026-05-04 11:54:35.553 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 4921.8239 ms

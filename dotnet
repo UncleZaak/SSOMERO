@@ -1,0 +1,6 @@
+MSBUILD : error MSB1008: Only one project can be specified.
+    Full command line: 'C:\Program Files\dotnet\sdk\10.0.102\MSBuild.dll -maxcpucount --verbosity:m -tlp:default=auto --property:PublishAot=falseC:\Users\ISAAC --property:NuGetInteractive=false --restoreProperty:PublishAot=falseC:\Users\ISAAC --restoreProperty:NuGetInteractive=false --restoreProperty:EnableDefaultCompileItems=false --restoreProperty:EnableDefaultEmbeddedResourceItems=false --restoreProperty:EnableDefaultNoneItems=false --verbosity:quiet C:\Users\ISAAC L KABUYE\source\repos\Ssomero\AcademicSystem.API\AcademicSystem.API.csproj /nologo L KABUYE\source\repos\Ssomero ef migrations add CreateAcademicSchema \ --project AcademicSystem.Infrastructure/AcademicSystem.Infrastructure.csproj \ --startup-project AcademicSystem.API/AcademicSystem.API.csproj \ --context ApplicationDbContext \ --output-dir Persistence/Migrations -consoleloggerparameters:Summary -restore -distributedlogger:Microsoft.DotNet.Cli.Commands.MSBuild.MSBuildLogger,C:\Program Files\dotnet\sdk\10.0.102\dotnet.dll*Microsoft.DotNet.Cli.Commands.MSBuild.MSBuildForwardingLogger,C:\Program Files\dotnet\sdk\10.0.102\dotnet.dll -nologo'
+  Switches appended by response files:
+Switch: L
+
+For switch syntax, type "MSBuild -help"

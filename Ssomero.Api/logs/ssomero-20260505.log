@@ -1,0 +1,63 @@
+2026-05-05 00:00:22.273 +03:00 [INF] OTP cleanup service started
+2026-05-05 00:00:22.859 +03:00 [WRN] The WebRootPath was not found: C:\Users\ISAAC L KABUYE\source\repos\Ssomero\Ssomero.Api\wwwroot. Static files may be unavailable.
+2026-05-05 00:00:24.142 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-05 00:00:24.165 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-05 00:00:24.277 +03:00 [INF] Server desktop-b8rchhq:17080:fedaf776 successfully announced in 5.5517 ms
+2026-05-05 00:00:24.320 +03:00 [INF] Server desktop-b8rchhq:17080:fedaf776 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-05 00:00:24.682 +03:00 [INF] Server desktop-b8rchhq:17080:fedaf776 all the dispatchers started
+2026-05-05 00:01:28.714 +03:00 [INF] HTTP GET /api/health responded 200 in 433.2032 ms
+2026-05-05 00:01:29.741 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-05 00:01:31.458 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-05 00:01:31.677 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 2206ms
+2026-05-05 00:01:31.691 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 2268.2008 ms
+2026-05-05 00:01:35.500 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 472.6371 ms
+2026-05-05 00:01:51.283 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 130.7791 ms
+2026-05-05 00:01:51.346 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 224.7127 ms
+2026-05-05 00:02:32.507 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 10.9816 ms
+2026-05-05 00:02:32.610 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.3962 ms
+2026-05-05 00:02:37.014 +03:00 [INF] Lecturer suspended: "d179b94c-6ca4-40fa-b005-9e19c68678ab"
+2026-05-05 00:02:37.025 +03:00 [INF] AUDIT POST /api/admin/lecturers/d179b94c-6ca4-40fa-b005-9e19c68678ab/suspend | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 550ms
+2026-05-05 00:02:37.035 +03:00 [INF] HTTP POST /api/admin/lecturers/d179b94c-6ca4-40fa-b005-9e19c68678ab/suspend responded 200 in 562.0931 ms
+2026-05-05 00:02:49.939 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 150.3514 ms
+2026-05-05 00:02:52.285 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 15.7231 ms
+2026-05-05 00:02:52.307 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 9.8760 ms
+2026-05-05 00:03:12.609 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 8.6570 ms
+2026-05-05 00:03:18.490 +03:00 [INF] AUDIT DELETE /api/universities/7dfe79ec-62f0-49a2-8e37-f7ea528c0218 | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 358ms
+2026-05-05 00:03:18.501 +03:00 [INF] HTTP DELETE /api/universities/7dfe79ec-62f0-49a2-8e37-f7ea528c0218 responded 200 in 369.6673 ms
+2026-05-05 00:03:23.684 +03:00 [INF] HTTP GET /api/universities responded 200 in 106.3508 ms
+2026-05-05 00:03:24.048 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 93.3844 ms
+2026-05-05 00:03:25.718 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 6.0384 ms
+2026-05-05 00:03:28.881 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 7.1140 ms
+2026-05-05 00:03:32.711 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.7891 ms
+2026-05-05 00:03:32.855 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.1545 ms
+2026-05-05 00:04:18.115 +03:00 [INF] AUDIT POST /api/faculties | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 390ms
+2026-05-05 00:04:18.136 +03:00 [INF] HTTP POST /api/faculties responded 201 in 414.9433 ms
+2026-05-05 00:04:26.427 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 8.8602 ms
+2026-05-05 00:04:27.228 +03:00 [INF] HTTP GET /api/admin/departments responded 200 in 92.7169 ms
+2026-05-05 00:04:32.953 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 3.8162 ms
+2026-05-05 00:04:33.036 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.8455 ms
+2026-05-05 00:05:18.070 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 6.2806 ms
+2026-05-05 00:05:30.539 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 6.6342 ms
+2026-05-05 00:05:33.135 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.3477 ms
+2026-05-05 00:05:33.224 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.4202 ms
+2026-05-05 00:05:39.421 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.7955 ms
+2026-05-05 00:05:40.789 +03:00 [INF] HTTP GET /api/admin/attendance/summary responded 200 in 199.0537 ms
+2026-05-05 00:05:41.106 +03:00 [INF] HTTP GET /api/admin/audit-logs responded 200 in 89.4260 ms
+2026-05-05 00:05:41.735 +03:00 [INF] HTTP GET /api/admin/analytics/trends responded 200 in 173.1090 ms
+2026-05-05 00:05:49.094 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 5.4327 ms
+2026-05-05 00:05:49.100 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 4.2399 ms
+2026-05-05 00:05:53.750 +03:00 [INF] Lecturer activated: "d179b94c-6ca4-40fa-b005-9e19c68678ab"
+2026-05-05 00:05:53.757 +03:00 [INF] AUDIT POST /api/admin/lecturers/d179b94c-6ca4-40fa-b005-9e19c68678ab/activate | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 51ms
+2026-05-05 00:05:53.769 +03:00 [INF] HTTP POST /api/admin/lecturers/d179b94c-6ca4-40fa-b005-9e19c68678ab/activate responded 200 in 68.4820 ms
+2026-05-05 00:06:59.080 +03:00 [INF] HTTP GET /api/health responded 200 in 3.7948 ms
+2026-05-05 00:06:59.222 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-05 00:06:59.988 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 768ms
+2026-05-05 00:07:00.000 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 781.2708 ms
+2026-05-05 00:08:59.270 +03:00 [INF] HTTP GET /api/health responded 200 in 0.6466 ms
+2026-05-05 00:08:59.425 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-05 00:08:59.869 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 459ms
+2026-05-05 00:08:59.885 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 475.4968 ms

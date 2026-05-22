@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build (Release)
+        run: dotnet build --no-restore -c Release
+
+      - name: Run API unit tests
+        run: >
+          dotnet test Ssomero.Api.UnitTests/Ssomero.Api.UnitTests.csproj
+          --no-build -c Release
+          --logger "trx;LogFileName=api-tests.trx"
+          --results-directory ./TestResults
+
+      - name: Run App unit tests
+        run: >
+          dotnet test Ssomero.UnitTests/Ssomero.UnitTests.csproj
+          --no-build -c Release
+          --logger "trx;LogFileName=app-tests.trx"
+          --results-directory ./TestResults
+
+      - name: Publish test results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Test Results
+          path: "TestResults/*.trx"
+          reporter: dotnet-trx
+
+  docker-build:
+    name: Docker Build (dry-run)
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -f Ssomero.Api/Dockerfile -t ssomero-api:${{ github.sha }} .

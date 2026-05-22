@@ -1,0 +1,22 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Ssomero"
+             xmlns:converters="clr-namespace:Ssomero.Converters"
+             x:Class="Ssomero.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+            <converters:PercentToDoubleConverter x:Key="PercentToDoubleConverter" />
+            <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
+            <converters:ZeroToBoolConverter x:Key="ZeroToBoolConverter" />
+            <converters:AttendanceColorConverter x:Key="AttendanceColorConverter" />
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:BoolToStringConverter x:Key="BoolToStringConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

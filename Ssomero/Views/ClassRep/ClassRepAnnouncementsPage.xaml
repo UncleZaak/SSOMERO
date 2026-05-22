@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             xmlns:shared="clr-namespace:Ssomero.Views.Shared"
+             xmlns:conv="clr-namespace:Ssomero.Converters"
+             x:Class="Ssomero.Views.ClassRep.ClassRepAnnouncementsPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0F172A}">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <shared:AppTopBar Grid.Row="0" Title="Announcements"/>
+
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding RefreshCommand}">
+            <ScrollView>
+                <VerticalStackLayout Padding="16,12,16,24" Spacing="16">
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                       Color="{StaticResource Primary}"
+                                       HorizontalOptions="Center" Margin="0,24,0,0"/>
+
+                    <!-- Error banner -->
+                    <Border IsVisible="{Binding HasError}"
+                            BackgroundColor="#FEE2E2" StrokeShape="RoundRectangle 10"
+                            Stroke="#FCA5A5" Padding="12,10">
+                        <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="13"/>
+                    </Border>
+
+                    <!-- ── Create announcement card ─────────────────────────── -->
+                    <Border StrokeShape="RoundRectangle 14" Padding="16"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                        <Border.Shadow>
+                            <Shadow Brush="#1A000000" Offset="0,3" Radius="8" Opacity="0.08"/>
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Post Announcement" FontSize="15" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+
+                            <!-- Class picker -->
+                            <Picker Title="Select target class *"
+                                    ItemsSource="{Binding AvailableClasses}"
+                                    SelectedItem="{Binding SelectedClass, Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding DisplayName}"
+                                    TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                    TitleColor="#94A3B8"
+                                    BackgroundColor="{AppThemeBinding Light=#F8FAFC, Dark=#0F172A}"/>
+
+                            <Entry Placeholder="Title *"
+                                   Text="{Binding AnnouncementTitle}"
+                                   BackgroundColor="{AppThemeBinding Light=#F8FAFC, Dark=#0F172A}"
+                                   TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                   PlaceholderColor="#94A3B8"/>
+
+                            <Editor Placeholder="Message *"
+                                    Text="{Binding AnnouncementMessage}"
+                                    AutoSize="TextChanges"
+                                    MaximumHeightRequest="120"
+                                    BackgroundColor="{AppThemeBinding Light=#F8FAFC, Dark=#0F172A}"
+                                    TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                    PlaceholderColor="#94A3B8"/>
+
+                            <Button Text="Post Announcement"
+                                    Command="{Binding CreateAnnouncementCommand}"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="White" CornerRadius="10" HeightRequest="44"
+                                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvBool}}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- ── Announcements list header ───────────────────────── -->
+                    <Label Text="Recent Announcements" FontSize="15" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#0F172A, Dark=White}" Margin="0,4,0,0"/>
+
+                    <!-- Empty state -->
+                    <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                         HorizontalOptions="Center" Spacing="10" Margin="0,16,0,0">
+                        <Label Text="📢" FontSize="40" HorizontalOptions="Center"/>
+                        <Label Text="No announcements yet. Post one above." FontSize="13"
+                               TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                               HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+
+                    <!-- ── Announcements CollectionView ───────────────────── -->
+                    <CollectionView ItemsSource="{Binding Announcements}"
+                                    IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ClassAnnouncementModel">
+                                <Border Padding="14"
+                                        BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                        StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                    <Border.Shadow>
+                                        <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                    </Border.Shadow>
+                                    <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="6">
+
+                                        <!-- Header row: class badge + time -->
+                                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                                            <Border Grid.Column="0" Padding="8,4"
+                                                    BackgroundColor="#EDE9FE"
+                                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                                    HorizontalOptions="Start">
+                                                <Label Text="{Binding ClassName}" FontSize="11"
+                                                       TextColor="#6D28D9" FontAttributes="Bold"/>
+                                            </Border>
+                                            <Label Grid.Column="1" Text="{Binding TimeAgo}" FontSize="11"
+                                                   TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+
+                                        <!-- Title -->
+                                        <Label Grid.Row="1"
+                                               Text="{Binding Title}" FontSize="14" FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                               LineBreakMode="TailTruncation"/>
+
+                                        <!-- Message -->
+                                        <Label Grid.Row="2"
+                                               Text="{Binding Message}" FontSize="13"
+                                               TextColor="{AppThemeBinding Light=#475569, Dark=#94A3B8}"
+                                               MaxLines="3" LineBreakMode="TailTruncation"/>
+
+                                        <!-- Delete button -->
+                                        <Button Grid.Row="3" Text="Delete"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClassRepAnnouncementsViewModel}}, Path=DeleteAnnouncementCommand}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#FEE2E2" TextColor="#B91C1C"
+                                                FontSize="12" CornerRadius="8"
+                                                Padding="12,6" HorizontalOptions="End"
+                                                HeightRequest="34"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

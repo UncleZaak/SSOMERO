@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:Ssomero.Views.Shared"
+             x:Class="Ssomero.Views.Dashboard.AdminDashboardPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F7FA">
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+        <ScrollView>
+            <VerticalStackLayout Padding="0,0,0,24" Spacing="20">
+
+                <!-- Top Bar -->
+                <shared:AppTopBar Title="Admin Dashboard" />
+
+                <VerticalStackLayout Padding="16,0,16,0" Spacing="20">
+
+                <!-- Stats Cards -->
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+                    <Frame Grid.Row="0" Grid.Column="0" Padding="16" BackgroundColor="White"
+                           CornerRadius="12" BorderColor="Transparent" HasShadow="True">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="👨‍🎓" FontSize="28" />
+                            <Label Text="Total Students" FontSize="12" TextColor="#888"
+                                   LineBreakMode="TailTruncation" MaxLines="1" />
+                            <Label Text="{Binding TotalStudents}" FontSize="26" FontAttributes="Bold" TextColor="#1976D2" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Frame Grid.Row="0" Grid.Column="1" Padding="16" BackgroundColor="White"
+                           CornerRadius="12" BorderColor="Transparent" HasShadow="True">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="👨‍🏫" FontSize="28" />
+                            <Label Text="Total Lecturers" FontSize="12" TextColor="#888"
+                                   LineBreakMode="TailTruncation" MaxLines="1" />
+                            <Label Text="{Binding TotalLecturers}" FontSize="26" FontAttributes="Bold" TextColor="#388E3C" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Frame Grid.Row="1" Grid.Column="0" Padding="16" BackgroundColor="White"
+                           CornerRadius="12" BorderColor="Transparent" HasShadow="True">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="📚" FontSize="28" />
+                            <Label Text="Total Programs" FontSize="12" TextColor="#888"
+                                   LineBreakMode="TailTruncation" MaxLines="1" />
+                            <Label Text="{Binding TotalPrograms}" FontSize="26" FontAttributes="Bold" TextColor="#F57C00" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Frame Grid.Row="1" Grid.Column="1" Padding="16" BackgroundColor="White"
+                           CornerRadius="12" BorderColor="#FFCDD2" HasShadow="True">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="⏳" FontSize="28" />
+                            <Label Text="Pending Lecturers" FontSize="12" TextColor="#888"
+                                   LineBreakMode="TailTruncation" MaxLines="1" />
+                            <Label Text="{Binding PendingLecturers}" FontSize="26" FontAttributes="Bold" TextColor="#E53935" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Quick Actions -->
+                <Label Text="Quick Actions" FontSize="18" FontAttributes="Bold" />
+                <FlexLayout Wrap="Wrap" JustifyContent="Start" AlignItems="Start">
+                    <Button Text="👥 Manage Users" Command="{Binding GoToUsersCommand}"
+                            BackgroundColor="#1976D2" TextColor="White" CornerRadius="8"
+                            Padding="14,10" Margin="0,0,8,8" FontSize="13" />
+                    <Button Text="🏫 Universities" Command="{Binding GoToUniversitiesCommand}"
+                            BackgroundColor="#7B1FA2" TextColor="White" CornerRadius="8"
+                            Padding="14,10" Margin="0,0,8,8" FontSize="13" />
+                    <Button Text="🏛️ Faculties" Command="{Binding GoToFacultiesCommand}"
+                            BackgroundColor="#00838F" TextColor="White" CornerRadius="8"
+                            Padding="14,10" Margin="0,0,8,8" FontSize="13" />
+                    <Button Text="⚙️ Academic Setup" Command="{Binding GoToAcademicCommand}"
+                            BackgroundColor="#00796B" TextColor="White" CornerRadius="8"
+                            Padding="14,10" Margin="0,0,8,8" FontSize="13" />
+                    <Button Text="🏢 Departments" Command="{Binding GoToDepartmentsCommand}"
+                            BackgroundColor="#5C6BC0" TextColor="White" CornerRadius="8"
+                            Padding="14,10" Margin="0,0,8,8" FontSize="13" />
+                    <Button Text="📚 Programs" Command="{Binding GoToProgramsCommand}"
+                            BackgroundColor="#EF6C00" TextColor="White" CornerRadius="8"
+                            Padding="14,10" Margin="0,0,8,8" FontSize="13" />
+                    <Button Text="📋 Curriculum" Command="{Binding GoToCurriculumCommand}"
+                            BackgroundColor="#2E7D32" TextColor="White" CornerRadius="8"
+                            Padding="14,10" Margin="0,0,8,8" FontSize="13" />
+                    <Button Text="📈 Analytics" Command="{Binding GoToAnalyticsCommand}"
+                            BackgroundColor="#0284C7" TextColor="White" CornerRadius="8"
+                            Padding="14,10" Margin="0,0,8,8" FontSize="13"
+                            SemanticProperties.Description="Open analytics dashboard" />
+                    <Button Text="🗒️ Audit Logs" Command="{Binding GoToAuditLogsCommand}"
+                            BackgroundColor="#6D28D9" TextColor="White" CornerRadius="8"
+                            Padding="14,10" Margin="0,0,8,8" FontSize="13"
+                            SemanticProperties.Description="Open audit logs" />
+                </FlexLayout>
+
+                <!-- Recent Activity -->
+                <Frame Padding="16" BackgroundColor="White" CornerRadius="12"
+                       BorderColor="Transparent" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Recent Activity" FontSize="16" FontAttributes="Bold" />
+                        <BoxView HeightRequest="1" BackgroundColor="#EEE" />
+                        <Label Text="System is running normally. Check individual modules for details."
+                               TextColor="#666" FontSize="13" />
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+
+</ContentPage>

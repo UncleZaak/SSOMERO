@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    UserAvatarView — reusable circular avatar component.
+    All visual state is driven from code-behind via BindableProperties.
+    Uses x:Name refs only; no BindingContext dependency.
+-->
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ssomero.Views.Shared.UserAvatarView">
+
+    <!-- Outer container sized from code-behind -->
+    <Grid x:Name="RootGrid">
+
+        <!-- Initials fallback — shown when HasPhoto is false -->
+        <Border x:Name="InitialsBorder" StrokeThickness="0">
+            <Label x:Name="InitialsLabel"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+        </Border>
+
+        <!-- Photo — shown when HasPhoto is true -->
+        <Border x:Name="PhotoBorder" StrokeThickness="0" IsVisible="False">
+            <Image x:Name="PhotoImage" Aspect="AspectFill" />
+        </Border>
+
+    </Grid>
+
+</ContentView>

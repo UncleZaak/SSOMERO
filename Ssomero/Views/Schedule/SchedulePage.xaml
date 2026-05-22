@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:Ssomero.Components"
+             x:Class="Ssomero.Views.Schedule.SchedulePage"
+             Title="Schedule" AutomationId="SchedulePage">
+
+  <Grid>
+    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+      <CollectionView ItemsSource="{Binding Items}" AutomationId="ScheduleList">
+        <CollectionView.EmptyView>
+          <VerticalStackLayout Padding="24" HorizontalOptions="Center" VerticalOptions="Center">
+            <Label Text="No scheduled sessions." Style="{StaticResource BodyLabelStyle}"
+                   HorizontalTextAlignment="Center" />
+          </VerticalStackLayout>
+        </CollectionView.EmptyView>
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <components:CardView>
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Padding="4">
+                <BoxView WidthRequest="4" CornerRadius="2"
+                         Color="{StaticResource PrimaryColor}" VerticalOptions="Fill" />
+                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                  <Label Text="{Binding CourseName}" Style="{StaticResource TitleLabelStyle}"
+                         SemanticProperties.HeadingLevel="Level3" />
+                  <Label Text="{Binding LecturerName}" Style="{StaticResource BodyLabelStyle}" />
+                  <Label FontSize="12" TextColor="{StaticResource MutedText}">
+                    <Label.Text>
+                      <MultiBinding StringFormat="{}{0:MMM dd, HH:mm} – {1:HH:mm} · {2}">
+                        <Binding Path="StartTime" />
+                        <Binding Path="EndTime" />
+                        <Binding Path="Venue" />
+                      </MultiBinding>
+                    </Label.Text>
+                  </Label>
+                  <Label Text="{Binding Type}" FontSize="11" TextColor="{StaticResource SecondaryColor}" />
+                </VerticalStackLayout>
+              </Grid>
+            </components:CardView>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+    </RefreshView>
+  </Grid>
+</ContentPage>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             xmlns:shared="clr-namespace:Ssomero.Views.Shared"
+             xmlns:conv="clr-namespace:Ssomero.Converters"
+             x:Class="Ssomero.Views.ClassRep.ClassRepMyClassPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0F172A}">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <shared:AppTopBar Grid.Row="0" Title="My Class" />
+
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding RefreshCommand}">
+            <ScrollView>
+                <VerticalStackLayout Padding="16,12,16,24" Spacing="16">
+
+                    <!-- Activity indicator -->
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                       Color="{StaticResource Primary}"
+                                       HorizontalOptions="Center" Margin="0,24,0,0"/>
+
+                    <!-- Error banner -->
+                    <Border IsVisible="{Binding HasError}"
+                            BackgroundColor="#FEE2E2" StrokeShape="RoundRectangle 10"
+                            Stroke="#FCA5A5" Padding="12,10">
+                        <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="13"/>
+                    </Border>
+
+                    <!-- Empty state -->
+                    <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                         HorizontalOptions="Center" VerticalOptions="Center"
+                                         Spacing="10" Margin="0,60,0,0">
+                        <Label Text="🏫" FontSize="48" HorizontalOptions="Center"/>
+                        <Label Text="No class information found." FontSize="15"
+                               TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+
+                    <!-- Main class card -->
+                    <Border IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                            StrokeShape="RoundRectangle 14" Padding="16"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                        <Border.Shadow>
+                            <Shadow Brush="#1A000000" Offset="0,3" Radius="8" Opacity="0.08"/>
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="{Binding MyClass.DisplayName}" FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+                            <Label Text="{Binding MyClass.ProgramName}" FontSize="13"
+                                   TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"/>
+                            <Grid ColumnDefinitions="*,*,*" Margin="0,6,0,0">
+                                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="2">
+                                    <Label Text="{Binding MyClass.StudentCountLabel}" FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Primary}" HorizontalOptions="Center"/>
+                                    <Label Text="Students" FontSize="11"
+                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="2">
+                                    <Label Text="{Binding MyClass.SubclassCountLabel}" FontSize="13"
+                                           FontAttributes="Bold" TextColor="#6D28D9" HorizontalOptions="Center"/>
+                                    <Label Text="Subclasses" FontSize="11"
+                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="2">
+                                    <Label Text="{Binding MyClass.LecturerCountLabel}" FontSize="13"
+                                           FontAttributes="Bold" TextColor="#0369A1" HorizontalOptions="Center"/>
+                                    <Label Text="Lecturers" FontSize="11"
+                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Create Subclass card -->
+                    <Border IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                            StrokeShape="RoundRectangle 14" Padding="16"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                        <Border.Shadow>
+                            <Shadow Brush="#1A000000" Offset="0,3" Radius="8" Opacity="0.08"/>
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Create Subclass" FontSize="15" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+                            <Entry Placeholder="Subclass name *" Text="{Binding NewSubclassName}"
+                                   BackgroundColor="{AppThemeBinding Light=#F8FAFC, Dark=#0F172A}"
+                                   TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                   PlaceholderColor="#94A3B8" />
+                            <Editor Placeholder="Description (optional)" Text="{Binding NewSubclassDescription}"
+                                    AutoSize="TextChanges" MaximumHeightRequest="100"
+                                    BackgroundColor="{AppThemeBinding Light=#F8FAFC, Dark=#0F172A}"
+                                    TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"
+                                    PlaceholderColor="#94A3B8" />
+                            <Button Text="Create Subclass"
+                                    Command="{Binding CreateSubclassCommand}"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="White" CornerRadius="10" HeightRequest="44"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Subclasses header -->
+                    <Label IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                           Text="Subclasses" FontSize="16" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#0F172A, Dark=White}" Margin="0,4,0,0"/>
+
+                    <!-- Subclasses collection -->
+                    <CollectionView ItemsSource="{Binding Subclasses}"
+                                    IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="6" Margin="0,16,0,0">
+                                <Label Text="No subclasses yet. Create one above." FontSize="13"
+                                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"
+                                       HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ClassRepSubclassModel">
+                                <Border Padding="16" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                        StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                                    <Border.Shadow>
+                                        <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.06"/>
+                                    </Border.Shadow>
+                                    <VerticalStackLayout Spacing="8">
+                                        <Label Text="{Binding DisplayName}" FontSize="15" FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+                                        <Label Text="{Binding Description}" FontSize="12"
+                                               TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"/>
+                                        <Grid ColumnDefinitions="*,*" Margin="0,2,0,0">
+                                            <Label Grid.Column="0" Text="{Binding StudentCountLabel}" FontSize="12"
+                                                   TextColor="{StaticResource Primary}"/>
+                                            <Label Grid.Column="1" Text="{Binding LecturerCountLabel}" FontSize="12"
+                                                   TextColor="#0369A1"/>
+                                        </Grid>
+                                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8" Margin="0,4,0,0">
+                                            <Button Grid.Column="0" Text="Rename"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClassRepViewModel}}, Path=RenameSubclassCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="#F1F5F9" TextColor="#334155"
+                                                    FontSize="12" CornerRadius="8" HeightRequest="36"/>
+                                            <Button Grid.Column="1" Text="Students"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClassRepViewModel}}, Path=NavigateToStudentsCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="{StaticResource Primary}" TextColor="White"
+                                                    FontSize="12" CornerRadius="8" HeightRequest="36"/>
+                                            <Button Grid.Column="2" Text="Lecturer"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClassRepViewModel}}, Path=NavigateToLecturersCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="#0369A1" TextColor="White"
+                                                    FontSize="12" CornerRadius="8" HeightRequest="36"/>
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- Quick action: Attendance Reports -->
+                    <Border IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                            StrokeShape="RoundRectangle 14" Padding="16"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                            Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateToAttendanceCommand}"/>
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="36,*,24">
+                            <Label Grid.Column="0" Text="📊" FontSize="22" VerticalOptions="Center"/>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="Attendance Reports" FontSize="14" FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+                                <Label Text="View attendance summaries" FontSize="12"
+                                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"/>
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2" Text="›" FontSize="18" VerticalOptions="Center"
+                                   TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}"/>
+                        </Grid>
+                    </Border>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+
+
+    </ContentPage>

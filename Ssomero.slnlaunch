@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Ssomero Full Stack",
+    "Projects": [
+      {
+        "Path": "Ssomero.Api\\Ssomero.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Ssomero\\Ssomero.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

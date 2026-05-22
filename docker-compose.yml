@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  # ─── Ssomero API ────────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Ssomero.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__Default=Data Source=/app/data/ssomero.db
+      - ConnectionStrings__Redis=redis:6379
+      # Secrets — override via .env file or CI environment variables
+      - Admin__Email=${ADMIN_EMAIL}
+      - Admin__Password=${ADMIN_PASSWORD}
+      - Jwt__Secret=${JWT_SECRET}
+      - EmailSettings__Password=${EMAIL_PASSWORD}
+      - Metrics__ApiKey=${METRICS_API_KEY}
+    volumes:
+      - api-data:/app/data
+      - api-logs:/app/logs
+      - api-uploads:/app/uploads
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  # ─── Redis (optional distributed cache / session) ────────────────────────
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # ─── Seq (optional structured log ingestion) ─────────────────────────────
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "5341:80"
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - seq-data:/data
+    restart: unless-stopped
+    profiles:
+      - observability
+
+volumes:
+  api-data:
+  api-logs:
+  api-uploads:
+  redis-data:
+  seq-data:

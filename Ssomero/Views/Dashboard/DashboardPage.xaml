@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             x:Class="Ssomero.Views.Dashboard.DashboardPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundColor}, Dark={StaticResource LoginBgDark}}">
+
+    <Grid RowDefinitions="*">
+
+        <!-- Loading overlay -->
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                           HorizontalOptions="Center" VerticalOptions="Center" ZIndex="1"
+                           Color="{StaticResource LoginPrimary}" />
+
+        <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+            <ScrollView>
+                <VerticalStackLayout Padding="16,52,16,16" Spacing="20">
+
+                    <!-- ═══════════════ 1. HEADER ═══════════════ -->
+                    <Grid ColumnDefinitions="44,*,44,8,44" HeightRequest="44">
+
+                        <!-- Profile Avatar -->
+                        <Border Grid.Column="0" StrokeShape="RoundRectangle 22"
+                                WidthRequest="44" HeightRequest="44"
+                                BackgroundColor="{StaticResource LoginPrimary}"
+                                Stroke="Transparent" Padding="0">
+                            <Label Text="👤" FontSize="20"
+                                   HorizontalOptions="Center" VerticalOptions="Center"
+                                   TextColor="White" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToProfileCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <!-- Title -->
+                        <Label Grid.Column="1" Text="Student Portal"
+                               FontSize="20" FontAttributes="Bold"
+                               VerticalOptions="Center" Margin="12,0,0,0"
+                               TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}" />
+
+                        <!-- Search Button -->
+                        <Border Grid.Column="2" StrokeShape="RoundRectangle 12"
+                                WidthRequest="44" HeightRequest="44"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                Padding="0">
+                            <Label Text="🔍" FontSize="18"
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToSearchCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <!-- Notification Button with Badge -->
+                        <Grid Grid.Column="4" WidthRequest="44" HeightRequest="44">
+                            <Border StrokeShape="RoundRectangle 12"
+                                    WidthRequest="44" HeightRequest="44"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                                    Padding="0">
+                                <Label Text="🔔" FontSize="18"
+                                       HorizontalOptions="Center" VerticalOptions="Center" />
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NavigateToNotificationsCommand}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                            <!-- Red notification dot -->
+                            <BoxView Color="#EF4444" WidthRequest="10" HeightRequest="10" CornerRadius="5"
+                                     HorizontalOptions="End" VerticalOptions="Start"
+                                     Margin="0,2,2,0"
+                                     IsVisible="{Binding HasNotifications}"
+                                     InputTransparent="True" />
+                        </Grid>
+
+                    <!-- ═══════════════ ROLE-SPECIFIC SECTIONS ═══════════════ -->
+                    <!-- Admin summary -->
+                    <Border IsVisible="{Binding IsAdmin}"
+                            StrokeShape="RoundRectangle 12" Padding="16"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Admin Summary" FontSize="16" FontAttributes="Bold" />
+                            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                                <Border Padding="12" StrokeShape="RoundRectangle 10" BackgroundColor="#F8FAFC">
+                                    <VerticalStackLayout>
+                                        <Label Text="Total Students" FontSize="12" />
+                                        <Label Text="{Binding TotalStudents}" FontSize="20" FontAttributes="Bold" />
+                                    </VerticalStackLayout>
+                                </Border>
+                                <Border Padding="12" StrokeShape="RoundRectangle 10" BackgroundColor="#F8FAFC">
+                                    <VerticalStackLayout>
+                                        <Label Text="Total Lecturers" FontSize="12" />
+                                        <Label Text="{Binding TotalLecturers}" FontSize="20" FontAttributes="Bold" />
+                                    </VerticalStackLayout>
+                                </Border>
+                                <Border Padding="12" StrokeShape="RoundRectangle 10" BackgroundColor="#F8FAFC">
+                                    <VerticalStackLayout>
+                                        <Label Text="Total Programs" FontSize="12" />
+                                        <Label Text="{Binding TotalPrograms}" FontSize="20" FontAttributes="Bold" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Lecturer summary -->
+                    <Border IsVisible="{Binding IsLecturer}"
+                            StrokeShape="RoundRectangle 12" Padding="16"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Teaching" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Classes you teach" FontSize="12" TextColor="{StaticResource MutedText}" />
+                            <Label Text="{Binding TeachingClassesCount}" FontSize="20" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- ClassRep summary -->
+                    <Border IsVisible="{Binding IsClassRep}"
+                            StrokeShape="RoundRectangle 12" Padding="16"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Class Representative" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="Managed classes" FontSize="12" TextColor="{StaticResource MutedText}" />
+                            <Label Text="{Binding ManagedClassesCount}" FontSize="20" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Border>
+                    </Grid>
+
+                    <!-- ═══════════════ 2. WELCOME SECTION ═══════════════ -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding CurrentDate}"
+                               TextColor="{StaticResource MutedText}" FontSize="13" />
+                        <Label Text="{Binding StudentName, StringFormat='Hello, {0} 👋'}"
+                               FontSize="26" FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}" />
+                    </VerticalStackLayout>
+
+                    <!-- Error banner -->
+                    <Border IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}"
+                            BackgroundColor="#FEF2F2" StrokeShape="RoundRectangle 8" Padding="12" Stroke="#FECACA">
+                        <Label Text="{Binding ErrorMessage}" TextColor="#DC2626" FontSize="13" />
+                    </Border>
+
+                    <!-- ═══════════════ 3. ATTENDANCE CARD ═══════════════ -->
+                    <Border BackgroundColor="{StaticResource LoginPrimary}"
+                            StrokeShape="RoundRectangle 16" Padding="20" Stroke="Transparent">
+                        <Border.Shadow>
+                            <Shadow Brush="#1152d4" Offset="0,4" Radius="12" Opacity="0.3" />
+                        </Border.Shadow>
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="10">
+                            <Label Text="Attendance" TextColor="#B3D4FF" FontSize="14" />
+
+                            <Label Grid.Row="1"
+                                   Text="{Binding AttendancePercentage, StringFormat='{0}%'}"
+                                   TextColor="White" FontSize="42" FontAttributes="Bold" />
+
+                            <ProgressBar Grid.Row="2"
+                                         Progress="{Binding AttendancePercentage, Converter={StaticResource PercentToDoubleConverter}}"
+                                         ProgressColor="White" HeightRequest="6" />
+
+                            <HorizontalStackLayout Grid.Row="3" Spacing="6">
+                                <BoxView Color="#22C55E" WidthRequest="8" HeightRequest="8" CornerRadius="4"
+                                         VerticalOptions="Center" />
+                                <Label Text="{Binding AttendanceStatus}" TextColor="#B3D4FF" FontSize="13" />
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- ═══════════════ 4. QUICK ACCESS GRID ═══════════════ -->
+                    <Label Text="Quick Access" FontSize="18" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}" />
+
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
+
+                        <!-- Courses -->
+                        <Border Grid.Column="0" StrokeShape="RoundRectangle 12" Padding="8,14"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}">
+                            <Border.Shadow>
+                                <Shadow Brush="{StaticResource Gray400Brush}" Offset="0,2" Radius="4" Opacity="0.15" />
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Border StrokeShape="RoundRectangle 10" WidthRequest="40" HeightRequest="40"
+                                        BackgroundColor="#EFF6FF" Stroke="Transparent" Padding="0"
+                                        HorizontalOptions="Center">
+                                    <Label Text="📚" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <Label Text="Courses" FontSize="11" HorizontalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}" />
+                            </VerticalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToCoursesCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <!-- Tasks / Assignments -->
+                        <Border Grid.Column="1" StrokeShape="RoundRectangle 12" Padding="8,14"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}">
+                            <Border.Shadow>
+                                <Shadow Brush="{StaticResource Gray400Brush}" Offset="0,2" Radius="4" Opacity="0.15" />
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Border StrokeShape="RoundRectangle 10" WidthRequest="40" HeightRequest="40"
+                                        BackgroundColor="#FFF7ED" Stroke="Transparent" Padding="0"
+                                        HorizontalOptions="Center">
+                                    <Label Text="📋" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <Label Text="Tasks" FontSize="11" HorizontalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}" />
+                            </VerticalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToAssignmentsCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <!-- News -->
+                        <Border Grid.Column="2" StrokeShape="RoundRectangle 12" Padding="8,14"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}">
+                            <Border.Shadow>
+                                <Shadow Brush="{StaticResource Gray400Brush}" Offset="0,2" Radius="4" Opacity="0.15" />
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Border StrokeShape="RoundRectangle 10" WidthRequest="40" HeightRequest="40"
+                                        BackgroundColor="#F0FDF4" Stroke="Transparent" Padding="0"
+                                        HorizontalOptions="Center">
+                                    <Label Text="📰" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <Label Text="News" FontSize="11" HorizontalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}" />
+                            </VerticalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToNewsCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <!-- Chat -->
+                        <Border Grid.Column="3" StrokeShape="RoundRectangle 12" Padding="8,14"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                                Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}">
+                            <Border.Shadow>
+                                <Shadow Brush="{StaticResource Gray400Brush}" Offset="0,2" Radius="4" Opacity="0.15" />
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Border StrokeShape="RoundRectangle 10" WidthRequest="40" HeightRequest="40"
+                                        BackgroundColor="#FDF4FF" Stroke="Transparent" Padding="0"
+                                        HorizontalOptions="Center">
+                                    <Label Text="💬" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <Label Text="Chat" FontSize="11" HorizontalOptions="Center"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}" />
+                            </VerticalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NavigateToChatCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </Grid>
+
+                    <!-- ═══════════════ 5. TODAY'S CLASSES ═══════════════ -->
+                    <Label Text="Today's Classes" FontSize="18" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}" />
+
+                    <!-- Empty state -->
+                    <VerticalStackLayout IsVisible="{Binding HasClasses, Converter={StaticResource InvertBoolConverter}}"
+                                         HorizontalOptions="Center" Spacing="8" Padding="0,16">
+                        <Label Text="📭" FontSize="40" HorizontalOptions="Center" />
+                        <Label Text="No classes scheduled for today"
+                               TextColor="{StaticResource MutedText}" FontSize="14" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Classes list -->
+                    <CollectionView ItemsSource="{Binding TodayClasses}"
+                                    IsVisible="{Binding HasClasses}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ClassModel">
+                                <Border StrokeShape="RoundRectangle 12" Padding="14"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}">
+                                    <Border.Shadow>
+                                        <Shadow Brush="{StaticResource Gray400Brush}" Offset="0,2" Radius="4" Opacity="0.1" />
+                                    </Border.Shadow>
+                                    <Grid ColumnDefinitions="56,*,Auto" ColumnSpacing="12">
+
+                                        <!-- Time -->
+                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                            <Label Text="{Binding Time}" FontSize="15" FontAttributes="Bold"
+                                                   TextColor="{StaticResource LoginPrimary}" />
+                                            <Label Text="{Binding EndTime}" FontSize="11"
+                                                   TextColor="{StaticResource MutedText}" />
+                                        </VerticalStackLayout>
+
+                                        <!-- Course info -->
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                            <Label Text="{Binding CourseName}" FontSize="14" FontAttributes="Bold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}"
+                                                   LineBreakMode="TailTruncation" />
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Label Text="📍" FontSize="11" />
+                                                <Label Text="{Binding Location}" FontSize="12"
+                                                       TextColor="{StaticResource MutedText}"
+                                                       LineBreakMode="TailTruncation" />
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+
+                                        <!-- Status badge -->
+                                        <Border Grid.Column="2" StrokeShape="RoundRectangle 10"
+                                                Padding="10,4" VerticalOptions="Center" Stroke="Transparent"
+                                                BackgroundColor="#DBEAFE">
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding StatusText}" Value="Active">
+                                                    <Setter Property="BackgroundColor" Value="#DCFCE7" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding StatusText}" Value="Upcoming">
+                                                    <Setter Property="BackgroundColor" Value="#DBEAFE" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding StatusText}" Value="Completed">
+                                                    <Setter Property="BackgroundColor" Value="#F3F4F6" />
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                            <Label Text="{Binding StatusText}" FontSize="11" FontAttributes="Bold"
+                                                   TextColor="#2563EB">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding StatusText}" Value="Active">
+                                                        <Setter Property="TextColor" Value="#16A34A" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding StatusText}" Value="Upcoming">
+                                                        <Setter Property="TextColor" Value="#2563EB" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding StatusText}" Value="Completed">
+                                                        <Setter Property="TextColor" Value="#6B7280" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- ═══════════════ 6. ANNOUNCEMENT SECTION ═══════════════ -->
+                    <Label Text="Latest Announcement" FontSize="18" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}"
+                           IsVisible="{Binding HasAnnouncement}" />
+
+                    <Border StrokeShape="RoundRectangle 12" Padding="16"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource Gray900}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                            IsVisible="{Binding HasAnnouncement}">
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Gray400Brush}" Offset="0,2" Radius="4" Opacity="0.1" />
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="8">
+                                <Border StrokeShape="RoundRectangle 6" WidthRequest="32" HeightRequest="32"
+                                        BackgroundColor="#FEF3C7" Stroke="Transparent" Padding="0">
+                                    <Label Text="📢" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <Label Text="{Binding LatestAnnouncementTitle}" FontSize="15" FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextColor}, Dark=White}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding LatestAnnouncementBody}" FontSize="13"
+                                   TextColor="{StaticResource MutedText}" MaxLines="3" LineBreakMode="TailTruncation" />
+                            <Label Text="{Binding LatestAnnouncementDate}" FontSize="11"
+                                   TextColor="{StaticResource MutedText}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Bottom spacing -->
+                    <BoxView HeightRequest="16" Color="Transparent" />
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

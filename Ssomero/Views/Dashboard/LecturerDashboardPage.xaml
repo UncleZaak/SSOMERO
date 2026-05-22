@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Ssomero.ViewModels"
+    xmlns:models="clr-namespace:Ssomero.Models"
+    xmlns:conv="clr-namespace:Ssomero.Converters"
+    xmlns:shared="clr-namespace:Ssomero.Views.Shared"
+    x:Class="Ssomero.Views.Dashboard.LecturerDashboardPage"
+    x:DataType="vm:LecturerDashboardViewModel"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="#F1F5F9">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="0">
+
+                <!-- Top Bar -->
+                <shared:AppTopBar
+                    Title="Lecturer Dashboard"
+                    Subtitle="{Binding LecturerName, StringFormat='Hello, {0} 👋'}" />
+
+                <!-- Quick Actions Card -->
+                <Border Margin="16,-16,16,0" Padding="20" BackgroundColor="White"
+                        StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                    <Border.Shadow>
+                        <Shadow Brush="#1A000000" Offset="0,4" Radius="12" Opacity="0.1"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Quick Actions" FontSize="16" FontAttributes="Bold" TextColor="#0F172A"/>
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                            <Button Grid.Column="0" Text="📚 Classes"
+                                    Command="{Binding GoToClassesCommand}"
+                                    BackgroundColor="#EDE9FE" TextColor="#5B21B6"
+                                    FontSize="12" CornerRadius="10" HeightRequest="52"/>
+                            <Button Grid.Column="1" Text="✅ Attendance"
+                                    Command="{Binding GoToClassesCommand}"
+                                    BackgroundColor="#ECFDF5" TextColor="#065F46"
+                                    FontSize="12" CornerRadius="10" HeightRequest="52"/>
+                            <Button Grid.Column="2" Text="📎 Materials"
+                                    Command="{Binding GoToClassesCommand}"
+                                    BackgroundColor="#FFF7ED" TextColor="#9A3412"
+                                    FontSize="12" CornerRadius="10" HeightRequest="52"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Assigned Classes -->
+                <VerticalStackLayout Margin="16,24,16,0" Spacing="12">
+                    <Label Text="Assigned Classes" FontSize="17" FontAttributes="Bold" TextColor="#0F172A"/>
+
+                    <!-- Loading -->
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                       Color="#5B21B6" HorizontalOptions="Center"/>
+
+                    <!-- Empty state -->
+                    <Border IsVisible="{Binding IsEmpty}" Padding="20" BackgroundColor="White"
+                            StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Label Text="📭" FontSize="36" HorizontalOptions="Center"/>
+                            <Label Text="No classes assigned yet."
+                                   FontSize="14" TextColor="#64748B" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Class list -->
+                    <CollectionView ItemsSource="{Binding Classes}"
+                                    IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:LecturerClassDto">
+                                <Border Padding="16" BackgroundColor="White"
+                                        StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                    <Border.Shadow>
+                                        <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                    </Border.Shadow>
+                                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                        <Label Grid.Row="0" Grid.Column="0"
+                                               Text="{Binding Name}"
+                                               FontSize="15" FontAttributes="Bold" TextColor="#0F172A"
+                                               LineBreakMode="TailTruncation"/>
+                                        <Label Grid.Row="1" Grid.Column="0"
+                                               Text="{Binding CourseCode}"
+                                               FontSize="12" TextColor="#64748B"/>
+                                        <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                                                Padding="10,4" BackgroundColor="#EDE9FE"
+                                                StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                                VerticalOptions="Center">
+                                            <Label Text="{Binding EnrolledStudents, StringFormat='{0} students'}"
+                                                   FontSize="11" TextColor="#5B21B6"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- Toast -->
+                <Border IsVisible="{Binding ToastIsVisible}"
+                        BackgroundColor="{Binding ToastColor}"
+                        StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                        Padding="16,10" Margin="16,16,16,0">
+                    <Label Text="{Binding ToastMessage}" TextColor="White" FontSize="13"
+                           HorizontalOptions="Center"/>
+                </Border>
+
+                <BoxView HeightRequest="32"/>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

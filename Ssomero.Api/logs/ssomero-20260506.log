@@ -1,0 +1,268 @@
+2026-05-06 08:21:59.060 +03:00 [WRN] Entity 'Student' has a global query filter defined and is the required end of a relationship with the entity 'Payment'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-06 08:21:59.110 +03:00 [WRN] Entity 'Student' has a global query filter defined and is the required end of a relationship with the entity 'Subscription'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-06 08:34:55.698 +03:00 [WRN] Entity 'Student' has a global query filter defined and is the required end of a relationship with the entity 'Payment'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-06 08:34:55.811 +03:00 [WRN] Entity 'Student' has a global query filter defined and is the required end of a relationship with the entity 'Subscription'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-06 08:35:00.077 +03:00 [INF] OTP cleanup service started
+2026-05-06 08:35:00.865 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-06 08:35:00.868 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-06 08:35:00.942 +03:00 [INF] Server desktop-b8rchhq:4316:cb614e0a successfully announced in 4.037 ms
+2026-05-06 08:35:01.013 +03:00 [INF] Server desktop-b8rchhq:4316:cb614e0a is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-06 08:35:01.437 +03:00 [INF] Server desktop-b8rchhq:4316:cb614e0a all the dispatchers started
+2026-05-06 08:36:08.087 +03:00 [INF] HTTP GET /api/health responded 200 in 408.0938 ms
+2026-05-06 08:36:09.246 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-06 08:36:11.044 +03:00 [INF] Student login successful for unclezaac6@gmail.com
+2026-05-06 08:36:11.238 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 2233ms
+2026-05-06 08:36:11.249 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 2276.0218 ms
+2026-05-06 08:36:14.633 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 624.2124 ms
+2026-05-06 08:36:15.566 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 466.5936 ms
+2026-05-06 08:36:22.027 +03:00 [INF] HTTP GET /api/courses responded 200 in 86.8268 ms
+2026-05-06 08:36:22.340 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 3.2719 ms
+2026-05-06 08:36:30.830 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 31.0457 ms
+2026-05-06 08:36:31.136 +03:00 [INF] HTTP GET /api/attendance/my-history responded 200 in 84.4865 ms
+2026-05-06 08:36:31.686 +03:00 [INF] HTTP GET /api/attendance/my-report responded 200 in 208.2191 ms
+2026-05-06 08:36:42.608 +03:00 [INF] HTTP GET /api/materials responded 404 in 2.5983 ms
+2026-05-06 08:37:12.064 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 8.1391 ms
+2026-05-06 08:37:12.209 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 7.0396 ms
+2026-05-06 08:38:12.738 +03:00 [INF] HTTP GET /api/health responded 200 in 2.5003 ms
+2026-05-06 08:38:12.910 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-06 08:38:13.657 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-06 08:38:13.665 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 773ms
+2026-05-06 08:38:13.675 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 785.5019 ms
+2026-05-06 08:38:16.689 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 154.4711 ms
+2026-05-06 08:38:28.040 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 121.9013 ms
+2026-05-06 08:38:39.180 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 86.3553 ms
+2026-05-06 08:38:40.148 +03:00 [INF] HTTP GET /api/admin/departments responded 200 in 84.2259 ms
+2026-05-06 08:38:48.662 +03:00 [INF] HTTP GET /api/universities responded 200 in 54.2923 ms
+2026-05-06 08:38:49.074 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 6.1842 ms
+2026-05-06 08:39:14.266 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 10.3116 ms
+2026-05-06 08:39:14.373 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.4418 ms
+2026-05-06 08:39:18.045 +03:00 [INF] AUDIT POST /api/faculties | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 807ms
+2026-05-06 08:39:18.062 +03:00 [INF] HTTP POST /api/faculties responded 201 in 826.1968 ms
+2026-05-06 08:39:34.736 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 86.3615 ms
+2026-05-06 08:39:34.814 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 175.4251 ms
+2026-05-06 08:39:40.079 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 9.7460 ms
+2026-05-06 08:40:09.780 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 10.7554 ms
+2026-05-06 08:40:10.575 +03:00 [INF] HTTP GET /api/admin/departments responded 200 in 7.5778 ms
+2026-05-06 08:40:14.473 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.1283 ms
+2026-05-06 08:40:14.569 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.7381 ms
+2026-05-06 08:42:00.561 +03:00 [INF] HTTP GET /api/health responded 200 in 1.4313 ms
+2026-05-06 08:42:00.693 +03:00 [INF] Login attempt for jehovahusheringservices@gmail.com
+2026-05-06 08:42:01.201 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 522ms
+2026-05-06 08:42:01.207 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 529.0682 ms
+2026-05-06 16:46:25.218 +03:00 [INF] OTP cleanup service started
+2026-05-06 16:46:26.253 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-06 16:46:26.260 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-06 16:46:26.335 +03:00 [INF] Server desktop-b8rchhq:43496:f2d41ed3 successfully announced in 4.028 ms
+2026-05-06 16:46:26.355 +03:00 [INF] Server desktop-b8rchhq:43496:f2d41ed3 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-06 16:46:26.661 +03:00 [INF] Server desktop-b8rchhq:43496:f2d41ed3 all the dispatchers started
+2026-05-06 16:49:30.192 +03:00 [INF] HTTP GET /api/health responded 200 in 338.1665 ms
+2026-05-06 16:49:31.183 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-06 16:49:32.636 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-06 16:49:32.805 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 1826ms
+2026-05-06 16:49:32.812 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 1861.0255 ms
+2026-05-06 16:49:36.625 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 418.6830 ms
+2026-05-06 16:50:21.571 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 134.9920 ms
+2026-05-06 16:50:21.639 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 260.0409 ms
+2026-05-06 16:50:33.545 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 16.7117 ms
+2026-05-06 16:50:33.632 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.8531 ms
+2026-05-06 16:51:33.727 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.8375 ms
+2026-05-06 16:51:33.831 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.2137 ms
+2026-05-06 16:52:33.949 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.7449 ms
+2026-05-06 16:52:34.033 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.7928 ms
+2026-05-06 16:55:50.042 +03:00 [INF] HTTP GET /api/health responded 200 in 1.7252 ms
+2026-05-06 16:55:50.199 +03:00 [INF] Login attempt for jehovahusheringservices@gamil.com
+2026-05-06 16:55:50.264 +03:00 [WRN] Login failed: no account found for jehovahusheringservices@gamil.com
+2026-05-06 16:55:50.274 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 80ms
+2026-05-06 16:55:50.289 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 97.9034 ms
+2026-05-06 16:56:00.723 +03:00 [INF] HTTP GET /api/health responded 200 in 0.9580 ms
+2026-05-06 16:56:00.861 +03:00 [INF] Login attempt for jehovahusheringservices@gamil.com
+2026-05-06 16:56:00.868 +03:00 [WRN] Login failed: no account found for jehovahusheringservices@gamil.com
+2026-05-06 16:56:00.870 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 22ms
+2026-05-06 16:56:00.877 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 31.2690 ms
+2026-05-06 16:56:15.509 +03:00 [INF] HTTP GET /api/health responded 200 in 0.9481 ms
+2026-05-06 16:56:15.667 +03:00 [INF] Login attempt for jehovahusheringservices@gamil.com
+2026-05-06 16:56:15.673 +03:00 [WRN] Login failed: no account found for jehovahusheringservices@gamil.com
+2026-05-06 16:56:15.678 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 12ms
+2026-05-06 16:56:15.682 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 18.5566 ms
+2026-05-06 18:46:39.755 +03:00 [INF] OTP cleanup service started
+2026-05-06 18:46:40.428 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-06 18:46:40.433 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-06 18:46:40.512 +03:00 [INF] Server desktop-b8rchhq:58836:d6e849f6 successfully announced in 2.6891 ms
+2026-05-06 18:46:40.530 +03:00 [INF] Server desktop-b8rchhq:58836:d6e849f6 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-06 18:46:40.983 +03:00 [INF] Server desktop-b8rchhq:58836:d6e849f6 all the dispatchers started
+2026-05-06 18:48:33.599 +03:00 [INF] Email sent to jehovahusheringservices@gmail.com with subject "Your password reset code"
+2026-05-06 18:48:33.616 +03:00 [INF] Password reset OTP sent for jehovahusheringservices@gmail.com
+2026-05-06 18:48:33.677 +03:00 [INF] AUDIT POST /api/auth/forgot-password | User=anonymous | Correlation=- | Status=200 | 5725ms
+2026-05-06 18:48:33.737 +03:00 [INF] HTTP POST /api/auth/forgot-password responded 200 in 6193.4367 ms
+2026-05-06 18:48:52.208 +03:00 [INF] Password reset OTP verified for jehovahusheringservices@gmail.com
+2026-05-06 18:48:52.218 +03:00 [INF] AUDIT POST /api/auth/verify-reset-otp | User=anonymous | Correlation=- | Status=200 | 989ms
+2026-05-06 18:48:52.223 +03:00 [INF] HTTP POST /api/auth/verify-reset-otp responded 200 in 997.7886 ms
+2026-05-06 18:49:45.025 +03:00 [INF] Password reset completed for jehovahusheringservices@gmail.com
+2026-05-06 18:49:45.028 +03:00 [INF] AUDIT POST /api/auth/reset-password | User=anonymous | Correlation=- | Status=200 | 574ms
+2026-05-06 18:49:45.032 +03:00 [INF] HTTP POST /api/auth/reset-password responded 200 in 583.8178 ms
+2026-05-06 18:50:20.093 +03:00 [INF] HTTP GET /api/health responded 200 in 41.6214 ms
+2026-05-06 18:50:20.399 +03:00 [INF] Login attempt for jehovahuseringservices@gmail.com
+2026-05-06 18:50:20.489 +03:00 [WRN] Login failed: no account found for jehovahuseringservices@gmail.com
+2026-05-06 18:50:20.502 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 151ms
+2026-05-06 18:50:20.509 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 159.5973 ms
+2026-05-06 18:50:34.497 +03:00 [INF] HTTP GET /api/health responded 200 in 2.0832 ms
+2026-05-06 18:50:34.602 +03:00 [INF] Login attempt for jehovahusheringservices@gmail.com
+2026-05-06 18:50:34.907 +03:00 [INF] Lecturer login successful for jehovahusheringservices@gmail.com
+2026-05-06 18:50:35.016 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 414ms
+2026-05-06 18:50:35.021 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 419.8052 ms
+2026-05-06 18:50:37.373 +03:00 [INF] HTTP GET /api/lecturer/classes responded 200 in 577.9726 ms
+2026-05-06 18:50:49.523 +03:00 [INF] HTTP GET /api/lecturer/classes responded 200 in 8.7105 ms
+2026-05-06 18:50:51.879 +03:00 [INF] HTTP GET /api/schedules responded 200 in 11.9895 ms
+2026-05-06 18:50:59.138 +03:00 [INF] HTTP GET /api/profile responded 200 in 436.5064 ms
+2026-05-06 18:51:35.752 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 46.0873 ms
+2026-05-06 18:51:35.891 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 2.2099 ms
+2026-05-06 18:55:35.709 +03:00 [INF] OTP cleanup service started
+2026-05-06 18:55:36.388 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-06 18:55:36.392 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-06 18:55:36.442 +03:00 [INF] Password-reset cleanup removed 1 stale record(s)
+2026-05-06 18:55:36.477 +03:00 [INF] Server desktop-b8rchhq:56184:258eba9e successfully announced in 4.051 ms
+2026-05-06 18:55:36.492 +03:00 [INF] Server desktop-b8rchhq:56184:258eba9e is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-06 18:55:36.826 +03:00 [INF] Server desktop-b8rchhq:56184:258eba9e all the dispatchers started
+2026-05-06 18:55:53.315 +03:00 [INF] HTTP GET /api/entry-schemes responded 200 in 698.3897 ms
+2026-05-06 18:55:53.315 +03:00 [INF] HTTP GET /api/study-modes responded 200 in 696.6892 ms
+2026-05-06 18:55:53.315 +03:00 [INF] HTTP GET /api/intakes responded 200 in 697.0541 ms
+2026-05-06 18:55:53.315 +03:00 [INF] HTTP GET /api/academic-years responded 200 in 696.7086 ms
+2026-05-06 18:55:53.315 +03:00 [INF] HTTP GET /api/universities responded 200 in 696.9779 ms
+2026-05-06 18:55:53.315 +03:00 [INF] HTTP GET /api/semesters responded 200 in 698.3820 ms
+2026-05-06 18:56:30.241 +03:00 [INF] Email sent to juniorscalvin18@gmail.com with subject "Your OTP Code"
+2026-05-06 18:56:31.332 +03:00 [INF] OTP generated and sent for juniorscalvin18@gmail.com
+2026-05-06 18:56:31.362 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=200 | 4843ms
+2026-05-06 18:56:31.383 +03:00 [INF] HTTP POST /api/auth/send-otp responded 200 in 4906.8118 ms
+2026-05-06 18:57:53.948 +03:00 [INF] Email sent to juniorscalvin18@gmail.com with subject "Your OTP Code"
+2026-05-06 18:57:54.392 +03:00 [INF] OTP generated and sent for juniorscalvin18@gmail.com
+2026-05-06 18:57:54.398 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=200 | 3400ms
+2026-05-06 18:57:54.406 +03:00 [INF] HTTP POST /api/auth/send-otp responded 200 in 3411.8493 ms
+2026-05-06 19:00:07.711 +03:00 [INF] [EmailJobs] Cleaned up 1 expired OTP(s)
+2026-05-06 19:00:32.208 +03:00 [INF] Email sent to kabuyeisaac879@gmail.com with subject "Your OTP Code"
+2026-05-06 19:00:32.638 +03:00 [INF] OTP generated and sent for kabuyeisaac879@gmail.com
+2026-05-06 19:00:32.646 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=200 | 4483ms
+2026-05-06 19:00:32.660 +03:00 [INF] HTTP POST /api/auth/send-otp responded 200 in 4498.3290 ms
+2026-05-06 19:01:09.286 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=400 | 75ms
+2026-05-06 19:01:09.295 +03:00 [INF] HTTP POST /api/auth/send-otp responded 400 in 85.1080 ms
+2026-05-06 19:01:57.208 +03:00 [INF] Email sent to juniorscalvin18@gmail.com with subject "Your OTP Code"
+2026-05-06 19:01:57.647 +03:00 [INF] OTP generated and sent for juniorscalvin18@gmail.com
+2026-05-06 19:01:57.652 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=200 | 3220ms
+2026-05-06 19:01:57.659 +03:00 [INF] HTTP POST /api/auth/send-otp responded 200 in 3229.1448 ms
+2026-05-06 19:07:14.112 +03:00 [INF] HTTP GET /api/health responded 200 in 43.5657 ms
+2026-05-06 19:07:14.332 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-06 19:07:15.082 +03:00 [INF] Student login successful for unclezaac6@gmail.com
+2026-05-06 19:07:15.238 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 961ms
+2026-05-06 19:07:15.245 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 969.8473 ms
+2026-05-06 19:07:18.473 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 659.5966 ms
+2026-05-06 19:07:19.374 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 500.2827 ms
+2026-05-06 19:07:35.992 +03:00 [INF] HTTP GET /api/courses responded 200 in 89.2124 ms
+2026-05-06 19:07:36.607 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 2.3820 ms
+2026-05-06 19:07:43.470 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 19.2023 ms
+2026-05-06 19:08:16.058 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 7.9045 ms
+2026-05-06 19:08:16.195 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.2022 ms
+2026-05-06 19:08:28.717 +03:00 [INF] HTTP GET /api/materials responded 404 in 0.9152 ms
+2026-05-06 19:09:16.366 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 8.5230 ms
+2026-05-06 19:09:16.492 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.0893 ms
+2026-05-06 19:10:16.655 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.9876 ms
+2026-05-06 19:10:16.872 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.3944 ms
+2026-05-06 19:10:36.513 +03:00 [INF] OTP cleanup removed 2 stale record(s)
+2026-05-06 19:11:17.145 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.4140 ms
+2026-05-06 19:11:17.356 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 6.1326 ms
+2026-05-06 19:12:17.579 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 6.4025 ms
+2026-05-06 19:12:17.816 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.5051 ms
+2026-05-06 19:12:37.008 +03:00 [INF] HTTP GET /api/profile responded 200 in 228.2685 ms
+2026-05-06 19:12:56.837 +03:00 [INF] HTTP GET /api/payments/current responded 200 in 151.3166 ms
+2026-05-06 19:13:18.277 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 7.0732 ms
+2026-05-06 19:13:18.516 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.1878 ms
+2026-05-06 19:13:19.393 +03:00 [INF] [MockPayment] Initiated TxRef=SSOMERO-77ba57c3c8d746fd9871d10e550e41d4-639136807991016166 for Student="77ba57c3-c8d7-46fd-9871-d10e550e41d4"
+2026-05-06 19:13:19.405 +03:00 [INF] AUDIT POST /api/payments/initiate | User=77ba57c3-c8d7-46fd-9871-d10e550e41d4 | Correlation=- | Status=200 | 381ms
+2026-05-06 19:13:19.410 +03:00 [INF] HTTP POST /api/payments/initiate responded 200 in 389.4698 ms
+2026-05-06 19:13:19.825 +03:00 [INF] Subscription activated for Student="77ba57c3-c8d7-46fd-9871-d10e550e41d4" Plan="Monthly"
+2026-05-06 19:13:19.838 +03:00 [INF] AUDIT POST /api/payments/verify | User=77ba57c3-c8d7-46fd-9871-d10e550e41d4 | Correlation=- | Status=200 | 256ms
+2026-05-06 19:13:19.844 +03:00 [INF] HTTP POST /api/payments/verify responded 200 in 263.4538 ms
+2026-05-06 19:13:20.000 +03:00 [INF] HTTP GET /api/payments/current responded 200 in 42.3094 ms
+2026-05-06 19:14:11.526 +03:00 [INF] [MockPayment] Initiated TxRef=SSOMERO-77ba57c3c8d746fd9871d10e550e41d4-639136808514722175 for Student="77ba57c3-c8d7-46fd-9871-d10e550e41d4"
+2026-05-06 19:14:11.530 +03:00 [INF] AUDIT POST /api/payments/initiate | User=77ba57c3-c8d7-46fd-9871-d10e550e41d4 | Correlation=- | Status=200 | 58ms
+2026-05-06 19:14:11.536 +03:00 [INF] HTTP POST /api/payments/initiate responded 200 in 66.4591 ms
+2026-05-06 19:14:11.715 +03:00 [INF] Subscription activated for Student="77ba57c3-c8d7-46fd-9871-d10e550e41d4" Plan="Monthly"
+2026-05-06 19:14:11.722 +03:00 [INF] AUDIT POST /api/payments/verify | User=77ba57c3-c8d7-46fd-9871-d10e550e41d4 | Correlation=- | Status=200 | 23ms
+2026-05-06 19:14:11.729 +03:00 [INF] HTTP POST /api/payments/verify responded 200 in 31.2436 ms
+2026-05-06 19:14:11.854 +03:00 [INF] HTTP GET /api/payments/current responded 200 in 8.4276 ms
+2026-05-06 19:14:18.682 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 7.4120 ms
+2026-05-06 19:14:18.807 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.4492 ms
+2026-05-06 19:14:31.712 +03:00 [INF] HTTP GET /api/profile responded 200 in 18.6582 ms
+2026-05-06 19:14:37.833 +03:00 [INF] HTTP GET /api/profile responded 200 in 16.8146 ms
+2026-05-06 19:14:48.222 +03:00 [INF] HTTP GET /api/profile responded 200 in 4.0914 ms
+2026-05-06 19:15:18.976 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 24.9606 ms
+2026-05-06 19:15:19.111 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 4.8322 ms
+2026-05-06 19:15:41.034 +03:00 [INF] HTTP GET /api/courses responded 200 in 6.3202 ms
+2026-05-06 19:15:41.183 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 0.4566 ms
+2026-05-06 19:16:19.300 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 6.4587 ms
+2026-05-06 19:16:19.436 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 4.0271 ms
+2026-05-06 19:17:11.551 +03:00 [INF] HTTP GET /api/profile responded 200 in 4.3946 ms
+2026-05-06 19:17:41.420 +03:00 [INF] HTTP GET /api/health responded 200 in 2.4677 ms
+2026-05-06 19:17:41.563 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-06 19:17:41.983 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-06 19:17:41.988 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 426ms
+2026-05-06 19:17:41.990 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 429.1078 ms
+2026-05-06 19:17:44.570 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 160.7789 ms
+2026-05-06 19:17:55.941 +03:00 [INF] HTTP GET /api/profile responded 200 in 50.3125 ms
+2026-05-06 19:18:13.939 +03:00 [INF] HTTP GET /api/profile responded 200 in 5.3469 ms
+2026-05-06 19:18:25.150 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 81.4726 ms
+2026-05-06 19:18:25.193 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 145.2556 ms
+2026-05-06 19:18:42.552 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 9.4934 ms
+2026-05-06 19:18:42.645 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.8557 ms
+2026-05-06 19:18:48.276 +03:00 [INF] HTTP GET /api/profile responded 200 in 11.7162 ms
+2026-05-06 19:19:52.432 +03:00 [INF] OTP cleanup service started
+2026-05-06 19:19:53.445 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-06 19:19:53.477 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-06 19:19:53.660 +03:00 [INF] Server desktop-b8rchhq:59088:2b845456 successfully announced in 4.7817 ms
+2026-05-06 19:19:53.660 +03:00 [INF] OTP cleanup removed 1 stale record(s)
+2026-05-06 19:19:53.700 +03:00 [INF] Server desktop-b8rchhq:59088:2b845456 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-06 19:19:54.154 +03:00 [INF] Server desktop-b8rchhq:59088:2b845456 all the dispatchers started
+2026-05-06 19:22:59.389 +03:00 [INF] OTP cleanup service started
+2026-05-06 19:23:00.044 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-06 19:23:00.054 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-06 19:23:00.135 +03:00 [INF] Server desktop-b8rchhq:31036:d856fb3f successfully announced in 3.4684 ms
+2026-05-06 19:23:00.188 +03:00 [INF] Server desktop-b8rchhq:31036:d856fb3f is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-06 19:23:00.472 +03:00 [INF] Server desktop-b8rchhq:31036:d856fb3f all the dispatchers started
+2026-05-06 19:23:18.460 +03:00 [INF] HTTP GET /api/entry-schemes responded 200 in 730.2007 ms
+2026-05-06 19:23:18.460 +03:00 [INF] HTTP GET /api/academic-years responded 200 in 730.3989 ms
+2026-05-06 19:23:18.460 +03:00 [INF] HTTP GET /api/intakes responded 200 in 730.5429 ms
+2026-05-06 19:23:18.460 +03:00 [INF] HTTP GET /api/semesters responded 200 in 730.4562 ms
+2026-05-06 19:23:18.460 +03:00 [INF] HTTP GET /api/study-modes responded 200 in 730.3491 ms
+2026-05-06 19:23:18.460 +03:00 [INF] HTTP GET /api/universities responded 200 in 730.6621 ms
+2026-05-06 19:24:43.770 +03:00 [INF] Email sent to sserugojamir@gmail.com with subject "Your OTP Code"
+2026-05-06 19:24:45.161 +03:00 [INF] OTP generated and sent for sserugojamir@gmail.com
+2026-05-06 19:24:45.192 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=200 | 5317ms
+2026-05-06 19:24:45.213 +03:00 [INF] HTTP POST /api/auth/send-otp responded 200 in 5371.5112 ms
+2026-05-06 19:25:39.508 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=429 | 20ms
+2026-05-06 19:25:39.514 +03:00 [INF] HTTP POST /api/auth/send-otp responded 429 in 29.3282 ms
+2026-05-06 19:25:57.469 +03:00 [INF] Email sent to sserugojamir@gmail.com with subject "Your OTP Code"
+2026-05-06 19:25:57.959 +03:00 [INF] OTP generated and sent for sserugojamir@gmail.com
+2026-05-06 19:25:57.966 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=200 | 3425ms
+2026-05-06 19:25:57.972 +03:00 [INF] HTTP POST /api/auth/send-otp responded 200 in 3431.7851 ms

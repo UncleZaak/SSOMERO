@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             x:Class="Ssomero.Views.Admin.UniversitiesPage"
+             Shell.NavBarIsVisible="False">
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+        <ScrollView>
+            <VerticalStackLayout Padding="16,52,16,16" Spacing="16">
+
+                <!-- Header -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Universities Management" FontSize="24" FontAttributes="Bold" VerticalOptions="Center" />
+                    <Button Grid.Column="1" Text="+ Add University" Command="{Binding AddUniversityCommand}"
+                            BackgroundColor="#1976D2" TextColor="White" CornerRadius="8" Padding="12,8" />
+                </Grid>
+
+                <!-- Stats Cards -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                    <Frame Grid.Column="0" Padding="12" BackgroundColor="#E3F2FD" CornerRadius="8" BorderColor="Transparent">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Total Institutions" FontSize="12" TextColor="#666" />
+                            <Label Text="{Binding TotalInstitutions}" FontSize="24" FontAttributes="Bold" TextColor="#1976D2" />
+                        </VerticalStackLayout>
+                    </Frame>
+                    <Frame Grid.Column="1" Padding="12" BackgroundColor="#E8F5E9" CornerRadius="8" BorderColor="Transparent">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Accredited" FontSize="12" TextColor="#666" />
+                            <Label Text="{Binding AccreditedCount}" FontSize="24" FontAttributes="Bold" TextColor="#388E3C" />
+                        </VerticalStackLayout>
+                    </Frame>
+                    <Frame Grid.Column="2" Padding="12" BackgroundColor="#FFF3E0" CornerRadius="8" BorderColor="Transparent">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Pending" FontSize="12" TextColor="#666" />
+                            <Label Text="{Binding PendingCount}" FontSize="24" FontAttributes="Bold" TextColor="#F57C00" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Search + Filter + Export Row -->
+                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                    <Frame Grid.Column="0" Padding="4,0" CornerRadius="8" BorderColor="#DDD" HasShadow="False">
+                        <Entry Placeholder="Search by name..." Text="{Binding SearchQuery}"
+                               FontSize="14" Margin="8,0" />
+                    </Frame>
+                    <Button Grid.Column="1" Text="Export CSV" Command="{Binding ExportCommand}"
+                            BackgroundColor="#43A047" TextColor="White" CornerRadius="8" Padding="12,8" FontSize="13" />
+                </Grid>
+
+                <!-- Filter chips -->
+                <HorizontalStackLayout Spacing="8">
+                    <Button Text="All" Command="{Binding FilterCommand}" CommandParameter="All"
+                            BackgroundColor="#E0E0E0" TextColor="#333" CornerRadius="16" Padding="12,6" FontSize="12" />
+                    <Button Text="Active" Command="{Binding FilterCommand}" CommandParameter="Active"
+                            BackgroundColor="#C8E6C9" TextColor="#2E7D32" CornerRadius="16" Padding="12,6" FontSize="12" />
+                    <Button Text="Pending" Command="{Binding FilterCommand}" CommandParameter="Pending"
+                            BackgroundColor="#FFE0B2" TextColor="#E65100" CornerRadius="16" Padding="12,6" FontSize="12" />
+                </HorizontalStackLayout>
+
+                <!-- Add/Edit Form (shown conditionally) -->
+                <Frame IsVisible="{Binding IsEditing}" Padding="16" BackgroundColor="#FAFAFA"
+                       CornerRadius="8" BorderColor="#DDD">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="University Name" FontAttributes="Bold" />
+                        <Entry Text="{Binding EditName}" Placeholder="Enter university name" />
+                        <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}" />
+                        <HorizontalStackLayout Spacing="10">
+                            <Button Text="Save" Command="{Binding SaveCommand}"
+                                    BackgroundColor="#1976D2" TextColor="White" CornerRadius="8" Padding="16,8" />
+                            <Button Text="Cancel" Command="{Binding CancelEditCommand}"
+                                    BackgroundColor="#E0E0E0" TextColor="#333" CornerRadius="8" Padding="16,8" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Table Header -->
+                <Frame Padding="10,8" BackgroundColor="#F5F5F5" CornerRadius="4" BorderColor="#E0E0E0" HasShadow="False">
+                    <Grid ColumnDefinitions="2*,Auto,Auto,120">
+                        <Label Grid.Column="0" Text="Institution Name" FontAttributes="Bold" FontSize="13" />
+                        <Label Grid.Column="1" Text="Faculties" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" />
+                        <Label Grid.Column="2" Text="Status" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" />
+                        <Label Grid.Column="3" Text="Actions" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" />
+                    </Grid>
+                </Frame>
+
+                <!-- Data Rows -->
+                <CollectionView ItemsSource="{Binding Universities}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:UniversityDto">
+                            <Frame Padding="10,8" CornerRadius="4" BorderColor="#EEE" HasShadow="False">
+                                <Grid ColumnDefinitions="2*,Auto,Auto,120">
+                                    <Label Grid.Column="0" Text="{Binding Name}" FontSize="14" VerticalOptions="Center" />
+                                    <Label Grid.Column="1" Text="{Binding FacultiesCount}" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    <Frame Grid.Column="2" Padding="6,2" CornerRadius="10" BackgroundColor="#C8E6C9" BorderColor="Transparent" HasShadow="False" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Label Text="{Binding Status}" FontSize="11" TextColor="#2E7D32" />
+                                    </Frame>
+                                    <HorizontalStackLayout Grid.Column="3" Spacing="6" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Button Text="Edit" FontSize="11" Padding="8,4" CornerRadius="4"
+                                                BackgroundColor="#1976D2" TextColor="White"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UniversitiesViewModel}}, Path=EditUniversityCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <Button Text="Delete" FontSize="11" Padding="8,4" CornerRadius="4"
+                                                BackgroundColor="#E53935" TextColor="White"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UniversitiesViewModel}}, Path=DeleteUniversityCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label Text="No universities found" HorizontalOptions="Center" Margin="0,20" TextColor="#999" />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+
+                <!-- Pagination -->
+                <Grid ColumnDefinitions="Auto,*,Auto" Padding="0,8">
+                    <Button Grid.Column="0" Text="← Previous" Command="{Binding PrevPageCommand}"
+                            BackgroundColor="#E0E0E0" TextColor="#333" CornerRadius="8" Padding="12,8" FontSize="13" />
+                    <Label Grid.Column="1" Text="{Binding PageInfo}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
+                    <Button Grid.Column="2" Text="Next →" Command="{Binding NextPageCommand}"
+                            BackgroundColor="#E0E0E0" TextColor="#333" CornerRadius="8" Padding="12,8" FontSize="13" />
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+
+</ContentPage>

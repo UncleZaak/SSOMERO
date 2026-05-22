@@ -1,0 +1,21 @@
+2026-05-09 11:11:19.512 +03:00 [INF] OTP cleanup service started
+2026-05-09 11:11:20.482 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-09 11:11:20.496 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-09 11:11:20.614 +03:00 [INF] Server desktop-b8rchhq:69784:e01ba588 successfully announced in 4.555 ms
+2026-05-09 11:11:20.637 +03:00 [INF] Server desktop-b8rchhq:69784:e01ba588 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-09 11:11:21.069 +03:00 [INF] Server desktop-b8rchhq:69784:e01ba588 all the dispatchers started
+2026-05-09 11:15:51.524 +03:00 [INF] HTTP GET /api/health responded 200 in 267.8203 ms
+2026-05-09 11:15:52.447 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-09 11:15:53.714 +03:00 [INF] Student login successful for unclezaac6@gmail.com
+2026-05-09 11:15:53.861 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 1571ms
+2026-05-09 11:15:53.870 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 1603.0482 ms
+2026-05-09 11:15:58.337 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 413.4732 ms
+2026-05-09 11:15:58.610 +03:00 [INF] HTTP GET /api/profile responded 200 in 180.8991 ms
+2026-05-09 11:15:59.149 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 301.1012 ms
+2026-05-09 11:16:36.561 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 18.4975 ms
+2026-05-09 11:16:36.729 +03:00 [INF] HTTP GET /api/attendance/my-history responded 200 in 31.6013 ms
+2026-05-09 11:16:36.959 +03:00 [INF] HTTP GET /api/attendance/my-report responded 200 in 103.0210 ms

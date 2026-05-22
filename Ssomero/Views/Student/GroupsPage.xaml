@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Ssomero.Views.Student.GroupsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Ssomero.ViewModels"
+    xmlns:model="clr-namespace:Ssomero.Models"
+    xmlns:conv="clr-namespace:Ssomero.Converters"
+    BackgroundColor="#F1F5F9"
+    Title="Study Groups">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Header -->
+        <VerticalStackLayout Padding="20,16,20,16"
+                           BackgroundColor="#5B21B6" Grid.Row="0">
+            <Label Text="Study Groups" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Lecturer-created groups for your courses"
+                   FontSize="13" TextColor="#C4B5FD" Margin="0,2,0,0"/>
+        </VerticalStackLayout>
+
+        <RefreshView Grid.Row="1" IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding LoadCommand}">
+            <Grid>
+                <CollectionView ItemsSource="{Binding Groups}"
+                                IsVisible="{Binding IsEmpty, Converter={StaticResource InvBool}}"
+                                Margin="0,8,0,0">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:StudyGroupDto">
+                            <Border Margin="16,0" Padding="16" BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                </Border.Shadow>
+                                <Grid ColumnDefinitions="52,*,Auto">
+
+                                    <!-- Avatar -->
+                                    <Border Grid.Column="0" BackgroundColor="#EDE9FE"
+                                            StrokeShape="RoundRectangle 12" StrokeThickness="0"
+                                            WidthRequest="48" HeightRequest="48">
+                                        <Label Text="👥" FontSize="24"
+                                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+
+                                    <!-- Info -->
+                                    <VerticalStackLayout Grid.Column="1" Margin="12,0,0,0" Spacing="3">
+                                        <Label Text="{Binding Name}" FontSize="15"
+                                               FontAttributes="Bold" TextColor="#0F172A"/>
+                                        <Label Text="{Binding CourseName}" FontSize="13"
+                                               TextColor="#5B21B6"/>
+                                        <Label Text="{Binding MemberCount, StringFormat='{0} members'}"
+                                               FontSize="12" TextColor="#94A3B8"/>
+                                    </VerticalStackLayout>
+
+                                    <!-- Open button -->
+                                    <Button Grid.Column="2" Text="Open"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GroupsViewModel}}, Path=OpenGroupCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#5B21B6" TextColor="White"
+                                            FontSize="12" CornerRadius="8"
+                                            HeightRequest="34" Padding="12,0"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Footer>
+                        <BoxView HeightRequest="20" Color="Transparent"/>
+                    </CollectionView.Footer>
+                </CollectionView>
+
+                <!-- Empty state -->
+                <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                     VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                    <Label Text="💬" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="No groups yet" FontSize="16" TextColor="#64748B"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Your lecturer will create study groups for your courses"
+                           FontSize="13" TextColor="#94A3B8" HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" Margin="32,0"/>
+                </VerticalStackLayout>
+
+                <!-- Error -->
+                <Border IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}"
+                        BackgroundColor="#FEF2F2" StrokeShape="RoundRectangle 8"
+                        StrokeThickness="0" Margin="16,8" Padding="12,8" VerticalOptions="End">
+                    <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="13"/>
+                </Border>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                   Color="#5B21B6" VerticalOptions="Center" HorizontalOptions="Center"/>
+            </Grid>
+        </RefreshView>
+    </Grid>
+</ContentPage>

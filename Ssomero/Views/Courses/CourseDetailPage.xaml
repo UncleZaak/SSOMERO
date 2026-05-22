@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ssomero.Views.Courses.CourseDetailPage"
+             x:DataType="vm:CourseDetailViewModel"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             Title="Course">
+
+  <ScrollView>
+      <VerticalStackLayout Padding="12">
+      <Label Text="{Binding Course.Name}" Style="{StaticResource TitleLabelStyle}" />
+      <Label Text="{Binding Course.Lecturer}" Style="{StaticResource BodyLabelStyle}" />
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

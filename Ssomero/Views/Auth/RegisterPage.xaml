@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ssomero.Views.Auth.RegisterPage"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             AutomationId="RegisterPage">
+
+  <ScrollView>
+    <VerticalStackLayout Padding="24" Spacing="16">
+
+      <Label Text="Create Account" Style="{StaticResource TitleLabelStyle}"
+             SemanticProperties.HeadingLevel="Level1" />
+
+      <!-- Step progress indicator -->
+      <Label Text="{Binding StepLabel}" FontAttributes="Bold"
+             TextColor="{StaticResource PrimaryColor}" FontSize="14"
+             HorizontalOptions="Center" />
+
+      <!-- Error banner -->
+      <Label Text="{Binding ErrorMessage}" TextColor="Red"
+             IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}"
+             FontSize="13" />
+
+      <!-- Loading indicator -->
+      <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                         Color="{StaticResource PrimaryColor}" HorizontalOptions="Center" />
+
+      <!-- ========== STEP 1: Email + OTP ========== -->
+      <VerticalStackLayout Spacing="12" IsVisible="{Binding IsStep1}">
+        <Label Text="Verify your email address" FontAttributes="Bold" FontSize="16" />
+
+        <Entry Placeholder="University email address" Text="{Binding Email}" Keyboard="Email"
+               IsEnabled="{Binding IsOtpVerified, Converter={StaticResource InvertBoolConverter}}"
+               AutomationId="RegEmailEntry" />
+
+        <Label Text="✓ Email verified successfully" TextColor="Green"
+               IsVisible="{Binding IsOtpVerified}" FontSize="13" />
+
+        <Button Text="Send OTP" Command="{Binding SendOtpCommand}"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                IsVisible="{Binding IsOtpVerified, Converter={StaticResource InvertBoolConverter}}"
+                AutomationId="SendOtpButton" />
+
+        <VerticalStackLayout Spacing="10" IsVisible="{Binding IsOtpSent}">
+          <Entry Placeholder="Enter 6-digit OTP code" Text="{Binding OtpCode}" Keyboard="Numeric"
+                 MaxLength="6" AutomationId="OtpEntry" />
+
+          <Button Text="Verify OTP" Command="{Binding VerifyOtpCommand}"
+                  IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                  IsVisible="{Binding IsOtpVerified, Converter={StaticResource InvertBoolConverter}}"
+                  AutomationId="VerifyOtpButton" />
+
+          <Button Text="{Binding OtpCooldownText}" Command="{Binding ResendOtpCommand}"
+                  IsEnabled="{Binding CanResendOtp}"
+                  IsVisible="{Binding IsOtpVerified, Converter={StaticResource InvertBoolConverter}}"
+                  BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}"
+                  AutomationId="ResendOtpButton" />
+        </VerticalStackLayout>
+      </VerticalStackLayout>
+
+      <!-- ========== STEP 2: Personal Info ========== -->
+      <VerticalStackLayout Spacing="12" IsVisible="{Binding IsStep2}">
+        <Label Text="Personal information" FontAttributes="Bold" FontSize="16" />
+
+        <Entry Placeholder="First name" Text="{Binding FirstName}"
+               Keyboard="Default" AutomationId="FirstNameEntry" />
+        <Entry Placeholder="Last name" Text="{Binding SecondName}"
+               Keyboard="Default" AutomationId="SecondNameEntry" />
+        <Entry Placeholder="Other names (optional)" Text="{Binding OtherNames}"
+               Keyboard="Default" />
+
+        <Label Text="Date of birth" FontSize="13" TextColor="Gray" />
+        <DatePicker Date="{Binding Dob}" MaximumDate="{x:Static sys:DateTime.Today}"
+                    xmlns:sys="clr-namespace:System;assembly=netstandard"
+                    AutomationId="DobPicker" />
+
+        <Picker Title="Select gender" SelectedItem="{Binding Gender}" AutomationId="GenderPicker">
+          <Picker.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+              <x:String>Male</x:String>
+              <x:String>Female</x:String>
+            </x:Array>
+          </Picker.ItemsSource>
+        </Picker>
+
+        <Entry Placeholder="Phone number (e.g. +256700000000)" Text="{Binding Phone}"
+               Keyboard="Telephone" AutomationId="PhoneEntry" />
+
+        <!-- Password with visibility toggle -->
+        <Grid ColumnDefinitions="*,44">
+          <Entry Grid.Column="0" Placeholder="Password (min 8 characters)"
+                 IsPassword="{Binding IsPasswordHidden}" Text="{Binding Password}"
+                 AutomationId="RegPasswordEntry" />
+          <Button Grid.Column="1" Text="{Binding PasswordToggleIcon}"
+                  Command="{Binding TogglePasswordCommand}"
+                  BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}"
+                  Padding="0" FontSize="18" />
+        </Grid>
+
+        <!-- Confirm password with visibility toggle -->
+        <Grid ColumnDefinitions="*,44">
+          <Entry Grid.Column="0" Placeholder="Confirm password"
+                 IsPassword="{Binding IsConfirmPasswordHidden}" Text="{Binding ConfirmPassword}"
+                 AutomationId="RegConfirmPasswordEntry" />
+          <Button Grid.Column="1" Text="{Binding ConfirmPasswordToggleIcon}"
+                  Command="{Binding ToggleConfirmPasswordCommand}"
+                  BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}"
+                  Padding="0" FontSize="18" />
+        </Grid>
+
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+          <Button Grid.Column="0" Text="← Back" Command="{Binding GoBackCommand}"
+                  BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}"
+                  AutomationId="BackToStep1Button" />
+          <Button Grid.Column="1" Text="Next: Academic Profile" Clicked="OnGoToStep3Clicked"
+                  IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                  AutomationId="GoToStep3Button" />
+        </Grid>
+      </VerticalStackLayout>
+
+      <!-- ========== STEP 3: Academic Profile (cascading) ========== -->
+      <VerticalStackLayout Spacing="12" IsVisible="{Binding IsStep3}">
+        <Label Text="Academic profile" FontAttributes="Bold" FontSize="16" />
+
+        <!-- Lookup error / retry -->
+        <VerticalStackLayout IsVisible="{Binding HasLookupError}" Spacing="6">
+          <Label Text="Could not load academic data. Please check your connection."
+                 TextColor="OrangeRed" FontSize="13" />
+          <Button Text="Retry" Command="{Binding RetryLookupsCommand}"
+                  AutomationId="RetryLookupsButton" />
+        </VerticalStackLayout>
+
+        <!-- University -->
+        <Picker Title="Select university" ItemsSource="{Binding Universities}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedUniversity}"
+                AutomationId="UniversityPicker" />
+
+        <!-- Faculty (enabled after university) -->
+        <Picker Title="Select faculty" ItemsSource="{Binding Faculties}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedFaculty}"
+                IsEnabled="{Binding SelectedUniversity, Converter={StaticResource NullToBoolConverter}}"
+                AutomationId="FacultyPicker" />
+
+        <!-- Department -->
+        <Picker Title="Select department" ItemsSource="{Binding Departments}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedDepartment}"
+                IsEnabled="{Binding SelectedFaculty, Converter={StaticResource NullToBoolConverter}}"
+                AutomationId="DepartmentPicker" />
+
+        <!-- Program -->
+        <Picker Title="Select program" ItemsSource="{Binding Programs}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedProgram}"
+                IsEnabled="{Binding SelectedDepartment, Converter={StaticResource NullToBoolConverter}}"
+                AutomationId="ProgramPicker" />
+
+        <!-- Entry Scheme -->
+        <Picker Title="Entry scheme" ItemsSource="{Binding EntrySchemes}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedEntryScheme}"
+                AutomationId="EntrySchemePicker" />
+
+        <!-- Intake -->
+        <Picker Title="Intake" ItemsSource="{Binding Intakes}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedIntake}"
+                AutomationId="IntakePicker" />
+
+        <!-- Study Mode -->
+        <Picker Title="Study mode" ItemsSource="{Binding StudyModes}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedStudyMode}"
+                AutomationId="StudyModePicker" />
+
+        <!-- Academic Year -->
+        <Picker Title="Academic year" ItemsSource="{Binding AcademicYears}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedAcademicYear}"
+                AutomationId="AcademicYearPicker" />
+
+        <!-- Year of Study -->
+        <Entry Placeholder="Year of study (e.g. 1)" Text="{Binding YearOfStudy}"
+               Keyboard="Numeric" AutomationId="YearOfStudyEntry" />
+
+        <!-- Semester -->
+        <Picker Title="Current semester" ItemsSource="{Binding Semesters}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedSemester}"
+                AutomationId="SemesterPicker" />
+
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+          <Button Grid.Column="0" Text="← Back" Command="{Binding GoBackCommand}"
+                  BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}"
+                  AutomationId="BackToStep2Button" />
+          <Button Grid.Column="1" Text="Create Account" Command="{Binding RegisterCommand}"
+                  IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                  AutomationId="RegisterButton"
+                  SemanticProperties.Hint="Tap to create your student account" />
+        </Grid>
+      </VerticalStackLayout>
+
+      <!-- Go to login -->
+      <Button Text="Already have an account? Login" BackgroundColor="Transparent"
+              TextColor="{StaticResource PrimaryColor}"
+              AutomationId="GoToLoginButton"
+              Clicked="OnGoToLoginClicked" />
+
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

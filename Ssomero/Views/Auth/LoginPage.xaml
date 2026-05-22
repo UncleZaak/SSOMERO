@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ssomero.Views.Auth.LoginPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource LoginBgLight}, Dark={StaticResource LoginBgDark}}"
+             AutomationId="LoginPage">
+
+  <ScrollView>
+    <VerticalStackLayout
+        Spacing="0"
+        Padding="20,0"
+        HorizontalOptions="Center"
+        MaximumWidthRequest="420">
+
+      <!-- Safe area top spacing -->
+      <BoxView HeightRequest="52" Color="Transparent" />
+
+      <!-- ═══════════ HEADER BAR ═══════════ -->
+      <Grid ColumnDefinitions="44,*,44" Padding="0,0,0,16">
+        <!-- Back button -->
+        <Border
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="1"
+            Stroke="{AppThemeBinding Light=#e2e8f0, Dark=#2d3748}"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=#1a2332}"
+            HeightRequest="44" WidthRequest="44"
+            HorizontalOptions="Start"
+            SemanticProperties.Description="Go back">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+          </Border.GestureRecognizers>
+          <Path Data="M15.41,7.41 L14,6 L8,12 L14,18 L15.41,16.59 L10.83,12 Z"
+                Fill="{AppThemeBinding Light=#1e293b, Dark=#e2e8f0}"
+                Aspect="Uniform"
+                HeightRequest="18" WidthRequest="18"
+                HorizontalOptions="Center" VerticalOptions="Center"
+                InputTransparent="True" />
+        </Border>
+
+        <!-- Title -->
+        <Label Grid.Column="1"
+               Text="SSOMERO"
+               FontFamily="OpenSansSemibold"
+               FontSize="18"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               TextColor="{AppThemeBinding Light=#1e293b, Dark=#e2e8f0}"
+               SemanticProperties.HeadingLevel="Level1" />
+      </Grid>
+
+      <!-- ═══════════ BRANDING LOGO ═══════════ -->
+      <Border
+          StrokeShape="RoundRectangle 65"
+          StrokeThickness="2"
+          Stroke="{AppThemeBinding Light=#dbeafe, Dark=#1e3a5f}"
+          BackgroundColor="{AppThemeBinding Light=#e8eefb, Dark=#172554}"
+          HeightRequest="130" WidthRequest="130"
+          HorizontalOptions="Center"
+          Margin="0,8,0,20"
+          SemanticProperties.Description="Ssomero academic portal logo">
+        <Border.Shadow>
+          <Shadow Brush="{AppThemeBinding Light=#401152d4, Dark=#20000000}"
+                 Offset="0,4" Radius="20" Opacity="0.6" />
+        </Border.Shadow>
+        <Path Data="M5,13.18 L5,17.18 L12,21 L19,17.18 L19,13.18 L12,17 L5,13.18 Z M12,3 L1,9 L12,15 L21,10.09 L21,17 L23,17 L23,9 L12,3 Z"
+              Fill="{StaticResource LoginPrimary}"
+              Aspect="Uniform"
+              HeightRequest="48" WidthRequest="48"
+              HorizontalOptions="Center" VerticalOptions="Center"
+              InputTransparent="True" />
+      </Border>
+
+      <!-- ═══════════ WELCOME TEXT ═══════════ -->
+      <Label Text="Welcome Back"
+             FontFamily="OpenSansSemibold"
+             FontSize="26"
+             HorizontalTextAlignment="Center"
+             TextColor="{AppThemeBinding Light=#1e293b, Dark=#f1f5f9}"
+             Margin="0,0,0,6"
+             SemanticProperties.HeadingLevel="Level2" />
+
+      <Label Text="Access your academic records and manage your schedule"
+             FontFamily="OpenSansRegular"
+             FontSize="14"
+             HorizontalTextAlignment="Center"
+             TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
+             Margin="0,0,0,24"
+             LineBreakMode="WordWrap" />
+
+      <!-- ═══════════ ROLE SELECTOR (Segmented Control) ═══════════ -->
+      <Border
+          StrokeShape="RoundRectangle 14"
+          StrokeThickness="0"
+          BackgroundColor="{AppThemeBinding Light=#e2e8f0, Dark=#1e293b}"
+          Padding="4"
+          Margin="0,0,0,24"
+          HeightRequest="52"
+          SemanticProperties.Description="Role selector">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="4">
+
+          <!-- Student Tab -->
+          <Border
+              StrokeShape="RoundRectangle 11"
+              StrokeThickness="0"
+              Padding="0"
+              SemanticProperties.Description="Select student role"
+              SemanticProperties.Hint="Double tap to select student role">
+            <Border.Triggers>
+              <DataTrigger TargetType="Border" Binding="{Binding IsStudentSelected}" Value="True">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=#2d3748}" />
+              </DataTrigger>
+              <DataTrigger TargetType="Border" Binding="{Binding IsStudentSelected}" Value="False">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+              </DataTrigger>
+            </Border.Triggers>
+            <Border.Shadow>
+              <Shadow Brush="#18000000" Offset="0,1" Radius="4" />
+            </Border.Shadow>
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding SelectStudentCommand}" />
+            </Border.GestureRecognizers>
+            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6"
+                                   InputTransparent="True">
+              <Path Data="M12,12 C14.21,12 16,10.21 16,8 C16,5.79 14.21,4 12,4 C9.79,4 8,5.79 8,8 C8,10.21 9.79,12 12,12 Z M12,14 C9.33,14 4,15.34 4,18 L4,20 L20,20 L20,18 C20,15.34 14.67,14 12,14 Z"
+                    Aspect="Uniform" HeightRequest="16" WidthRequest="16">
+                <Path.Triggers>
+                  <DataTrigger TargetType="Path" Binding="{Binding IsStudentSelected}" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LoginPrimary}" />
+                  </DataTrigger>
+                  <DataTrigger TargetType="Path" Binding="{Binding IsStudentSelected}" Value="False">
+                    <Setter Property="Fill" Value="{AppThemeBinding Light=#64748b, Dark=#94a3b8}" />
+                  </DataTrigger>
+                </Path.Triggers>
+              </Path>
+              <Label Text="Student" FontFamily="OpenSansSemibold" FontSize="14" VerticalTextAlignment="Center">
+                <Label.Triggers>
+                  <DataTrigger TargetType="Label" Binding="{Binding IsStudentSelected}" Value="True">
+                    <Setter Property="TextColor" Value="{StaticResource LoginPrimary}" />
+                  </DataTrigger>
+                  <DataTrigger TargetType="Label" Binding="{Binding IsStudentSelected}" Value="False">
+                    <Setter Property="TextColor" Value="{AppThemeBinding Light=#64748b, Dark=#94a3b8}" />
+                  </DataTrigger>
+                </Label.Triggers>
+              </Label>
+            </HorizontalStackLayout>
+          </Border>
+
+          <!-- Lecturer Tab -->
+          <Border Grid.Column="1"
+              StrokeShape="RoundRectangle 11"
+              StrokeThickness="0"
+              Padding="0"
+              SemanticProperties.Description="Select lecturer role"
+              SemanticProperties.Hint="Double tap to select lecturer role">
+            <Border.Triggers>
+              <DataTrigger TargetType="Border" Binding="{Binding IsLecturerSelected}" Value="True">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=#2d3748}" />
+              </DataTrigger>
+              <DataTrigger TargetType="Border" Binding="{Binding IsLecturerSelected}" Value="False">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+              </DataTrigger>
+            </Border.Triggers>
+            <Border.Shadow>
+              <Shadow Brush="#18000000" Offset="0,1" Radius="4" />
+            </Border.Shadow>
+            <Border.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding SelectLecturerCommand}" />
+            </Border.GestureRecognizers>
+            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6"
+                                   InputTransparent="True">
+              <Path Data="M5,13.18 L5,17.18 L12,21 L19,17.18 L19,13.18 L12,17 L5,13.18 Z M12,3 L1,9 L12,15 L21,10.09 L21,17 L23,17 L23,9 L12,3 Z"
+                    Aspect="Uniform" HeightRequest="16" WidthRequest="16">
+                <Path.Triggers>
+                  <DataTrigger TargetType="Path" Binding="{Binding IsLecturerSelected}" Value="True">
+                    <Setter Property="Fill" Value="{StaticResource LoginPrimary}" />
+                  </DataTrigger>
+                  <DataTrigger TargetType="Path" Binding="{Binding IsLecturerSelected}" Value="False">
+                    <Setter Property="Fill" Value="{AppThemeBinding Light=#64748b, Dark=#94a3b8}" />
+                  </DataTrigger>
+                </Path.Triggers>
+              </Path>
+              <Label Text="Lecturer" FontFamily="OpenSansSemibold" FontSize="14" VerticalTextAlignment="Center">
+                <Label.Triggers>
+                  <DataTrigger TargetType="Label" Binding="{Binding IsLecturerSelected}" Value="True">
+                    <Setter Property="TextColor" Value="{StaticResource LoginPrimary}" />
+                  </DataTrigger>
+                  <DataTrigger TargetType="Label" Binding="{Binding IsLecturerSelected}" Value="False">
+                    <Setter Property="TextColor" Value="{AppThemeBinding Light=#64748b, Dark=#94a3b8}" />
+                  </DataTrigger>
+                </Label.Triggers>
+              </Label>
+            </HorizontalStackLayout>
+          </Border>
+
+        </Grid>
+      </Border>
+
+      <!-- ═══════════ FORM CARD ═══════════ -->
+      <Border
+          StrokeShape="RoundRectangle 20"
+          StrokeThickness="1"
+          Stroke="{AppThemeBinding Light=#e2e8f0, Dark=#2d3748}"
+          BackgroundColor="{AppThemeBinding Light=White, Dark=#1a2332}"
+          Padding="20"
+          Margin="0,0,0,20">
+        <Border.Shadow>
+          <Shadow Brush="{AppThemeBinding Light=#15000000, Dark=#30000000}"
+                 Offset="0,4" Radius="16" Opacity="0.8" />
+        </Border.Shadow>
+        <VerticalStackLayout Spacing="16">
+
+          <!-- ── Email / ID Field ── -->
+          <VerticalStackLayout Spacing="8">
+            <Label Text="Email or Student/Staff ID"
+                   FontFamily="OpenSansSemibold" FontSize="13"
+                   TextColor="{AppThemeBinding Light=#374151, Dark=#d1d5db}" />
+            <Border StrokeShape="RoundRectangle 14"
+                    StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light=#e2e8f0, Dark=#374151}"
+                    BackgroundColor="{AppThemeBinding Light=#f8fafc, Dark=#1e293b}"
+                    Padding="14,0"
+                    HeightRequest="52">
+              <Grid ColumnDefinitions="28,*" ColumnSpacing="10">
+                <Path Data="M12,12 C14.21,12 16,10.21 16,8 C16,5.79 14.21,4 12,4 C9.79,4 8,5.79 8,8 C8,10.21 9.79,12 12,12 Z M12,14 C9.33,14 4,15.34 4,18 L4,20 L20,20 L20,18 C20,15.34 14.67,14 12,14 Z"
+                      Fill="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"
+                      Aspect="Uniform" HeightRequest="20" WidthRequest="20"
+                      HorizontalOptions="Center" VerticalOptions="Center"
+                      InputTransparent="True" />
+                <Entry Grid.Column="1"
+                       Placeholder="e.g. 202410123"
+                       Text="{Binding Email}"
+                       Keyboard="Email"
+                       FontFamily="OpenSansRegular"
+                       FontSize="15"
+                       BackgroundColor="Transparent"
+                       TextColor="{AppThemeBinding Light=#1e293b, Dark=#e2e8f0}"
+                       PlaceholderColor="{AppThemeBinding Light=#94a3b8, Dark=#4b5563}"
+                       VerticalTextAlignment="Center"
+                       AutomationId="EmailEntry"
+                       SemanticProperties.Description="Email or student ID input" />
+              </Grid>
+            </Border>
+          </VerticalStackLayout>
+
+          <!-- ── Password Field ── -->
+          <VerticalStackLayout Spacing="8">
+            <Label Text="Password"
+                   FontFamily="OpenSansSemibold" FontSize="13"
+                   TextColor="{AppThemeBinding Light=#374151, Dark=#d1d5db}" />
+            <Border StrokeShape="RoundRectangle 14"
+                    StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light=#e2e8f0, Dark=#374151}"
+                    BackgroundColor="{AppThemeBinding Light=#f8fafc, Dark=#1e293b}"
+                    Padding="14,0"
+                    HeightRequest="52">
+              <Grid ColumnDefinitions="28,*,44" ColumnSpacing="10">
+                <Path Data="M18,8 L17,8 L17,6 C17,3.24 14.76,1 12,1 C9.24,1 7,3.24 7,6 L7,8 L6,8 C4.9,8 4,8.9 4,10 L4,20 C4,21.1 4.9,22 6,22 L18,22 C19.1,22 20,21.1 20,20 L20,10 C20,8.9 19.1,8 18,8 Z M12,17 C10.9,17 10,16.1 10,15 C10,13.9 10.9,13 12,13 C13.1,13 14,13.9 14,15 C14,16.1 13.1,17 12,17 Z M15.1,8 L8.9,8 L8.9,6 C8.9,4.29 10.29,2.9 12,2.9 C13.71,2.9 15.1,4.29 15.1,6 L15.1,8 Z"
+                      Fill="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"
+                      Aspect="Uniform" HeightRequest="20" WidthRequest="20"
+                      HorizontalOptions="Center" VerticalOptions="Center"
+                      InputTransparent="True" />
+                <Entry Grid.Column="1"
+                       Placeholder="Enter your password"
+                       Text="{Binding Password}"
+                       IsPassword="{Binding IsPasswordHidden}"
+                       FontFamily="OpenSansRegular"
+                       FontSize="15"
+                       BackgroundColor="Transparent"
+                       TextColor="{AppThemeBinding Light=#1e293b, Dark=#e2e8f0}"
+                       PlaceholderColor="{AppThemeBinding Light=#94a3b8, Dark=#4b5563}"
+                       VerticalTextAlignment="Center"
+                       AutomationId="PasswordEntry"
+                       SemanticProperties.Description="Password input" />
+                <!-- Eye toggle button -->
+                <Border Grid.Column="2"
+                        StrokeThickness="0"
+                        BackgroundColor="Transparent"
+                        HeightRequest="44" WidthRequest="44"
+                        SemanticProperties.Description="Toggle password visibility"
+                        SemanticProperties.Hint="Double tap to show or hide password">
+                  <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
+                  </Border.GestureRecognizers>
+                  <!-- Eye open (shown when password IS hidden) -->
+                  <Grid>
+                    <Path Data="M12,4.5 C7,4.5 2.73,7.61 1,12 C2.73,16.39 7,19.5 12,19.5 C17,19.5 21.27,16.39 23,12 C21.27,7.61 17,4.5 12,4.5 Z M12,17 C9.24,17 7,14.76 7,12 C7,9.24 9.24,7 12,7 C14.76,7 17,9.24 17,12 C17,14.76 14.76,17 12,17 Z M12,9 C10.34,9 9,10.34 9,12 C9,13.66 10.34,15 12,15 C13.66,15 15,13.66 15,12 C15,10.34 13.66,9 12,9 Z"
+                          Fill="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"
+                          Aspect="Uniform" HeightRequest="20" WidthRequest="20"
+                          HorizontalOptions="Center" VerticalOptions="Center"
+                          InputTransparent="True"
+                          IsVisible="{Binding IsPasswordHidden}" />
+                    <!-- Eye off (shown when password is visible) -->
+                    <Path Data="M12,7 C14.76,7 17,9.24 17,12 C17,12.65 16.87,13.26 16.64,13.83 L19.56,16.75 C21.07,15.49 22.26,13.86 22.99,12 C21.26,7.61 16.99,4.5 11.99,4.5 C10.59,4.5 9.25,4.75 8.01,5.2 L10.17,7.36 C10.74,7.13 11.35,7 12,7 Z M2,4.27 L4.28,6.55 L4.74,7.01 C3.08,8.3 1.78,10.02 1,12 C2.73,16.39 7,19.5 12,19.5 C13.55,19.5 15.03,19.2 16.38,18.66 L16.8,19.08 L19.73,22 L21,20.73 L3.27,3 L2,4.27 Z M7.53,9.8 L9.08,11.35 C9.03,11.56 9,11.78 9,12 C9,13.66 10.34,15 12,15 C12.22,15 12.44,14.97 12.65,14.92 L14.2,16.47 C13.53,16.8 12.79,17 12,17 C9.24,17 7,14.76 7,12 C7,11.21 7.2,10.47 7.53,9.8 Z M11.84,9.02 L14.99,12.17 L15.01,12.01 C15.01,10.35 13.67,9.01 12.01,9.01 L11.84,9.02 Z"
+                          Fill="{AppThemeBinding Light=#94a3b8, Dark=#64748b}"
+                          Aspect="Uniform" HeightRequest="20" WidthRequest="20"
+                          HorizontalOptions="Center" VerticalOptions="Center"
+                          InputTransparent="True"
+                          IsVisible="{Binding IsPasswordVisible}" />
+                  </Grid>
+                </Border>
+              </Grid>
+            </Border>
+          </VerticalStackLayout>
+
+          <!-- ── Forgot Password ── -->
+          <Label Text="Forgot Password?"
+                 FontFamily="OpenSansSemibold" FontSize="13"
+                 TextColor="{StaticResource LoginPrimary}"
+                 HorizontalTextAlignment="End"
+                 SemanticProperties.Description="Forgot password link"
+                 SemanticProperties.Hint="Double tap to reset your password">
+            <Label.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
+            </Label.GestureRecognizers>
+          </Label>
+
+          <!-- ── Error Message ── -->
+          <Border StrokeShape="RoundRectangle 10"
+                  StrokeThickness="0"
+                  BackgroundColor="#fef2f2"
+                  Padding="12,10"
+                  IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}"
+                  SemanticProperties.Description="Error message">
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="#dc2626"
+                   FontFamily="OpenSansRegular"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center" />
+          </Border>
+
+        </VerticalStackLayout>
+      </Border>
+
+      <!-- ═══════════ LOGIN BUTTON ═══════════ -->
+      <Border x:Name="LoginButtonContainer"
+              StrokeShape="RoundRectangle 16"
+              StrokeThickness="0"
+              BackgroundColor="{StaticResource LoginPrimary}"
+              Padding="0"
+              HeightRequest="56"
+              Margin="0,0,0,20"
+              SemanticProperties.Description="Login button"
+              SemanticProperties.Hint="Double tap to sign in">
+        <Border.Shadow>
+          <Shadow Brush="#401152d4" Offset="0,4" Radius="12" Opacity="0.7" />
+        </Border.Shadow>
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Tapped="OnLoginTapped" />
+        </Border.GestureRecognizers>
+        <Grid>
+          <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10"
+                                 IsVisible="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                                 InputTransparent="True">
+            <Label Text="Login"
+                   TextColor="White"
+                   FontFamily="OpenSansSemibold"
+                   FontSize="17"
+                   VerticalTextAlignment="Center" />
+            <Path Data="M12,4 L10.59,5.41 L16.17,11 L4,11 L4,13 L16.17,13 L10.59,18.59 L12,20 L20,12 L12,4 Z"
+                  Fill="White"
+                  Aspect="Uniform" HeightRequest="18" WidthRequest="18"
+                  VerticalOptions="Center" />
+          </HorizontalStackLayout>
+          <ActivityIndicator IsRunning="{Binding IsBusy}"
+                             IsVisible="{Binding IsBusy}"
+                             Color="White"
+                             HeightRequest="24" WidthRequest="24"
+                             HorizontalOptions="Center" VerticalOptions="Center" />
+        </Grid>
+      </Border>
+
+      <!-- ═══════════ FOOTER ═══════════ -->
+      <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,8" Spacing="4">
+        <Label Text="New student?"
+               FontFamily="OpenSansRegular" FontSize="14"
+               TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
+               VerticalTextAlignment="Center" />
+        <Label Text="Create an Account"
+               FontFamily="OpenSansSemibold" FontSize="14"
+               TextColor="{StaticResource LoginPrimary}"
+               VerticalTextAlignment="Center"
+               SemanticProperties.Description="Create an account link"
+               SemanticProperties.Hint="Double tap to register">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+          </Label.GestureRecognizers>
+        </Label>
+      </HorizontalStackLayout>
+
+      <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,24" Spacing="4">
+        <Label Text="Are you a lecturer?"
+               FontFamily="OpenSansRegular" FontSize="14"
+               TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
+               VerticalTextAlignment="Center" />
+        <Label Text="Register as Lecturer"
+               FontFamily="OpenSansSemibold" FontSize="14"
+               TextColor="{StaticResource LoginPrimary}"
+               VerticalTextAlignment="Center"
+               AutomationId="GoToLecturerRegisterLabel"
+               SemanticProperties.Description="Register as a lecturer link"
+               SemanticProperties.Hint="Double tap to register as a lecturer">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding GoToLecturerRegisterCommand}" />
+          </Label.GestureRecognizers>
+        </Label>
+      </HorizontalStackLayout>
+
+      <!-- ═══════════ STATUS INDICATOR ═══════════ -->
+      <Border StrokeShape="RoundRectangle 20"
+              StrokeThickness="1"
+              Stroke="{AppThemeBinding Light=#e2e8f0, Dark=#2d3748}"
+              BackgroundColor="{AppThemeBinding Light=White, Dark=#1a2332}"
+              Padding="14,8"
+              HorizontalOptions="Center"
+              Margin="0,0,0,32"
+              SemanticProperties.Description="Portal services are online">
+        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+          <Ellipse x:Name="StatusDot"
+                   WidthRequest="10" HeightRequest="10"
+                   Fill="{StaticResource StatusGreen}"
+                   VerticalOptions="Center" />
+          <Label Text="Portal Services Online"
+                 FontFamily="OpenSansRegular" FontSize="12"
+                 TextColor="{AppThemeBinding Light=#64748b, Dark=#94a3b8}"
+                 VerticalTextAlignment="Center" />
+        </HorizontalStackLayout>
+      </Border>
+
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

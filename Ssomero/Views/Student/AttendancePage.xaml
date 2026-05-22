@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Ssomero.Views.Student.AttendancePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Ssomero.ViewModels"
+    xmlns:models="clr-namespace:Ssomero.Models"
+    xmlns:conv="clr-namespace:Ssomero.Converters"
+    BackgroundColor="#F1F5F9"
+    Title="Attendance">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool" />
+        <conv:NullToBoolConverter x:Key="NotNull" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- Header Banner -->
+            <Grid BackgroundColor="#5B21B6" Padding="20,20,20,30">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Mark Attendance" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="{Binding GpsStatus}" FontSize="12" TextColor="#C4B5FD"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Session Card -->
+            <Border Margin="16,-16,16,0" Padding="20" BackgroundColor="White"
+                    StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                <Border.Shadow>
+                    <Shadow Brush="#1A000000" Offset="0,4" Radius="12" Opacity="0.1"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="14">
+
+                    <!-- Session info -->
+                    <Label Text="{Binding SessionInfoLabel}"
+                           FontSize="14" TextColor="#374151" LineBreakMode="WordWrap"/>
+
+                    <!-- GPS refresh -->
+                    <Button Text="🔄  Refresh GPS"
+                            Command="{Binding RefreshGpsCommand}"
+                            BackgroundColor="#EDE9FE" TextColor="#5B21B6"
+                            FontSize="13" CornerRadius="8" HeightRequest="38"/>
+
+                    <!-- Success message -->
+                    <Border IsVisible="{Binding SuccessMessage, Converter={StaticResource NotNull}}"
+                            BackgroundColor="#ECFDF5" StrokeShape="RoundRectangle 8"
+                            StrokeThickness="0" Padding="12,8">
+                        <Label Text="{Binding SuccessMessage}" TextColor="#065F46" FontSize="13"/>
+                    </Border>
+
+                    <!-- Error message -->
+                    <Border IsVisible="{Binding ErrorMessage, Converter={StaticResource NotNull}}"
+                            BackgroundColor="#FEF2F2" StrokeShape="RoundRectangle 8"
+                            StrokeThickness="0" Padding="12,8">
+                        <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="13"/>
+                    </Border>
+
+                    <Button Text="{Binding MarkButtonLabel}"
+                            Command="{Binding MarkAttendanceCommand}"
+                            IsEnabled="{Binding CanMark}"
+                            BackgroundColor="#5B21B6" TextColor="White"
+                            FontSize="15" FontAttributes="Bold"
+                            CornerRadius="10" HeightRequest="50"/>
+
+                    <Label Text="A selfie + GPS will be captured as verification"
+                           FontSize="12" TextColor="#94A3B8" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- History Section -->
+            <Label Text="Attendance History" Margin="20,24,20,8"
+                   FontSize="16" FontAttributes="Bold" TextColor="#0F172A"/>
+
+            <!-- Loading -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               Color="#5B21B6" Margin="0,20"/>
+
+            <!-- Empty state -->
+            <VerticalStackLayout IsVisible="{Binding IsEmpty}"
+                                 HorizontalOptions="Center" Margin="0,20" Spacing="8">
+                <Label Text="📋" FontSize="40" HorizontalOptions="Center"/>
+                <Label Text="No attendance records yet" FontSize="15" TextColor="#64748B" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- History List -->
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding History}" Spacing="8" Margin="16,0,16,20">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:AttendanceRecordDto">
+                        <Border Padding="14,12" BackgroundColor="White"
+                                StrokeShape="RoundRectangle 10" StrokeThickness="0">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                    <Label Text="{Binding CourseName}" FontSize="14"
+                                           FontAttributes="Bold" TextColor="#0F172A"/>
+                                    <Label Text="{Binding DateLabel}" FontSize="12" TextColor="#94A3B8"/>
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" Padding="8,4"
+                                        StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                        BackgroundColor="{Binding StatusColor}">
+                                    <Label Text="{Binding StatusLabel}" FontSize="11"
+                                           FontAttributes="Bold" TextColor="White"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

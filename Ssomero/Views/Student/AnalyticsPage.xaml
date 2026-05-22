@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Ssomero.Views.Student.AnalyticsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Ssomero.ViewModels"
+    xmlns:conv="clr-namespace:Ssomero.Converters"
+    BackgroundColor="#F1F5F9"
+    Title="Analytics">
+
+    <ContentPage.Resources>
+        <conv:AttendanceColorConverter x:Key="AttColor"/>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding LoadCommand}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="0">
+
+                <VerticalStackLayout Padding="20,16,20,20" BackgroundColor="#5B21B6" Spacing="4">
+                    <Label Text="Attendance Analytics" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Track your academic performance" FontSize="13" TextColor="#C4B5FD"/>
+                </VerticalStackLayout>
+
+                <Border Margin="16,16,16,0" Padding="20" BackgroundColor="White"
+                        StrokeShape="RoundRectangle 16" StrokeThickness="0">
+                    <Border.Shadow>
+                        <Shadow Brush="#1A000000" Offset="0,2" Radius="8" Opacity="0.07"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Overall Attendance" FontSize="14" TextColor="#64748B" FontAttributes="Bold"/>
+                        <Label Text="{Binding OverallPercent, StringFormat='{0:F0}%'}"
+                               FontSize="42" FontAttributes="Bold"
+                               TextColor="{Binding OverallPercent, Converter={StaticResource AttColor}}"/>
+                        <ProgressBar Progress="{Binding OverallProgressValue}"
+                                     ProgressColor="{Binding OverallPercent, Converter={StaticResource AttColor}}"
+                                     HeightRequest="8"/>
+                        <Label Text="{Binding OverallStatus}" FontSize="13"
+                               TextColor="{Binding OverallPercent, Converter={StaticResource AttColor}}"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Margin="16,12,16,0" Padding="16" BackgroundColor="#EDE9FE"
+                        StrokeShape="RoundRectangle 12" StrokeThickness="0"
+                        IsVisible="{Binding HasInsights}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Smart Insights" FontSize="14" FontAttributes="Bold" TextColor="#5B21B6"/>
+                        <CollectionView ItemsSource="{Binding Insights}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="6"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Label Text="{Binding .}" FontSize="13" TextColor="#3730A3" Margin="0,2"/>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="Per Course" FontSize="16" FontAttributes="Bold"
+                       TextColor="#0F172A" Margin="16,16,16,8"/>
+
+                <CollectionView ItemsSource="{Binding BarItems}" Margin="16,0,16,24">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:BarItem">
+                            <Border Padding="14" BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,1" Radius="4" Opacity="0.06"/>
+                                </Border.Shadow>
+                                <VerticalStackLayout Spacing="6">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Grid.Column="0" Text="{Binding Label}"
+                                               FontSize="13" FontAttributes="Bold" TextColor="#0F172A"
+                                               LineBreakMode="TailTruncation"/>
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Value, StringFormat='{0:F0}%'}"
+                                               FontSize="13" FontAttributes="Bold"
+                                               TextColor="{Binding Value, Converter={StaticResource AttColor}}"/>
+                                    </Grid>
+                                    <ProgressBar Progress="{Binding Progress}"
+                                                 ProgressColor="{Binding Value, Converter={StaticResource AttColor}}"
+                                                 HeightRequest="6"/>
+                                    <Label Text="{Binding Detail}" FontSize="11" TextColor="#94A3B8"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

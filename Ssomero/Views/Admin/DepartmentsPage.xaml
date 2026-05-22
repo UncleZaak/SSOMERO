@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:models="clr-namespace:Ssomero.Models"
+             x:Class="Ssomero.Views.Admin.DepartmentsPage"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="*">
+
+        <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+        <ScrollView>
+            <VerticalStackLayout Padding="16,52,16,16" Spacing="16">
+
+                <!-- Header -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Departments Management" FontSize="24" FontAttributes="Bold" VerticalOptions="Center" />
+                    <Button Grid.Column="1" Text="+ Add Department" Command="{Binding AddDepartmentCommand}"
+                            BackgroundColor="#1976D2" TextColor="White" CornerRadius="8" Padding="12,8" />
+                </Grid>
+
+                <!-- Stats Cards -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                    <Frame Grid.Column="0" Padding="12" BackgroundColor="#E3F2FD" CornerRadius="8" BorderColor="Transparent">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Total Departments" FontSize="12" TextColor="#666" />
+                            <Label Text="{Binding TotalDepartments}" FontSize="24" FontAttributes="Bold" TextColor="#1976D2" />
+                        </VerticalStackLayout>
+                    </Frame>
+                    <Frame Grid.Column="1" Padding="12" BackgroundColor="#E8F5E9" CornerRadius="8" BorderColor="Transparent">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Active" FontSize="12" TextColor="#666" />
+                            <Label Text="{Binding ActiveDepartmentsCount}" FontSize="24" FontAttributes="Bold" TextColor="#388E3C" />
+                        </VerticalStackLayout>
+                    </Frame>
+                    <Frame Grid.Column="2" Padding="12" BackgroundColor="#FFF3E0" CornerRadius="8" BorderColor="Transparent">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Pending" FontSize="12" TextColor="#666" />
+                            <Label Text="{Binding PendingCount}" FontSize="24" FontAttributes="Bold" TextColor="#F57C00" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </Grid>
+
+                <!-- Cascade Filter: University → Faculty -->
+                <Frame Padding="12" BackgroundColor="#F0F4FF" CornerRadius="8" BorderColor="#BBDEFB">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Filter by hierarchy" FontSize="12" TextColor="#1565C0" FontAttributes="Bold" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="University" FontSize="12" TextColor="#555" />
+                                <Picker Title="Select University"
+                                        ItemsSource="{Binding Universities}"
+                                        ItemDisplayBinding="{Binding Name}"
+                                        SelectedItem="{Binding SelectedCascadeUniversity}" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Faculty" FontSize="12" TextColor="#555" />
+                                <Grid>
+                                    <Picker Title="Select Faculty"
+                                            IsEnabled="{Binding IsFacultyPickerEnabled}"
+                                            ItemsSource="{Binding CascadeFaculties}"
+                                            ItemDisplayBinding="{Binding Name}"
+                                            SelectedItem="{Binding SelectedCascadeFaculty}" />
+                                    <ActivityIndicator IsVisible="{Binding IsLoadingFaculties}"
+                                                       IsRunning="{Binding IsLoadingFaculties}"
+                                                       HorizontalOptions="End" VerticalOptions="Center"
+                                                       Margin="0,0,8,0" Scale="0.6" Color="#1976D2" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Search + Export Row -->
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Frame Grid.Column="0" Padding="4,0" CornerRadius="8" BorderColor="#DDD" HasShadow="False">
+                        <Entry Placeholder="Search by name or faculty..." Text="{Binding SearchQuery}"
+                               FontSize="14" Margin="8,0" />
+                    </Frame>
+                    <Button Grid.Column="1" Text="Export CSV" Command="{Binding ExportCommand}"
+                            BackgroundColor="#43A047" TextColor="White" CornerRadius="8" Padding="12,8" FontSize="13" />
+                </Grid>
+
+                <!-- Add/Edit Form -->
+                <Frame IsVisible="{Binding IsEditing}" Padding="16" BackgroundColor="#FAFAFA"
+                       CornerRadius="8" BorderColor="#DDD">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Department Name" FontAttributes="Bold" />
+                        <Entry Text="{Binding EditName}" Placeholder="Enter department name" />
+
+                        <Label Text="Faculty" FontAttributes="Bold" />
+                        <Picker Title="Select Faculty"
+                                ItemsSource="{Binding Faculties}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedFaculty}" />
+
+                        <Label Text="{Binding ErrorMessage}" TextColor="Red"
+                               IsVisible="{Binding ErrorMessage, Converter={StaticResource NullToBoolConverter}}" />
+                        <HorizontalStackLayout Spacing="10">
+                            <Button Text="Save" Command="{Binding SaveCommand}"
+                                    BackgroundColor="#1976D2" TextColor="White" CornerRadius="8" Padding="16,8" />
+                            <Button Text="Cancel" Command="{Binding CancelEditCommand}"
+                                    BackgroundColor="#E0E0E0" TextColor="#333" CornerRadius="8" Padding="16,8" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Empty state -->
+                <VerticalStackLayout IsVisible="{Binding IsEmpty}" Spacing="16"
+                                     HorizontalOptions="Center" Margin="0,40,0,0">
+                    <Label Text="🗂️" FontSize="56" HorizontalOptions="Center"
+                           SemanticProperties.Description="No departments" />
+                    <Label Text="No departments yet" FontSize="18" FontAttributes="Bold"
+                           TextColor="{StaticResource TextColor}" HorizontalOptions="Center" />
+                    <Label Text="Create your first department to get started."
+                           FontSize="14" TextColor="#666" HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                    <Button Text="+ Add Department" Command="{Binding AddDepartmentCommand}"
+                            BackgroundColor="#1976D2" TextColor="White" CornerRadius="8"
+                            Padding="20,10" HorizontalOptions="Center"
+                            SemanticProperties.Description="Create first department" />
+                </VerticalStackLayout>
+
+                <!-- Empty search state -->
+                <VerticalStackLayout IsVisible="{Binding IsEmptySearch}" Spacing="8"
+                                     HorizontalOptions="Center" Margin="0,20,0,0">
+                    <Label Text="🔍" FontSize="40" HorizontalOptions="Center" />
+                    <Label Text="No results match your search" FontSize="16" FontAttributes="Bold"
+                           TextColor="{StaticResource TextColor}" HorizontalOptions="Center" />
+                    <Label Text="Try a different name or clear the filter."
+                           FontSize="13" TextColor="#888" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+
+                <!-- Table Header -->
+                <Frame Padding="10,8" BackgroundColor="#F5F5F5" CornerRadius="4" BorderColor="#E0E0E0" HasShadow="False">
+                    <Grid ColumnDefinitions="2*,2*,Auto,Auto,120">
+                        <Label Grid.Column="0" Text="Department Name" FontAttributes="Bold" FontSize="13" />
+                        <Label Grid.Column="1" Text="Faculty" FontAttributes="Bold" FontSize="13" />
+                        <Label Grid.Column="2" Text="Programs" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" />
+                        <Label Grid.Column="3" Text="Status" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" />
+                        <Label Grid.Column="4" Text="Actions" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" />
+                    </Grid>
+                </Frame>
+
+                <!-- Data Rows -->
+                <CollectionView ItemsSource="{Binding Departments}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:DepartmentDto">
+                            <Frame Padding="10,8" CornerRadius="4" BorderColor="#EEE" HasShadow="False">
+                                <Grid ColumnDefinitions="2*,2*,Auto,Auto,120">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                                        <Label Text="{Binding Name}" FontSize="14" />
+                                        <Label Text="{Binding DisplayLabel}" FontSize="11" TextColor="#1976D2" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                        <Label Text="{Binding FacultyName}" FontSize="13" TextColor="#555" />
+                                        <Label Text="{Binding UniversityName}" FontSize="11" TextColor="#888" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2" Text="{Binding ProgramsCount}" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    <Frame Grid.Column="3" Padding="6,2" CornerRadius="10" BackgroundColor="#C8E6C9" BorderColor="Transparent" HasShadow="False" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Label Text="{Binding Status}" FontSize="11" TextColor="#2E7D32" />
+                                    </Frame>
+                                    <HorizontalStackLayout Grid.Column="4" Spacing="6" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Button Text="Edit" FontSize="11" Padding="8,4" CornerRadius="4"
+                                                BackgroundColor="#1976D2" TextColor="White"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DepartmentsViewModel}}, Path=EditDepartmentCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <Button Text="Delete" FontSize="11" Padding="8,4" CornerRadius="4"
+                                                BackgroundColor="#E53935" TextColor="White"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DepartmentsViewModel}}, Path=DeleteDepartmentCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label Text="No departments found" HorizontalOptions="Center" Margin="0,20" TextColor="#999" />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+
+                <!-- Pagination -->
+                <Grid ColumnDefinitions="Auto,*,Auto" Padding="0,8">
+                    <Button Grid.Column="0" Text="← Previous" Command="{Binding PrevPageCommand}"
+                            BackgroundColor="#E0E0E0" TextColor="#333" CornerRadius="8" Padding="12,8" FontSize="13" />
+                    <Label Grid.Column="1" Text="{Binding PageInfo}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="13" />
+                    <Button Grid.Column="2" Text="Next →" Command="{Binding NextPageCommand}"
+                            BackgroundColor="#E0E0E0" TextColor="#333" CornerRadius="8" Padding="12,8" FontSize="13" />
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+
+        <!-- Toast overlay -->
+        <Border IsVisible="{Binding ToastIsVisible}"
+                BackgroundColor="{Binding ToastColor}"
+                StrokeShape="RoundRectangle 14" Stroke="Transparent"
+                Padding="20,12" HorizontalOptions="Center" VerticalOptions="End"
+                Margin="16,0,16,52" ZIndex="9999">
+            <Label Text="{Binding ToastMessage}" TextColor="White"
+                   FontSize="14" HorizontalTextAlignment="Center" />
+        </Border>
+
+    </Grid>
+</ContentPage>

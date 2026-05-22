@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="Ssomero.Api.UnitTests/Ssomero.Api.UnitTests.csproj" Id="6ef7d34a-f2f4-4c23-9bd0-937a9ae43934" />
+  <Project Path="Ssomero.Api/Ssomero.Api.csproj" />
+  <Project Path="Ssomero.UnitTests/Ssomero.UnitTests.csproj" Id="f74f7a83-867a-4f35-b1e5-1df01dc8d933" />
+  <Project Path="Ssomero/Ssomero.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

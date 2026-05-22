@@ -1,0 +1,224 @@
+2026-05-13 09:23:19.687 +03:00 [INF] OTP cleanup service started
+2026-05-13 09:23:20.750 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-13 09:23:20.760 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-13 09:23:20.878 +03:00 [INF] Server desktop-b8rchhq:63328:1c1208dd successfully announced in 7.1586 ms
+2026-05-13 09:23:20.902 +03:00 [INF] Server desktop-b8rchhq:63328:1c1208dd is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-13 09:23:21.746 +03:00 [INF] Server desktop-b8rchhq:63328:1c1208dd all the dispatchers started
+2026-05-13 09:24:10.673 +03:00 [INF] HTTP GET /api/health responded 200 in 364.2051 ms
+2026-05-13 09:24:11.752 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-13 09:24:13.524 +03:00 [INF] Student login successful for unclezaac6@gmail.com as ClassRepresentative
+2026-05-13 09:24:13.692 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 2145ms
+2026-05-13 09:24:13.700 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 2181.6353 ms
+2026-05-13 09:24:17.769 +03:00 [WRN] Profile not found for "77ba57c3-c8d7-46fd-9871-d10e550e41d4" (ClassRepresentative)
+2026-05-13 09:24:17.779 +03:00 [INF] HTTP GET /api/profile responded 404 in 51.3206 ms
+2026-05-13 09:24:17.865 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 360.6990 ms
+2026-05-13 09:24:19.724 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 406.0294 ms
+2026-05-13 09:24:39.520 +03:00 [WRN] Profile not found for "77ba57c3-c8d7-46fd-9871-d10e550e41d4" (ClassRepresentative)
+2026-05-13 09:24:39.524 +03:00 [INF] HTTP GET /api/profile responded 404 in 8.1548 ms
+2026-05-13 09:25:06.579 +03:00 [INF] HTTP GET /api/my-classes responded 200 in 80.4612 ms
+2026-05-13 09:25:06.801 +03:00 [INF] HTTP GET /api/class-elections/active/be9108b9-46bc-4b0b-92a1-d872a04b3650 responded 404 in 65.2350 ms
+2026-05-13 09:25:17.963 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 11.5805 ms
+2026-05-13 09:25:18.324 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 4.5735 ms
+2026-05-13 09:25:19.068 +03:00 [INF] HTTP GET /api/classrep/my-class responded 200 in 172.0070 ms
+2026-05-13 09:25:19.095 +03:00 [INF] HTTP GET /api/classrep/subclasses responded 200 in 122.3670 ms
+2026-05-13 09:25:19.137 +03:00 [INF] HTTP GET /api/classrep/stats responded 200 in 174.3525 ms
+2026-05-13 09:25:37.010 +03:00 [INF] HTTP GET /api/classrep/classes/79ef8210-7c44-45a9-b943-0d86fde684c8/students responded 200 in 70.9434 ms
+2026-05-13 09:25:46.147 +03:00 [INF] HTTP GET /api/classrep/my-class responded 200 in 5.4008 ms
+2026-05-13 09:25:46.182 +03:00 [INF] HTTP GET /api/classrep/stats responded 200 in 8.7892 ms
+2026-05-13 09:25:46.229 +03:00 [INF] HTTP GET /api/classrep/subclasses responded 200 in 7.3265 ms
+2026-05-13 09:25:58.043 +03:00 [INF] HTTP GET /api/classrep/subclasses responded 200 in 8.8595 ms
+2026-05-13 09:25:58.106 +03:00 [INF] HTTP GET /api/classrep/announcements responded 200 in 72.5163 ms
+2026-05-13 09:26:07.570 +03:00 [INF] HTTP GET /api/classrep/attendance/summary responded 200 in 36.6578 ms
+2026-05-13 09:26:16.095 +03:00 [INF] HTTP GET /api/classrep/announcements responded 200 in 10.2686 ms
+2026-05-13 09:26:16.165 +03:00 [INF] HTTP GET /api/classrep/subclasses responded 200 in 5.3386 ms
+2026-05-13 09:26:19.098 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.6787 ms
+2026-05-13 09:26:19.193 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.1289 ms
+2026-05-13 09:26:23.320 +03:00 [INF] HTTP GET /api/classrep/analytics responded 200 in 234.8034 ms
+2026-05-13 09:26:39.195 +03:00 [INF] HTTP GET /api/schedules responded 200 in 9.1497 ms
+2026-05-13 09:26:48.071 +03:00 [WRN] Profile not found for "77ba57c3-c8d7-46fd-9871-d10e550e41d4" (ClassRepresentative)
+2026-05-13 09:26:48.076 +03:00 [INF] HTTP GET /api/profile responded 404 in 11.6270 ms
+2026-05-13 09:27:42.150 +03:00 [INF] HTTP GET /api/health responded 200 in 4.0333 ms
+2026-05-13 09:27:42.332 +03:00 [INF] Login attempt for jehovahusheringservices@gmail.com
+2026-05-13 09:27:43.219 +03:00 [INF] Lecturer login successful for jehovahusheringservices@gmail.com
+2026-05-13 09:27:43.224 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 901ms
+2026-05-13 09:27:43.237 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 915.4714 ms
+2026-05-13 09:27:45.257 +03:00 [INF] HTTP GET /api/lecturer/classes responded 200 in 72.1499 ms
+2026-05-13 09:27:45.503 +03:00 [INF] HTTP GET /api/profile responded 200 in 191.1104 ms
+2026-05-13 09:28:07.751 +03:00 [INF] HTTP GET /api/lecturer/classes responded 200 in 4.5035 ms
+2026-05-13 09:28:11.489 +03:00 [INF] HTTP GET /api/lecturer/classes/79ef8210-7c44-45a9-b943-0d86fde684c8 responded 200 in 168.5988 ms
+2026-05-13 09:28:18.062 +03:00 [INF] HTTP GET /api/lecturer/classes/79ef8210-7c44-45a9-b943-0d86fde684c8/materials responded 200 in 48.5660 ms
+2026-05-13 09:28:27.804 +03:00 [INF] HTTP GET /api/lecturer/classes/79ef8210-7c44-45a9-b943-0d86fde684c8 responded 200 in 8.6562 ms
+2026-05-13 09:28:31.129 +03:00 [INF] HTTP GET /api/schedules responded 200 in 1.6057 ms
+2026-05-13 09:28:34.964 +03:00 [INF] HTTP GET /api/lecturer/classes responded 200 in 5.8640 ms
+2026-05-13 09:28:45.922 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 44.9407 ms
+2026-05-13 09:28:46.025 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.2379 ms
+2026-05-13 09:29:34.170 +03:00 [INF] HTTP GET /api/health responded 200 in 2.4683 ms
+2026-05-13 09:29:34.327 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-13 09:29:34.720 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-13 09:29:34.722 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 407ms
+2026-05-13 09:29:34.726 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 411.9234 ms
+2026-05-13 09:29:37.434 +03:00 [INF] HTTP GET /api/profile responded 200 in 50.2991 ms
+2026-05-13 09:30:00.916 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 71.7662 ms
+2026-05-13 09:30:00.948 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 95.2659 ms
+2026-05-13 09:30:32.099 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 104.5055 ms
+2026-05-13 09:30:37.816 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 174.3920 ms
+2026-05-13 09:30:37.921 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 8.1044 ms
+2026-05-13 09:31:01.228 +03:00 [INF] AUDIT POST /api/universities | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 519ms
+2026-05-13 09:31:01.238 +03:00 [INF] HTTP POST /api/universities responded 201 in 530.4203 ms
+2026-05-13 09:31:18.267 +03:00 [INF] AUDIT POST /api/universities | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 13ms
+2026-05-13 09:31:18.275 +03:00 [INF] HTTP POST /api/universities responded 201 in 23.2631 ms
+2026-05-13 09:31:38.026 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.4999 ms
+2026-05-13 09:31:38.103 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.7323 ms
+2026-05-13 09:32:09.120 +03:00 [INF] AUDIT POST /api/universities | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 14ms
+2026-05-13 09:32:09.125 +03:00 [INF] HTTP POST /api/universities responded 201 in 20.5944 ms
+2026-05-13 09:32:14.678 +03:00 [INF] HTTP GET /api/universities responded 200 in 51.0364 ms
+2026-05-13 09:32:15.186 +03:00 [INF] HTTP GET /api/v1/admin/academic/faculties responded 200 in 90.7344 ms
+2026-05-13 09:32:17.037 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 4.5368 ms
+2026-05-13 09:32:32.112 +03:00 [INF] HTTP GET /api/v1/admin/academic/faculties responded 200 in 6.5697 ms
+2026-05-13 09:32:38.193 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.5992 ms
+2026-05-13 09:32:38.271 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.0259 ms
+2026-05-13 09:33:38.401 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.3316 ms
+2026-05-13 09:33:38.464 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.7406 ms
+2026-05-13 09:34:38.567 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.4523 ms
+2026-05-13 09:34:38.760 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.1568 ms
+2026-05-13 09:35:38.873 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 7.9008 ms
+2026-05-13 09:35:38.942 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.9482 ms
+2026-05-13 09:36:39.029 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.5267 ms
+2026-05-13 09:36:39.099 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.9530 ms
+2026-05-13 09:37:35.345 +03:00 [INF] AUDIT DELETE /api/v1/admin/academic/faculties/3de145e4-0030-40c2-97ff-9c527f18d78c | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 254ms
+2026-05-13 09:37:35.352 +03:00 [INF] HTTP DELETE /api/v1/admin/academic/faculties/3de145e4-0030-40c2-97ff-9c527f18d78c responded 200 in 263.0601 ms
+2026-05-13 09:37:37.616 +03:00 [INF] AUDIT DELETE /api/v1/admin/academic/faculties/3de145e4-0030-40c2-97ff-9c527f18d78c | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=404 | 42ms
+2026-05-13 09:37:37.623 +03:00 [INF] HTTP DELETE /api/v1/admin/academic/faculties/3de145e4-0030-40c2-97ff-9c527f18d78c responded 404 in 49.8366 ms
+2026-05-13 09:37:39.232 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.2977 ms
+2026-05-13 09:37:39.408 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.7812 ms
+2026-05-13 09:37:42.048 +03:00 [INF] AUDIT DELETE /api/v1/admin/academic/faculties/3de145e4-0030-40c2-97ff-9c527f18d78c | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=404 | 1ms
+2026-05-13 09:37:42.053 +03:00 [INF] HTTP DELETE /api/v1/admin/academic/faculties/3de145e4-0030-40c2-97ff-9c527f18d78c responded 404 in 7.1216 ms
+2026-05-13 09:37:46.440 +03:00 [INF] AUDIT DELETE /api/v1/admin/academic/faculties/3de145e4-0030-40c2-97ff-9c527f18d78c | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=404 | 2ms
+2026-05-13 09:37:46.456 +03:00 [INF] HTTP DELETE /api/v1/admin/academic/faculties/3de145e4-0030-40c2-97ff-9c527f18d78c responded 404 in 19.5926 ms
+2026-05-13 09:37:55.598 +03:00 [INF] AUDIT DELETE /api/v1/admin/academic/faculties/eaaa242d-68c4-43ae-85fa-5f8c5d67b8f1 | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 17ms
+2026-05-13 09:37:55.611 +03:00 [INF] HTTP DELETE /api/v1/admin/academic/faculties/eaaa242d-68c4-43ae-85fa-5f8c5d67b8f1 responded 200 in 32.3129 ms
+2026-05-13 09:37:58.973 +03:00 [INF] AUDIT DELETE /api/v1/admin/academic/faculties/eaaa242d-68c4-43ae-85fa-5f8c5d67b8f1 | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=404 | 2ms
+2026-05-13 09:37:58.979 +03:00 [INF] HTTP DELETE /api/v1/admin/academic/faculties/eaaa242d-68c4-43ae-85fa-5f8c5d67b8f1 responded 404 in 9.1770 ms
+2026-05-13 09:38:06.018 +03:00 [INF] AUDIT DELETE /api/v1/admin/academic/faculties/34996141-e35b-4bf1-9730-bcb8dcf02594 | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=409 | 85ms
+2026-05-13 09:38:06.023 +03:00 [INF] HTTP DELETE /api/v1/admin/academic/faculties/34996141-e35b-4bf1-9730-bcb8dcf02594 responded 409 in 90.9954 ms
+2026-05-13 09:38:39.544 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.5425 ms
+2026-05-13 09:38:39.667 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.3183 ms
+2026-05-13 09:38:44.230 +03:00 [INF] AUDIT POST /api/v1/admin/academic/faculties | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 134ms
+2026-05-13 09:38:44.234 +03:00 [INF] HTTP POST /api/v1/admin/academic/faculties responded 201 in 140.4512 ms
+2026-05-13 09:39:14.651 +03:00 [INF] AUDIT POST /api/v1/admin/academic/faculties | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 20ms
+2026-05-13 09:39:14.667 +03:00 [INF] HTTP POST /api/v1/admin/academic/faculties responded 201 in 36.6368 ms
+2026-05-13 09:39:39.075 +03:00 [INF] AUDIT POST /api/v1/admin/academic/faculties | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 10ms
+2026-05-13 09:39:39.080 +03:00 [INF] HTTP POST /api/v1/admin/academic/faculties responded 201 in 16.2082 ms
+2026-05-13 09:39:39.767 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6024 ms
+2026-05-13 09:39:39.845 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6591 ms
+2026-05-13 09:40:20.405 +03:00 [INF] AUDIT POST /api/v1/admin/academic/faculties | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 9ms
+2026-05-13 09:40:20.409 +03:00 [INF] HTTP POST /api/v1/admin/academic/faculties responded 201 in 14.4051 ms
+2026-05-13 09:40:39.961 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 8.3236 ms
+2026-05-13 09:40:40.068 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.1850 ms
+2026-05-13 09:40:42.654 +03:00 [INF] HTTP GET /api/v1/admin/academic/faculties responded 200 in 6.2246 ms
+2026-05-13 09:40:43.027 +03:00 [INF] HTTP GET /api/v1/admin/academic/departments responded 200 in 67.0980 ms
+2026-05-13 09:41:03.619 +03:00 [INF] HTTP GET /api/v1/admin/academic/faculties responded 200 in 24.1980 ms
+2026-05-13 09:41:40.193 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.2192 ms
+2026-05-13 09:41:40.290 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6266 ms
+2026-05-13 09:42:40.397 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6703 ms
+2026-05-13 09:42:40.522 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.7847 ms
+2026-05-13 09:43:40.636 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.2236 ms
+2026-05-13 09:43:40.745 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.5045 ms
+2026-05-13 09:44:40.862 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.0605 ms
+2026-05-13 09:44:40.984 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.0361 ms
+2026-05-13 09:44:41.822 +03:00 [INF] AUDIT POST /api/v1/admin/academic/departments | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 111ms
+2026-05-13 09:44:41.829 +03:00 [INF] HTTP POST /api/v1/admin/academic/departments responded 201 in 119.1082 ms
+2026-05-13 09:45:30.634 +03:00 [INF] AUDIT POST /api/v1/admin/academic/departments | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 7ms
+2026-05-13 09:45:30.649 +03:00 [INF] HTTP POST /api/v1/admin/academic/departments responded 201 in 23.0753 ms
+2026-05-13 09:45:41.350 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 7.6499 ms
+2026-05-13 09:45:41.431 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.0171 ms
+2026-05-13 09:45:52.420 +03:00 [INF] AUDIT POST /api/v1/admin/academic/departments | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 8ms
+2026-05-13 09:45:52.427 +03:00 [INF] HTTP POST /api/v1/admin/academic/departments responded 201 in 16.5718 ms
+2026-05-13 09:46:41.512 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.5881 ms
+2026-05-13 09:46:41.582 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.8487 ms
+2026-05-13 09:46:48.388 +03:00 [INF] AUDIT POST /api/v1/admin/academic/departments | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 7ms
+2026-05-13 09:46:48.408 +03:00 [INF] HTTP POST /api/v1/admin/academic/departments responded 201 in 26.9607 ms
+2026-05-13 09:47:28.424 +03:00 [INF] AUDIT POST /api/v1/admin/academic/departments | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 14ms
+2026-05-13 09:47:28.440 +03:00 [INF] HTTP POST /api/v1/admin/academic/departments responded 201 in 31.3506 ms
+2026-05-13 09:47:41.692 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.0176 ms
+2026-05-13 09:47:41.792 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6980 ms
+2026-05-13 09:47:56.946 +03:00 [INF] HTTP GET /api/universities responded 200 in 1.9179 ms
+2026-05-13 09:47:57.165 +03:00 [INF] HTTP GET /api/v1/admin/academic/departments responded 200 in 4.8610 ms
+2026-05-13 09:47:57.341 +03:00 [INF] HTTP GET /api/v1/admin/academic/programs responded 200 in 67.7124 ms
+2026-05-13 09:48:36.344 +03:00 [INF] HTTP GET /api/v1/admin/academic/faculties responded 200 in 4.4729 ms
+2026-05-13 09:48:40.894 +03:00 [INF] HTTP GET /api/v1/admin/academic/departments responded 200 in 19.1924 ms
+2026-05-13 09:48:41.911 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.9748 ms
+2026-05-13 09:48:42.042 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.9860 ms
+2026-05-13 09:48:53.469 +03:00 [INF] HTTP GET /api/v1/admin/academic/departments responded 200 in 5.1553 ms
+2026-05-13 09:49:42.188 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.0153 ms
+2026-05-13 09:49:42.316 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6757 ms
+2026-05-13 09:50:42.447 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 4.9409 ms
+2026-05-13 09:50:42.581 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.4499 ms
+2026-05-13 09:51:42.806 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6073 ms
+2026-05-13 09:51:43.051 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.9954 ms
+2026-05-13 09:52:43.235 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 3.4841 ms
+2026-05-13 09:52:43.403 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.0811 ms
+2026-05-13 09:53:43.520 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.9105 ms
+2026-05-13 09:53:43.625 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6309 ms
+2026-05-13 09:53:50.062 +03:00 [INF] AUDIT POST /api/v1/admin/academic/programs | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 140ms
+2026-05-13 09:53:50.082 +03:00 [INF] HTTP POST /api/v1/admin/academic/programs responded 201 in 161.5342 ms
+2026-05-13 09:54:43.739 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.5654 ms
+2026-05-13 09:54:43.806 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.9240 ms
+2026-05-13 09:55:22.029 +03:00 [INF] AUDIT POST /api/v1/admin/academic/programs | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 13ms
+2026-05-13 09:55:22.042 +03:00 [INF] HTTP POST /api/v1/admin/academic/programs responded 201 in 27.9408 ms
+2026-05-13 09:55:43.890 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 4.6767 ms
+2026-05-13 09:55:43.950 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6732 ms
+2026-05-13 09:56:07.897 +03:00 [INF] AUDIT POST /api/v1/admin/academic/programs | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 19ms
+2026-05-13 09:56:07.944 +03:00 [INF] HTTP POST /api/v1/admin/academic/programs responded 201 in 67.4437 ms
+2026-05-13 09:56:19.938 +03:00 [INF] HTTP GET /api/v1/admin/academic/programs responded 200 in 6.5590 ms
+2026-05-13 09:56:20.518 +03:00 [INF] HTTP GET /api/semesters responded 200 in 39.1554 ms
+2026-05-13 09:56:20.739 +03:00 [INF] HTTP GET /api/v1/admin/academic/curriculum responded 200 in 78.5081 ms
+2026-05-13 09:56:35.284 +03:00 [INF] HTTP GET /api/v1/admin/academic/faculties responded 200 in 9.2894 ms
+2026-05-13 09:56:38.363 +03:00 [INF] HTTP GET /api/v1/admin/academic/departments responded 200 in 2.0344 ms
+2026-05-13 09:56:42.602 +03:00 [INF] HTTP GET /api/v1/admin/academic/programs responded 200 in 26.1688 ms
+2026-05-13 09:56:44.101 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.6459 ms
+2026-05-13 09:56:44.237 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 0.3815 ms
+2026-05-13 09:57:43.394 +03:00 [INF] HTTP GET /api/study-modes responded 200 in 40.1705 ms
+2026-05-13 09:57:43.398 +03:00 [INF] HTTP GET /api/entry-schemes responded 200 in 64.4082 ms
+2026-05-13 09:57:43.400 +03:00 [INF] HTTP GET /api/intakes responded 200 in 47.8909 ms
+2026-05-13 09:57:43.458 +03:00 [INF] HTTP GET /api/academic-years responded 200 in 102.8379 ms
+2026-05-13 09:58:12.964 +03:00 [INF] Email sent to isaacluyombokabuye@gmail.com with subject "Your OTP Code"
+2026-05-13 09:58:13.364 +03:00 [INF] OTP generated and sent for isaacluyombokabuye@gmail.com
+2026-05-13 09:58:13.378 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=200 | 5758ms
+2026-05-13 09:58:13.391 +03:00 [INF] HTTP POST /api/auth/send-otp responded 200 in 5772.6596 ms
+2026-05-13 09:58:39.672 +03:00 [INF] AUDIT POST /api/auth/verify-otp | User=anonymous | Correlation=- | Status=200 | 744ms
+2026-05-13 09:58:39.677 +03:00 [INF] HTTP POST /api/auth/verify-otp responded 200 in 749.2737 ms
+2026-05-13 10:00:15.647 +03:00 [INF] HTTP GET /api/faculties responded 200 in 32.5018 ms
+2026-05-13 10:00:22.163 +03:00 [INF] HTTP GET /api/departments responded 200 in 36.0846 ms
+2026-05-13 10:00:29.920 +03:00 [INF] HTTP GET /api/programs responded 200 in 27.2607 ms
+2026-05-13 10:00:48.974 +03:00 [INF] HTTP GET /api/departments responded 200 in 3.6830 ms
+2026-05-13 10:00:52.048 +03:00 [INF] HTTP GET /api/programs responded 200 in 2.7030 ms
+2026-05-13 10:01:50.803 +03:00 [INF] Created main class: Bachelor of Science in Computer Science - Y1 Semester 1 (2024/2025)
+2026-05-13 10:01:50.970 +03:00 [INF] Created subclass: MTH1100 - Mathematics for Computing I
+2026-05-13 10:01:50.975 +03:00 [INF] Created subclass: CSC1101 - Programming Fundamentals
+2026-05-13 10:01:50.979 +03:00 [INF] Created subclass: CSC1100 - Introduction to Computing
+2026-05-13 10:01:51.051 +03:00 [INF] Student registered: isaacluyombokabuye@gmail.com
+2026-05-13 10:01:51.058 +03:00 [INF] AUDIT POST /api/auth/register | User=anonymous | Correlation=- | Status=201 | 1718ms
+2026-05-13 10:01:51.063 +03:00 [INF] HTTP POST /api/auth/register responded 201 in 1722.9875 ms
+2026-05-13 10:02:21.141 +03:00 [INF] HTTP GET /api/health responded 200 in 1.5268 ms
+2026-05-13 10:02:21.264 +03:00 [INF] Login attempt for isaacluyombokabuye@gmail.com
+2026-05-13 10:02:21.563 +03:00 [INF] Student login successful for isaacluyombokabuye@gmail.com as Student
+2026-05-13 10:02:21.565 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 301ms
+2026-05-13 10:02:21.571 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 307.7324 ms
+2026-05-13 10:02:24.486 +03:00 [INF] HTTP GET /api/profile responded 200 in 87.0694 ms
+2026-05-13 10:02:38.220 +03:00 [INF] HTTP GET /api/courses responded 200 in 24.1598 ms
+2026-05-13 10:02:38.428 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 1.8998 ms
+2026-05-13 10:02:55.555 +03:00 [INF] HTTP GET /api/materials responded 404 in 0.8538 ms
+2026-05-13 10:03:01.410 +03:00 [INF] HTTP GET /api/my-classes responded 200 in 3.4407 ms
+2026-05-13 10:03:01.616 +03:00 [INF] HTTP GET /api/class-elections/active/27a5de00-cb6e-43b5-a797-c263eafdf225 responded 404 in 3.8413 ms
+2026-05-13 10:03:14.990 +03:00 [INF] HTTP GET /api/profile responded 200 in 10.4221 ms
+2026-05-13 10:03:24.792 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 22.4293 ms
+2026-05-13 10:03:24.953 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 10.7329 ms
+2026-05-13 10:03:25.127 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 2.9674 ms
+2026-05-13 10:03:42.628 +03:00 [INF] HTTP GET /api/courses/ca506568-1c72-416e-bf30-b71ff30d0012 responded 200 in 167.0703 ms
+2026-05-13 10:03:48.579 +03:00 [INF] HTTP GET /api/courses responded 200 in 1.5357 ms
+2026-05-13 10:03:48.728 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 0.5293 ms

@@ -1,0 +1,290 @@
+﻿using System;
+using System.Globalization;
+
+using Microsoft.Maui.Controls;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ssomero.Converters;
+
+namespace Ssomero.Converters.UnitTests
+{
+    /// <summary>
+    /// Unit tests for the <see cref="ZeroToBoolConverter"/> class.
+    /// </summary>
+    [TestClass]
+    public class ZeroToBoolConverterTests
+    {
+        /// <summary>
+        /// Tests that the Convert method returns true when the value is an integer equal to zero,
+        /// and returns false for all other integer values including int.MinValue, int.MaxValue,
+        /// and positive/negative non-zero values.
+        /// </summary>
+        /// <param name="value">The integer value to test.</param>
+        /// <param name="expected">The expected boolean result.</param>
+        [TestMethod]
+        [DataRow(0, true, DisplayName = "Int zero returns true")]
+        [DataRow(1, false, DisplayName = "Int positive returns false")]
+        [DataRow(-1, false, DisplayName = "Int negative returns false")]
+        [DataRow(100, false, DisplayName = "Int large positive returns false")]
+        [DataRow(-100, false, DisplayName = "Int large negative returns false")]
+        [DataRow(int.MaxValue, false, DisplayName = "Int.MaxValue returns false")]
+        [DataRow(int.MinValue, false, DisplayName = "Int.MinValue returns false")]
+        public void Convert_IntValue_ReturnsExpectedBool(int value, bool expected)
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result = converter.Convert(value, typeof(bool), null, null);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(bool));
+            Assert.AreEqual(expected, (bool)result);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method returns true when the value is a long equal to zero,
+        /// and returns false for all other long values including long.MinValue, long.MaxValue,
+        /// and positive/negative non-zero values.
+        /// </summary>
+        /// <param name="value">The long value to test.</param>
+        /// <param name="expected">The expected boolean result.</param>
+        [TestMethod]
+        [DataRow(0L, true, DisplayName = "Long zero returns true")]
+        [DataRow(1L, false, DisplayName = "Long positive returns false")]
+        [DataRow(-1L, false, DisplayName = "Long negative returns false")]
+        [DataRow(100L, false, DisplayName = "Long large positive returns false")]
+        [DataRow(-100L, false, DisplayName = "Long large negative returns false")]
+        [DataRow(long.MaxValue, false, DisplayName = "Long.MaxValue returns false")]
+        [DataRow(long.MinValue, false, DisplayName = "Long.MinValue returns false")]
+        public void Convert_LongValue_ReturnsExpectedBool(long value, bool expected)
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result = converter.Convert(value, typeof(bool), null, null);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(bool));
+            Assert.AreEqual(expected, (bool)result);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method returns false when the value is null.
+        /// </summary>
+        [TestMethod]
+        public void Convert_NullValue_ReturnsFalse()
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result = converter.Convert(null, typeof(bool), null, null);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(bool));
+            Assert.AreEqual(false, (bool)result);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method returns false for numeric types other than int and long,
+        /// including double, float, decimal, short, and byte, even when those values are zero.
+        /// </summary>
+        [TestMethod]
+        [DataRow(0.0, DisplayName = "Double zero returns false")]
+        [DataRow(1.5, DisplayName = "Double positive returns false")]
+        [DataRow(-1.5, DisplayName = "Double negative returns false")]
+        [DataRow(double.NaN, DisplayName = "Double.NaN returns false")]
+        [DataRow(double.PositiveInfinity, DisplayName = "Double.PositiveInfinity returns false")]
+        [DataRow(double.NegativeInfinity, DisplayName = "Double.NegativeInfinity returns false")]
+        [DataRow(double.MaxValue, DisplayName = "Double.MaxValue returns false")]
+        [DataRow(double.MinValue, DisplayName = "Double.MinValue returns false")]
+        public void Convert_DoubleValue_ReturnsFalse(double value)
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result = converter.Convert(value, typeof(bool), null, null);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(bool));
+            Assert.AreEqual(false, (bool)result);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method returns false for float values,
+        /// including zero, positive, negative, and special float values.
+        /// </summary>
+        [TestMethod]
+        [DataRow(0.0f, DisplayName = "Float zero returns false")]
+        [DataRow(1.5f, DisplayName = "Float positive returns false")]
+        [DataRow(-1.5f, DisplayName = "Float negative returns false")]
+        [DataRow(float.NaN, DisplayName = "Float.NaN returns false")]
+        [DataRow(float.PositiveInfinity, DisplayName = "Float.PositiveInfinity returns false")]
+        [DataRow(float.NegativeInfinity, DisplayName = "Float.NegativeInfinity returns false")]
+        public void Convert_FloatValue_ReturnsFalse(float value)
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result = converter.Convert(value, typeof(bool), null, null);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(bool));
+            Assert.AreEqual(false, (bool)result);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method returns false for decimal values,
+        /// including zero decimal value.
+        /// </summary>
+        [TestMethod]
+        public void Convert_DecimalValue_ReturnsFalse()
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result1 = converter.Convert(0m, typeof(bool), null, null);
+            var result2 = converter.Convert(1.5m, typeof(bool), null, null);
+            var result3 = converter.Convert(-1.5m, typeof(bool), null, null);
+            var result4 = converter.Convert(decimal.MaxValue, typeof(bool), null, null);
+            var result5 = converter.Convert(decimal.MinValue, typeof(bool), null, null);
+
+            // Assert
+            Assert.AreEqual(false, (bool)result1);
+            Assert.AreEqual(false, (bool)result2);
+            Assert.AreEqual(false, (bool)result3);
+            Assert.AreEqual(false, (bool)result4);
+            Assert.AreEqual(false, (bool)result5);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method returns false for short values,
+        /// including zero short value.
+        /// </summary>
+        [TestMethod]
+        public void Convert_ShortValue_ReturnsFalse()
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result1 = converter.Convert((short)0, typeof(bool), null, null);
+            var result2 = converter.Convert((short)1, typeof(bool), null, null);
+            var result3 = converter.Convert((short)-1, typeof(bool), null, null);
+            var result4 = converter.Convert(short.MaxValue, typeof(bool), null, null);
+            var result5 = converter.Convert(short.MinValue, typeof(bool), null, null);
+
+            // Assert
+            Assert.AreEqual(false, (bool)result1);
+            Assert.AreEqual(false, (bool)result2);
+            Assert.AreEqual(false, (bool)result3);
+            Assert.AreEqual(false, (bool)result4);
+            Assert.AreEqual(false, (bool)result5);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method returns false for byte values,
+        /// including zero byte value.
+        /// </summary>
+        [TestMethod]
+        public void Convert_ByteValue_ReturnsFalse()
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result1 = converter.Convert((byte)0, typeof(bool), null, null);
+            var result2 = converter.Convert((byte)1, typeof(bool), null, null);
+            var result3 = converter.Convert(byte.MaxValue, typeof(bool), null, null);
+            var result4 = converter.Convert(byte.MinValue, typeof(bool), null, null);
+
+            // Assert
+            Assert.AreEqual(false, (bool)result1);
+            Assert.AreEqual(false, (bool)result2);
+            Assert.AreEqual(false, (bool)result3);
+            Assert.AreEqual(false, (bool)result4);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method returns false for non-numeric types,
+        /// including string, bool, and object instances.
+        /// </summary>
+        [TestMethod]
+        public void Convert_NonNumericTypes_ReturnsFalse()
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result1 = converter.Convert("0", typeof(bool), null, null);
+            var result2 = converter.Convert("", typeof(bool), null, null);
+            var result3 = converter.Convert("test", typeof(bool), null, null);
+            var result4 = converter.Convert(true, typeof(bool), null, null);
+            var result5 = converter.Convert(false, typeof(bool), null, null);
+            var result6 = converter.Convert(new object(), typeof(bool), null, null);
+
+            // Assert
+            Assert.AreEqual(false, (bool)result1);
+            Assert.AreEqual(false, (bool)result2);
+            Assert.AreEqual(false, (bool)result3);
+            Assert.AreEqual(false, (bool)result4);
+            Assert.AreEqual(false, (bool)result5);
+            Assert.AreEqual(false, (bool)result6);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method works correctly regardless of the targetType parameter value,
+        /// as the parameter is not used in the implementation.
+        /// </summary>
+        [TestMethod]
+        public void Convert_DifferentTargetTypes_WorksCorrectly()
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result1 = converter.Convert(0, typeof(bool), null, null);
+            var result2 = converter.Convert(0, typeof(string), null, null);
+            var result3 = converter.Convert(0, typeof(int), null, null);
+            var result4 = converter.Convert(0, null, null, null);
+
+            // Assert
+            Assert.AreEqual(true, (bool)result1);
+            Assert.AreEqual(true, (bool)result2);
+            Assert.AreEqual(true, (bool)result3);
+            Assert.AreEqual(true, (bool)result4);
+        }
+
+        /// <summary>
+        /// Tests that the Convert method works correctly regardless of the parameter and culture values,
+        /// as these parameters are not used in the implementation.
+        /// </summary>
+        [TestMethod]
+        public void Convert_DifferentParametersAndCultures_WorksCorrectly()
+        {
+            // Arrange
+            var converter = new ZeroToBoolConverter();
+
+            // Act
+            var result1 = converter.Convert(0, typeof(bool), "param", CultureInfo.InvariantCulture);
+            var result2 = converter.Convert(0, typeof(bool), 123, CultureInfo.CurrentCulture);
+            var result3 = converter.Convert(1, typeof(bool), new object(), new CultureInfo("en-US"));
+
+            // Assert
+            Assert.AreEqual(true, (bool)result1);
+            Assert.AreEqual(true, (bool)result2);
+            Assert.AreEqual(false, (bool)result3);
+        }
+
+
+    }
+}

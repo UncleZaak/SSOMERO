@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ssomero.ViewModels"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             x:Class="Ssomero.Views.Admin.AdminAnalyticsPage"
+             x:DataType="vm:AdminAnalyticsViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource BackgroundColor}">
+    <Grid RowDefinitions="*">
+        <ScrollView>
+            <VerticalStackLayout Padding="16,52,16,32" Spacing="16">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Analytics" FontSize="26" FontAttributes="Bold" TextColor="{StaticResource TextColor}" SemanticProperties.HeadingLevel="Level1" />
+                        <Label Text="{Binding LastUpdated}" FontSize="12" TextColor="{StaticResource MutedText}" />
+                    </VerticalStackLayout>
+                    <Button Grid.Column="1" Text="Refresh" Command="{Binding RefreshCommand}" BackgroundColor="Transparent" TextColor="{StaticResource PrimaryColor}" FontSize="14" Padding="8,4" SemanticProperties.Description="Refresh analytics" />
+                </Grid>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource PrimaryColor}" HorizontalOptions="Center" HeightRequest="40" />
+                <Border IsVisible="{Binding HasError}" StrokeShape="RoundRectangle 10" Stroke="#FCA5A5" BackgroundColor="#FEF2F2" Padding="14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Could not load analytics data." TextColor="#DC2626" FontSize="14" FontAttributes="Bold" />
+                        <Button Text="Retry" Command="{Binding LoadCommand}" BackgroundColor="#EF4444" TextColor="White" CornerRadius="8" Padding="16,6" FontSize="13" HorizontalOptions="Start" />
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="Overview" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextColor}" />
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+                    <Border Grid.Row="0" Grid.Column="0" StrokeShape="RoundRectangle 14" Stroke="Transparent" BackgroundColor="{StaticResource CardBackground}" Padding="16">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Total Students" FontSize="12" TextColor="{StaticResource MutedText}" />
+                            <Label Text="{Binding TotalStudents}" FontSize="30" FontAttributes="Bold" TextColor="#1976D2" />
+                            <Label FontSize="11" TextColor="{StaticResource MutedText}"><Label.FormattedText><FormattedString>
+                                <Span Text="{Binding ActiveStudents}" FontAttributes="Bold" TextColor="#22C55E" />
+                                <Span Text=" active  " TextColor="{StaticResource MutedText}" />
+                                <Span Text="{Binding SuspendedStudents}" FontAttributes="Bold" TextColor="#EF4444" />
+                                <Span Text=" suspended" TextColor="{StaticResource MutedText}" />
+                            </FormattedString></Label.FormattedText></Label>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="0" Grid.Column="1" StrokeShape="RoundRectangle 14" Stroke="Transparent" BackgroundColor="{StaticResource CardBackground}" Padding="16">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Total Lecturers" FontSize="12" TextColor="{StaticResource MutedText}" />
+                            <Label Text="{Binding TotalLecturers}" FontSize="30" FontAttributes="Bold" TextColor="#388E3C" />
+                            <Label FontSize="11" TextColor="{StaticResource MutedText}"><Label.FormattedText><FormattedString>
+                                <Span Text="{Binding PendingLecturers}" FontAttributes="Bold" TextColor="#F59E0B" />
+                                <Span Text=" pending approval" TextColor="{StaticResource MutedText}" />
+                            </FormattedString></Label.FormattedText></Label>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="0" StrokeShape="RoundRectangle 14" Stroke="Transparent" BackgroundColor="{StaticResource CardBackground}" Padding="16">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Total Programs" FontSize="12" TextColor="{StaticResource MutedText}" />
+                            <Label Text="{Binding TotalPrograms}" FontSize="30" FontAttributes="Bold" TextColor="#F57C00" />
+                            <Label FontSize="11" TextColor="{StaticResource MutedText}"><Label.FormattedText><FormattedString>
+                                <Span Text="{Binding TotalDepartments}" FontAttributes="Bold" TextColor="{StaticResource TextColor}" />
+                                <Span Text=" departments" TextColor="{StaticResource MutedText}" />
+                            </FormattedString></Label.FormattedText></Label>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="1" StrokeShape="RoundRectangle 14" Stroke="Transparent" BackgroundColor="{StaticResource CardBackground}" Padding="16">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Infrastructure" FontSize="12" TextColor="{StaticResource MutedText}" />
+                            <Label Text="{Binding TotalUniversities}" FontSize="30" FontAttributes="Bold" TextColor="#7C3AED" />
+                            <Label FontSize="11" TextColor="{StaticResource MutedText}"><Label.FormattedText><FormattedString>
+                                <Span Text="{Binding TotalFaculties}" FontAttributes="Bold" TextColor="{StaticResource TextColor}" />
+                                <Span Text=" faculties  " TextColor="{StaticResource MutedText}" />
+                                <Span Text="{Binding TotalClasses}" FontAttributes="Bold" TextColor="{StaticResource TextColor}" />
+                                <Span Text=" classes" TextColor="{StaticResource MutedText}" />
+                            </FormattedString></Label.FormattedText></Label>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+                <Label Text="User Distribution" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextColor}" Margin="0,8,0,0" />
+                <Border StrokeShape="RoundRectangle 14" Stroke="Transparent" BackgroundColor="{StaticResource CardBackground}" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Students" FontSize="13" TextColor="{StaticResource TextColor}" /><Label Grid.Column="1" Text="{Binding TotalStudents}" FontSize="13" FontAttributes="Bold" TextColor="#1976D2" /></Grid>
+                        <ProgressBar Progress="{Binding StudentsProportion}" ProgressColor="#1976D2" HeightRequest="8" />
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Lecturers" FontSize="13" TextColor="{StaticResource TextColor}" /><Label Grid.Column="1" Text="{Binding TotalLecturers}" FontSize="13" FontAttributes="Bold" TextColor="#388E3C" /></Grid>
+                        <ProgressBar Progress="{Binding LecturersProportion}" ProgressColor="#388E3C" HeightRequest="8" />
+                        <BoxView HeightRequest="1" BackgroundColor="{StaticResource Gray200}" />
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Active Students" FontSize="13" TextColor="{StaticResource TextColor}" /><Label Grid.Column="1" Text="{Binding ActiveStudents}" FontSize="13" FontAttributes="Bold" TextColor="#22C55E" /></Grid>
+                        <ProgressBar Progress="{Binding ActiveProportion}" ProgressColor="#22C55E" HeightRequest="8" />
+                        <Grid ColumnDefinitions="*,Auto"><Label Text="Suspended Students" FontSize="13" TextColor="{StaticResource TextColor}" /><Label Grid.Column="1" Text="{Binding SuspendedStudents}" FontSize="13" FontAttributes="Bold" TextColor="#EF4444" /></Grid>
+                        <ProgressBar Progress="{Binding SuspendedProportion}" ProgressColor="#EF4444" HeightRequest="8" />
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="Attendance Rate" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextColor}" Margin="0,8,0,0" />
+                <Border StrokeShape="RoundRectangle 14" Stroke="Transparent" BackgroundColor="{StaticResource CardBackground}" Padding="16">
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Average Attendance" FontSize="14" TextColor="{StaticResource TextColor}" />
+                            <Label Grid.Column="1" Text="{Binding AverageAttendanceRate, StringFormat=&apos;{0:F1}%&apos;}" FontSize="20" FontAttributes="Bold" TextColor="#22C55E" />
+                        </Grid>
+                        <ProgressBar Progress="{Binding AttendanceProportion}" ProgressColor="#22C55E" HeightRequest="12" />
+                        <Label Text="Based on all recorded sessions across all courses." FontSize="12" TextColor="{StaticResource MutedText}" />
+                    </VerticalStackLayout>
+                </Border>
+                <Label Text="Pending Actions" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextColor}" Margin="0,8,0,0" />
+                <Border StrokeShape="RoundRectangle 14" Stroke="#FEF3C7" BackgroundColor="#FFFBEB" Padding="16">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                            <Label Text="Pending Lecturer Approvals" FontSize="14" FontAttributes="Bold" TextColor="#92400E" />
+                            <Label Text="Lecturers awaiting admin approval to access the platform." FontSize="12" TextColor="#B45309" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1" Text="{Binding PendingLecturers}" FontSize="32" FontAttributes="Bold" TextColor="#D97706" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- ═══════════════════════════════════════════════════════════
+                     CHARTS SECTION  (additive – existing content unchanged)
+                     ═══════════════════════════════════════════════════════════ -->
+
+                <!-- Time-range filter -->
+                <Label Text="Trend Insights" FontSize="16" FontAttributes="Bold"
+                       TextColor="{StaticResource TextColor}" Margin="0,12,0,0" />
+                <Border StrokeShape="RoundRectangle 12" Stroke="{StaticResource Gray200}"
+                        BackgroundColor="{StaticResource CardBackground}" Padding="4,0">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0" Text="Range:" FontSize="13"
+                               TextColor="{StaticResource MutedText}"
+                               VerticalOptions="Center" Margin="12,0,0,0" />
+                        <Picker Grid.Column="1"
+                                ItemsSource="{Binding TimeRanges}"
+                                SelectedItem="{Binding SelectedTimeRange}"
+                                FontSize="13"
+                                SemanticProperties.Description="Select time range for trend charts" />
+                    </Grid>
+                </Border>
+
+                <!-- Chart 1 – User Distribution (BarChart) -->
+                <Label Text="User Distribution" FontSize="15" FontAttributes="Bold"
+                       TextColor="{StaticResource TextColor}" Margin="0,8,0,0" />
+                <Border StrokeShape="RoundRectangle 14" Stroke="Transparent"
+                        BackgroundColor="{StaticResource CardBackground}" Padding="8">
+                    <microcharts:ChartView Chart="{Binding UserDistributionChart}"
+                                          HeightRequest="220"
+                                          IsVisible="{Binding ChartsLoaded}" />
+                </Border>
+
+                <!-- Chart 2 – Audit Activity by Action Type (BarChart) -->
+                <Label Text="Audit Activity by Action" FontSize="15" FontAttributes="Bold"
+                       TextColor="{StaticResource TextColor}" Margin="0,8,0,0" />
+                <Border StrokeShape="RoundRectangle 14" Stroke="Transparent"
+                        BackgroundColor="{StaticResource CardBackground}" Padding="8">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding SelectedTimeRange, StringFormat='Showing: {0} view'}"
+                               FontSize="11" TextColor="{StaticResource MutedText}" Margin="8,4,0,0" />
+                        <microcharts:ChartView Chart="{Binding AuditActivityChart}"
+                                              HeightRequest="220"
+                                              IsVisible="{Binding ChartsLoaded}" />
+                        <Label Text="No audit activity in this period."
+                               FontSize="12" TextColor="{StaticResource MutedText}"
+                               HorizontalOptions="Center"
+                               IsVisible="{Binding AuditChartEmpty}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Chart 3 – Attendance by Class (BarChart) -->
+                <Label Text="Attendance by Class (Top 6)" FontSize="15" FontAttributes="Bold"
+                       TextColor="{StaticResource TextColor}" Margin="0,8,0,0" />
+                <Border StrokeShape="RoundRectangle 14" Stroke="Transparent"
+                        BackgroundColor="{StaticResource CardBackground}" Padding="8">
+                    <VerticalStackLayout Spacing="4">
+                        <microcharts:ChartView Chart="{Binding AttendanceChart}"
+                                              HeightRequest="220"
+                                              IsVisible="{Binding ChartsLoaded}" />
+                        <Label Text="No attendance data available."
+                               FontSize="12" TextColor="{StaticResource MutedText}"
+                               HorizontalOptions="Center"
+                               IsVisible="{Binding AttendanceChartEmpty}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <!--  📈 TRENDS                                                  -->
+                <!-- ═══════════════════════════════════════════════════════════ -->
+                <Label Text="📈 Trends" FontSize="16" FontAttributes="Bold"
+                       TextColor="{StaticResource TextColor}" Margin="0,16,0,0" />
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                   Color="{StaticResource PrimaryColor}"
+                                   HorizontalOptions="Center" HeightRequest="30" />
+
+                <!-- Trend 1 – Student Registrations (LineChart) -->
+                <Border StrokeShape="RoundRectangle 14" Stroke="Transparent"
+                        BackgroundColor="{StaticResource CardBackground}" Padding="14">
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Student Registrations" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextColor}" VerticalOptions="Center" />
+                            <Border Grid.Column="1"
+                                    BackgroundColor="{Binding StudentDeltaColor}"
+                                    StrokeShape="RoundRectangle 8" Padding="8,3">
+                                <Label Text="{Binding StudentGrowthDelta}" FontSize="12" TextColor="White" />
+                            </Border>
+                        </Grid>
+                        <microcharts:ChartView Chart="{Binding StudentGrowthChart}"
+                                              HeightRequest="200"
+                                              IsVisible="{Binding TrendsLoaded}" />
+                        <Label Text="No registration data in this period."
+                               FontSize="12" TextColor="{StaticResource MutedText}"
+                               HorizontalOptions="Center"
+                               IsVisible="{Binding StudentGrowthChartEmpty}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Trend 2 – Attendance Rate Trend (LineChart) -->
+                <Border StrokeShape="RoundRectangle 14" Stroke="Transparent"
+                        BackgroundColor="{StaticResource CardBackground}" Padding="14">
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Attendance Rate Trend" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextColor}" VerticalOptions="Center" />
+                            <Border Grid.Column="1"
+                                    BackgroundColor="{Binding AttendanceDeltaColor}"
+                                    StrokeShape="RoundRectangle 8" Padding="8,3">
+                                <Label Text="{Binding AttendanceDelta}" FontSize="12" TextColor="White" />
+                            </Border>
+                        </Grid>
+                        <microcharts:ChartView Chart="{Binding AttendanceTrendChart}"
+                                              HeightRequest="200"
+                                              IsVisible="{Binding TrendsLoaded}" />
+                        <Label Text="No attendance trend data available."
+                               FontSize="12" TextColor="{StaticResource MutedText}"
+                               HorizontalOptions="Center"
+                               IsVisible="{Binding AttendanceTrendChartEmpty}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Trend 3 – Lecturer Approvals (BarChart) -->
+                <Border StrokeShape="RoundRectangle 14" Stroke="Transparent"
+                        BackgroundColor="{StaticResource CardBackground}" Padding="14">
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Lecturer Approvals" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextColor}" VerticalOptions="Center" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding ApprovalsTotal, StringFormat='Total: {0}'}"
+                                   FontSize="12" TextColor="{StaticResource MutedText}"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                        <microcharts:ChartView Chart="{Binding ApprovalTrendChart}"
+                                              HeightRequest="180"
+                                              IsVisible="{Binding TrendsLoaded}" />
+                        <Label Text="No approval activity in this period."
+                               FontSize="12" TextColor="{StaticResource MutedText}"
+                               HorizontalOptions="Center"
+                               IsVisible="{Binding ApprovalTrendChartEmpty}" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border IsVisible="{Binding ToastIsVisible}" BackgroundColor="{Binding ToastColor}" StrokeShape="RoundRectangle 14" Stroke="Transparent" Padding="20,12" HorizontalOptions="Center" VerticalOptions="End" Margin="24,0,24,56" ZIndex="9999">
+            <Label Text="{Binding ToastMessage}" TextColor="White" FontSize="14" HorizontalTextAlignment="Center" />
+        </Border>
+    </Grid>
+</ContentPage>

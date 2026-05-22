@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Ssomero.Views.Student.AttendanceMarkPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Ssomero.ViewModels"
+    xmlns:conv="clr-namespace:Ssomero.Converters"
+    x:DataType="vm:AttendanceMarkViewModel"
+    BackgroundColor="#F1F5F9"
+    Title="Mark Attendance">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool" />
+        <conv:NullToBoolConverter x:Key="NotNull" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- Header Banner -->
+            <Grid BackgroundColor="#5B21B6" Padding="20,20,20,30">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Mark Attendance"
+                           FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="{Binding GpsStatus}"
+                           FontSize="12" TextColor="#C4B5FD"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Session Card -->
+            <Border Margin="16,-16,16,0" Padding="20" BackgroundColor="White"
+                    StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                <Border.Shadow>
+                    <Shadow Brush="#1A000000" Offset="0,4" Radius="12" Opacity="0.1"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="14">
+
+                    <!-- Loading indicator -->
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       IsVisible="{Binding IsBusy}"
+                                       Color="#5B21B6"/>
+
+                    <!-- Session info -->
+                    <Label Text="{Binding SessionInfoLabel}"
+                           FontSize="14" TextColor="#374151"
+                           LineBreakMode="WordWrap"/>
+
+                    <!-- GPS refresh -->
+                    <Button Text="🔄  Refresh GPS"
+                            Command="{Binding RefreshGpsCommand}"
+                            BackgroundColor="#EDE9FE" TextColor="#5B21B6"
+                            FontSize="13" CornerRadius="8" HeightRequest="38"/>
+
+                    <!-- Success banner -->
+                    <Border IsVisible="{Binding SuccessMessage, Converter={StaticResource NotNull}}"
+                            BackgroundColor="#ECFDF5"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                            Padding="12,8">
+                        <Label Text="{Binding SuccessMessage}"
+                               TextColor="#065F46" FontSize="13"/>
+                    </Border>
+
+                    <!-- Error banner -->
+                    <Border IsVisible="{Binding ErrorMessage, Converter={StaticResource NotNull}}"
+                            BackgroundColor="#FEF2F2"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                            Padding="12,8">
+                        <Label Text="{Binding ErrorMessage}"
+                               TextColor="#B91C1C" FontSize="13"/>
+                    </Border>
+
+                    <!-- Mark button -->
+                    <Button Text="{Binding MarkButtonLabel}"
+                            Command="{Binding MarkAttendanceCommand}"
+                            IsEnabled="{Binding CanMark}"
+                            BackgroundColor="#5B21B6" TextColor="White"
+                            FontSize="15" FontAttributes="Bold"
+                            CornerRadius="10" HeightRequest="50"/>
+
+                    <Label Text="A selfie + GPS will be captured as verification"
+                           FontSize="12" TextColor="#94A3B8"
+                           HorizontalOptions="Center"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

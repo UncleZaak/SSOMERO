@@ -1,0 +1,204 @@
+2026-05-05 00:00:22.273 +03:00 [INF] OTP cleanup service started
+2026-05-05 00:00:22.859 +03:00 [WRN] The WebRootPath was not found: C:\Users\ISAAC L KABUYE\source\repos\Ssomero\Ssomero.Api\wwwroot. Static files may be unavailable.
+2026-05-05 00:00:24.142 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-05 00:00:24.165 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-05 00:00:24.277 +03:00 [INF] Server desktop-b8rchhq:17080:fedaf776 successfully announced in 5.5517 ms
+2026-05-05 00:00:24.320 +03:00 [INF] Server desktop-b8rchhq:17080:fedaf776 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-05 00:00:24.682 +03:00 [INF] Server desktop-b8rchhq:17080:fedaf776 all the dispatchers started
+2026-05-05 00:01:28.714 +03:00 [INF] HTTP GET /api/health responded 200 in 433.2032 ms
+2026-05-05 00:01:29.741 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-05 00:01:31.458 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-05 00:01:31.677 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 2206ms
+2026-05-05 00:01:31.691 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 2268.2008 ms
+2026-05-05 00:01:35.500 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 472.6371 ms
+2026-05-05 00:01:51.283 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 130.7791 ms
+2026-05-05 00:01:51.346 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 224.7127 ms
+2026-05-05 00:02:32.507 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 10.9816 ms
+2026-05-05 00:02:32.610 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.3962 ms
+2026-05-05 00:02:37.014 +03:00 [INF] Lecturer suspended: "d179b94c-6ca4-40fa-b005-9e19c68678ab"
+2026-05-05 00:02:37.025 +03:00 [INF] AUDIT POST /api/admin/lecturers/d179b94c-6ca4-40fa-b005-9e19c68678ab/suspend | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 550ms
+2026-05-05 00:02:37.035 +03:00 [INF] HTTP POST /api/admin/lecturers/d179b94c-6ca4-40fa-b005-9e19c68678ab/suspend responded 200 in 562.0931 ms
+2026-05-05 00:02:49.939 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 150.3514 ms
+2026-05-05 00:02:52.285 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 15.7231 ms
+2026-05-05 00:02:52.307 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 9.8760 ms
+2026-05-05 00:03:12.609 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 8.6570 ms
+2026-05-05 00:03:18.490 +03:00 [INF] AUDIT DELETE /api/universities/7dfe79ec-62f0-49a2-8e37-f7ea528c0218 | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 358ms
+2026-05-05 00:03:18.501 +03:00 [INF] HTTP DELETE /api/universities/7dfe79ec-62f0-49a2-8e37-f7ea528c0218 responded 200 in 369.6673 ms
+2026-05-05 00:03:23.684 +03:00 [INF] HTTP GET /api/universities responded 200 in 106.3508 ms
+2026-05-05 00:03:24.048 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 93.3844 ms
+2026-05-05 00:03:25.718 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 6.0384 ms
+2026-05-05 00:03:28.881 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 7.1140 ms
+2026-05-05 00:03:32.711 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.7891 ms
+2026-05-05 00:03:32.855 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.1545 ms
+2026-05-05 00:04:18.115 +03:00 [INF] AUDIT POST /api/faculties | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=201 | 390ms
+2026-05-05 00:04:18.136 +03:00 [INF] HTTP POST /api/faculties responded 201 in 414.9433 ms
+2026-05-05 00:04:26.427 +03:00 [INF] HTTP GET /api/faculties/details responded 200 in 8.8602 ms
+2026-05-05 00:04:27.228 +03:00 [INF] HTTP GET /api/admin/departments responded 200 in 92.7169 ms
+2026-05-05 00:04:32.953 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 3.8162 ms
+2026-05-05 00:04:33.036 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 2.8455 ms
+2026-05-05 00:05:18.070 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 6.2806 ms
+2026-05-05 00:05:30.539 +03:00 [INF] HTTP GET /api/universities/details responded 200 in 6.6342 ms
+2026-05-05 00:05:33.135 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.3477 ms
+2026-05-05 00:05:33.224 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.4202 ms
+2026-05-05 00:05:39.421 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 1.7955 ms
+2026-05-05 00:05:40.789 +03:00 [INF] HTTP GET /api/admin/attendance/summary responded 200 in 199.0537 ms
+2026-05-05 00:05:41.106 +03:00 [INF] HTTP GET /api/admin/audit-logs responded 200 in 89.4260 ms
+2026-05-05 00:05:41.735 +03:00 [INF] HTTP GET /api/admin/analytics/trends responded 200 in 173.1090 ms
+2026-05-05 00:05:49.094 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 5.4327 ms
+2026-05-05 00:05:49.100 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 4.2399 ms
+2026-05-05 00:05:53.750 +03:00 [INF] Lecturer activated: "d179b94c-6ca4-40fa-b005-9e19c68678ab"
+2026-05-05 00:05:53.757 +03:00 [INF] AUDIT POST /api/admin/lecturers/d179b94c-6ca4-40fa-b005-9e19c68678ab/activate | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 51ms
+2026-05-05 00:05:53.769 +03:00 [INF] HTTP POST /api/admin/lecturers/d179b94c-6ca4-40fa-b005-9e19c68678ab/activate responded 200 in 68.4820 ms
+2026-05-05 00:06:59.080 +03:00 [INF] HTTP GET /api/health responded 200 in 3.7948 ms
+2026-05-05 00:06:59.222 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-05 00:06:59.988 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 768ms
+2026-05-05 00:07:00.000 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 781.2708 ms
+2026-05-05 00:08:59.270 +03:00 [INF] HTTP GET /api/health responded 200 in 0.6466 ms
+2026-05-05 00:08:59.425 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-05 00:08:59.869 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 459ms
+2026-05-05 00:08:59.885 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 475.4968 ms
+2026-05-05 00:25:23.767 +03:00 [INF] Created missing wwwroot directory at C:\Users\ISAAC L KABUYE\source\repos\Ssomero\Ssomero.Api\wwwroot
+2026-05-05 00:26:12.725 +03:00 [INF] OTP cleanup service started
+2026-05-05 00:26:13.453 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-05 00:26:13.457 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-05 00:26:13.582 +03:00 [INF] Server desktop-b8rchhq:22124:70a1fb73 successfully announced in 2.6605 ms
+2026-05-05 00:26:13.604 +03:00 [INF] Server desktop-b8rchhq:22124:70a1fb73 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-05 00:26:14.103 +03:00 [INF] Server desktop-b8rchhq:22124:70a1fb73 all the dispatchers started
+2026-05-05 00:27:24.323 +03:00 [INF] HTTP GET /api/health responded 200 in 289.4430 ms
+2026-05-05 00:27:25.099 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-05 00:27:26.564 +03:00 [INF] Student login successful for unclezaac6@gmail.com
+2026-05-05 00:27:26.721 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 1793ms
+2026-05-05 00:27:26.743 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 1843.6690 ms
+2026-05-05 00:27:30.954 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 498.2702 ms
+2026-05-05 00:27:31.606 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 376.0378 ms
+2026-05-05 00:27:39.109 +03:00 [INF] HTTP GET /api/courses responded 200 in 68.8843 ms
+2026-05-05 00:27:39.267 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 1.9044 ms
+2026-05-05 00:27:48.213 +03:00 [INF] HTTP GET /api/courses/01295a87-168d-404d-92b3-34daf00c002a responded 200 in 438.7149 ms
+2026-05-05 00:27:51.760 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 25.0089 ms
+2026-05-05 00:27:51.973 +03:00 [INF] HTTP GET /api/attendance/my-history responded 200 in 66.8866 ms
+2026-05-05 00:27:52.347 +03:00 [INF] HTTP GET /api/attendance/my-report responded 200 in 185.1540 ms
+2026-05-05 00:28:27.761 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 6.1040 ms
+2026-05-05 00:28:27.890 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 3.7871 ms
+2026-05-05 00:28:31.528 +03:00 [INF] HTTP GET /api/materials responded 404 in 1.0668 ms
+2026-05-05 00:28:45.781 +03:00 [INF] HTTP GET /api/courses responded 200 in 5.8747 ms
+2026-05-05 00:28:46.213 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 0.5185 ms
+2026-05-05 00:49:41.156 +03:00 [INF] OTP cleanup service started
+2026-05-05 00:49:41.803 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-05 00:49:41.813 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-05 00:49:41.897 +03:00 [INF] Server desktop-b8rchhq:17572:75bf34d7 successfully announced in 4.2 ms
+2026-05-05 00:49:41.914 +03:00 [INF] Server desktop-b8rchhq:17572:75bf34d7 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-05 00:49:42.296 +03:00 [INF] Server desktop-b8rchhq:17572:75bf34d7 all the dispatchers started
+2026-05-05 00:50:00.819 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 1129.8658 ms
+2026-05-05 00:50:01.991 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 487.4983 ms
+2026-05-05 08:30:36.002 +03:00 [INF] OTP cleanup service started
+2026-05-05 08:30:36.472 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-05 08:30:36.477 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-05 08:30:36.555 +03:00 [INF] Server desktop-b8rchhq:16836:dd93f51b successfully announced in 4.2336 ms
+2026-05-05 08:30:36.570 +03:00 [INF] Server desktop-b8rchhq:16836:dd93f51b is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-05 08:30:36.787 +03:00 [INF] Server desktop-b8rchhq:16836:dd93f51b all the dispatchers started
+2026-05-05 08:34:12.956 +03:00 [INF] HTTP GET /api/health responded 200 in 288.4712 ms
+2026-05-05 08:34:13.989 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-05 08:34:15.174 +03:00 [INF] Student login successful for unclezaac6@gmail.com
+2026-05-05 08:34:15.302 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 1468ms
+2026-05-05 08:34:15.310 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 1497.5430 ms
+2026-05-05 08:34:19.874 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 495.8359 ms
+2026-05-05 08:34:20.604 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 360.4026 ms
+2026-05-05 08:34:33.865 +03:00 [INF] HTTP GET /api/courses responded 200 in 75.5786 ms
+2026-05-05 08:34:34.110 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 2.3193 ms
+2026-05-05 08:34:39.027 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 23.5925 ms
+2026-05-05 08:34:39.345 +03:00 [INF] HTTP GET /api/attendance/my-history responded 200 in 64.8817 ms
+2026-05-05 08:34:39.870 +03:00 [INF] HTTP GET /api/attendance/my-report responded 200 in 157.5065 ms
+2026-05-05 08:35:16.520 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 5.7855 ms
+2026-05-05 08:35:16.971 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 4.6814 ms
+2026-05-05 08:38:13.895 +03:00 [INF] Email sent to jehovahuseringservices@gmail.com with subject "Your OTP Code"
+2026-05-05 08:38:14.541 +03:00 [INF] OTP generated and sent for jehovahuseringservices@gmail.com
+2026-05-05 08:38:14.555 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=200 | 5027ms
+2026-05-05 08:38:14.570 +03:00 [INF] HTTP POST /api/auth/send-otp responded 200 in 5046.3270 ms
+2026-05-05 08:39:29.288 +03:00 [INF] Email sent to jehovahusheringservices@gmail.com with subject "Your OTP Code"
+2026-05-05 08:39:29.488 +03:00 [INF] OTP generated and sent for jehovahusheringservices@gmail.com
+2026-05-05 08:39:29.491 +03:00 [INF] AUDIT POST /api/auth/send-otp | User=anonymous | Correlation=- | Status=200 | 9236ms
+2026-05-05 08:39:29.495 +03:00 [INF] HTTP POST /api/auth/send-otp responded 200 in 9241.3260 ms
+2026-05-05 08:40:09.648 +03:00 [INF] AUDIT POST /api/auth/verify-otp | User=anonymous | Correlation=- | Status=200 | 443ms
+2026-05-05 08:40:09.651 +03:00 [INF] HTTP POST /api/auth/verify-otp responded 200 in 447.5711 ms
+2026-05-05 08:42:35.688 +03:00 [INF] Lecturer registered (pending approval): jehovahusheringservices@gmail.com
+2026-05-05 08:42:35.696 +03:00 [INF] AUDIT POST /api/auth/lecturer/register | User=anonymous | Correlation=- | Status=201 | 495ms
+2026-05-05 08:42:35.700 +03:00 [INF] HTTP POST /api/auth/lecturer/register responded 201 in 499.8478 ms
+2026-05-05 08:43:07.433 +03:00 [INF] HTTP GET /api/health responded 200 in 1.2562 ms
+2026-05-05 08:43:07.577 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-05 08:43:07.788 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 212ms
+2026-05-05 08:43:07.793 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 216.9100 ms
+2026-05-05 08:43:19.913 +03:00 [INF] HTTP GET /api/health responded 200 in 1.1753 ms
+2026-05-05 08:43:20.016 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-05 08:43:20.197 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 181ms
+2026-05-05 08:43:20.201 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 184.9817 ms
+2026-05-05 08:43:39.896 +03:00 [INF] HTTP GET /api/health responded 200 in 0.5865 ms
+2026-05-05 08:43:39.987 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-05 08:43:40.163 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 176ms
+2026-05-05 08:43:40.167 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 180.9310 ms
+2026-05-05 08:43:45.647 +03:00 [INF] HTTP GET /api/health responded 200 in 0.9650 ms
+2026-05-05 08:43:45.784 +03:00 [INF] Login attempt for hnamyalo776@gmail.com
+2026-05-05 08:43:45.955 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=401 | 172ms
+2026-05-05 08:43:45.959 +03:00 [INF] HTTP POST /api/auth/login responded 401 in 175.7625 ms
+2026-05-05 08:44:16.499 +03:00 [INF] HTTP GET /api/health responded 200 in 0.6208 ms
+2026-05-05 08:44:16.601 +03:00 [INF] Login attempt for admin@ssomero.com
+2026-05-05 08:44:16.781 +03:00 [INF] Admin login successful for admin@ssomero.com
+2026-05-05 08:44:16.785 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 184ms
+2026-05-05 08:44:16.788 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 188.3371 ms
+2026-05-05 08:44:18.623 +03:00 [INF] HTTP GET /api/admin/stats responded 200 in 54.6163 ms
+2026-05-05 08:44:26.114 +03:00 [INF] HTTP GET /api/admin/lecturers responded 200 in 32.9306 ms
+2026-05-05 08:44:26.134 +03:00 [INF] HTTP GET /api/admin/students responded 200 in 107.2877 ms
+2026-05-05 08:44:38.146 +03:00 [INF] Lecturer approved: "594d3334-e330-433c-a0b1-451f3f567d7f"
+2026-05-05 08:44:38.149 +03:00 [INF] AUDIT POST /api/admin/lecturers/594d3334-e330-433c-a0b1-451f3f567d7f/approve | User=e0fedcf9-379e-49bb-b576-653c86eba7a6 | Correlation=- | Status=200 | 43ms
+2026-05-05 08:44:38.153 +03:00 [INF] HTTP POST /api/admin/lecturers/594d3334-e330-433c-a0b1-451f3f567d7f/approve responded 200 in 47.3739 ms
+2026-05-05 08:45:36.265 +03:00 [INF] OTP cleanup removed 1 stale record(s)
+2026-05-05 08:45:41.862 +03:00 [INF] HTTP GET /api/health responded 200 in 0.4947 ms
+2026-05-05 08:45:41.954 +03:00 [INF] Login attempt for jehovahusheringservices@gmail.com
+2026-05-05 08:45:42.131 +03:00 [INF] Lecturer login successful for jehovahusheringservices@gmail.com
+2026-05-05 08:45:42.133 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 179ms
+2026-05-05 08:45:42.135 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 182.5902 ms
+2026-05-05 08:45:42.732 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 17.5330 ms
+2026-05-05 08:45:50.484 +03:00 [INF] HTTP GET /api/schedules responded 200 in 3.2878 ms
+2026-05-05 17:05:31.747 +03:00 [INF] OTP cleanup service started
+2026-05-05 17:05:32.589 +03:00 [INF] OTP cleanup removed 1 stale record(s)
+2026-05-05 17:05:32.632 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-05 17:05:32.660 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-05 17:05:32.887 +03:00 [INF] Server desktop-b8rchhq:11728:f6f7e5d0 successfully announced in 4.9241 ms
+2026-05-05 17:05:32.917 +03:00 [INF] Server desktop-b8rchhq:11728:f6f7e5d0 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-05 17:05:33.657 +03:00 [INF] Server desktop-b8rchhq:11728:f6f7e5d0 all the dispatchers started
+2026-05-05 17:06:41.280 +03:00 [INF] HTTP GET /api/health responded 200 in 377.2718 ms
+2026-05-05 17:06:42.241 +03:00 [INF] Login attempt for unclezaac6@gmail.com
+2026-05-05 17:06:43.761 +03:00 [INF] Student login successful for unclezaac6@gmail.com
+2026-05-05 17:06:43.914 +03:00 [INF] AUDIT POST /api/auth/login | User=anonymous | Correlation=- | Status=200 | 1865ms
+2026-05-05 17:06:43.923 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 1904.8167 ms
+2026-05-05 17:06:46.944 +03:00 [INF] HTTP GET /api/dashboard responded 200 in 517.9651 ms
+2026-05-05 17:06:47.688 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 478.0396 ms
+2026-05-05 17:06:50.912 +03:00 [INF] HTTP GET /api/student/schedule responded 200 in 40.7533 ms
+2026-05-05 17:06:51.150 +03:00 [INF] HTTP GET /api/attendance/my-history responded 200 in 83.9031 ms
+2026-05-05 17:06:51.581 +03:00 [INF] HTTP GET /api/attendance/my-report responded 200 in 242.5065 ms
+2026-05-05 17:07:02.110 +03:00 [INF] HTTP GET /api/courses responded 200 in 60.6053 ms
+2026-05-05 17:07:02.309 +03:00 [INF] HTTP GET /api/rollcall/my responded 404 in 2.7736 ms
+2026-05-05 17:07:06.185 +03:00 [INF] HTTP GET /api/courses/01295a87-168d-404d-92b3-34daf00c002a responded 200 in 406.1407 ms
+2026-05-05 17:07:25.875 +03:00 [INF] HTTP GET /api/materials responded 404 in 1.2396 ms
+2026-05-05 17:24:50.418 +03:00 [WRN] Entity 'Lecturer' has a global query filter defined and is the required end of a relationship with the entity 'ClassMaterial'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-05 17:25:04.562 +03:00 [WRN] Entity 'Lecturer' has a global query filter defined and is the required end of a relationship with the entity 'ClassMaterial'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-05-05 17:25:48.993 +03:00 [WRN] Entity 'Lecturer' has a global query filter defined and is the required end of a relationship with the entity 'ClassMaterial'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.

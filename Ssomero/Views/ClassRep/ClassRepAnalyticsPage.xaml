@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:Ssomero.Views.Shared"
+             xmlns:conv="clr-namespace:Ssomero.Converters"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             x:Class="Ssomero.Views.ClassRep.ClassRepAnalyticsPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light=#F1F5F9, Dark=#0F172A}">
+
+    <ContentPage.Resources>
+        <conv:InvertBoolConverter x:Key="InvBool"/>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <shared:AppTopBar Grid.Row="0" Title="Class Analytics"/>
+
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding RefreshCommand}">
+            <ScrollView>
+                <VerticalStackLayout Padding="16,12,16,24" Spacing="16">
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                       Color="{StaticResource Primary}"
+                                       HorizontalOptions="Center" Margin="0,24,0,0"/>
+
+                    <!-- Error banner -->
+                    <Border IsVisible="{Binding HasError}"
+                            BackgroundColor="#FEE2E2" StrokeShape="RoundRectangle 10"
+                            Stroke="#FCA5A5" Padding="12,10">
+                        <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="13"/>
+                    </Border>
+
+                    <!-- ── Summary cards ──────────────────────────────────── -->
+                    <VerticalStackLayout IsVisible="{Binding HasError, Converter={StaticResource InvBool}}"
+                                         Spacing="16">
+
+                        <!-- Stat cards row -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+
+                            <!-- Total Students -->
+                            <Border Grid.Column="0" StrokeShape="RoundRectangle 14" Padding="16"
+                                    BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                    Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                </Border.Shadow>
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="🎓" FontSize="22"/>
+                                    <Label Text="{Binding Analytics.TotalStudents}" FontSize="28"
+                                           FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
+                                    <Label Text="Total Students" FontSize="12"
+                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Total Subclasses -->
+                            <Border Grid.Column="1" StrokeShape="RoundRectangle 14" Padding="16"
+                                    BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                    Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                </Border.Shadow>
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="📂" FontSize="22"/>
+                                    <Label Text="{Binding Analytics.TotalSubclasses}" FontSize="28"
+                                           FontAttributes="Bold" TextColor="#6D28D9"/>
+                                    <Label Text="Subclasses" FontSize="12"
+                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+
+                            <!-- Assigned Lecturers -->
+                            <Border Grid.Column="0" StrokeShape="RoundRectangle 14" Padding="16"
+                                    BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                    Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                </Border.Shadow>
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="👨‍🏫" FontSize="22"/>
+                                    <Label Text="{Binding Analytics.AssignedLecturers}" FontSize="28"
+                                           FontAttributes="Bold" TextColor="#0369A1"/>
+                                    <Label Text="Lecturers" FontSize="12"
+                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Avg Attendance -->
+                            <Border Grid.Column="1" StrokeShape="RoundRectangle 14" Padding="16"
+                                    BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                    Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                                <Border.Shadow>
+                                    <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                                </Border.Shadow>
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="✅" FontSize="22"/>
+                                    <Label Text="{Binding Analytics.AttendanceRateLabel}" FontSize="28"
+                                           FontAttributes="Bold" TextColor="#22C55E"/>
+                                    <Label Text="Avg Attendance" FontSize="12"
+                                           TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+
+                        <!-- Attendance rate progress bar -->
+                        <Border StrokeShape="RoundRectangle 14" Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                            <Border.Shadow>
+                                <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="10">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label Grid.Column="0" Text="Overall Attendance Rate"
+                                           FontSize="13" FontAttributes="Bold"
+                                           TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+                                    <Label Grid.Column="1" Text="{Binding Analytics.AttendanceRateLabel}"
+                                           FontSize="13" FontAttributes="Bold" TextColor="#22C55E"/>
+                                </Grid>
+                                <ProgressBar Progress="{Binding Analytics.AttendanceRateProgress}"
+                                             ProgressColor="{Binding Analytics.RateColor}"
+                                             HeightRequest="10"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- ── Attendance Trend Chart ─────────────────────── -->
+                        <Border StrokeShape="RoundRectangle 14" Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                            <Border.Shadow>
+                                <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="12">
+                                <Label Text="Attendance Trend (Last 8 Weeks)"
+                                       FontSize="14" FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+                                <microcharts:ChartView Chart="{Binding AttendanceTrendChart}"
+                                                       HeightRequest="200"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- ── Student Growth Chart ──────────────────────── -->
+                        <Border StrokeShape="RoundRectangle 14" Padding="16"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=#1E293B}"
+                                Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#334155}">
+                            <Border.Shadow>
+                                <Shadow Brush="#1A000000" Offset="0,2" Radius="6" Opacity="0.07"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="12">
+                                <Label Text="Student Growth Trend (Last 8 Weeks)"
+                                       FontSize="14" FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light=#0F172A, Dark=White}"/>
+                                <microcharts:ChartView Chart="{Binding StudentGrowthChart}"
+                                                       HeightRequest="200"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>
