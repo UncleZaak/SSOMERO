@@ -1,38 +1,33 @@
-# ─── Build stage ────────────────────────────────────────────────────────────
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+
 WORKDIR /src
 
-# Copy project files for layer-cached restore
-COPY Ssomero.Api/Ssomero.Api.csproj Ssomero.Api/
-RUN dotnet restore Ssomero.Api/Ssomero.Api.csproj
+# Copy the project files and restore inside the container. Restoring after copying
+# the full source ensures any NuGet/Directory.Build.* files and additional props
+# are present during restore. Also set a deterministic package cache location.
+COPY . ./
 
-# Copy full source and publish
-COPY . .
-WORKDIR /src/Ssomero.Api
+# Use a dedicated nuget packages folder inside the container to avoid permission
+# issues with the default cache and to keep the build reproducible.
+ENV NUGET_PACKAGES=/root/.nuget/packages
+RUN mkdir -p /root/.nuget/packages \
+	&& dotnet restore Ssomero.Api.csproj
+
 RUN dotnet publish -c Release -o /app/publish --no-restore
 
-# ─── Runtime stage ──────────────────────────────────────────────────────────
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+
 WORKDIR /app
 
-# Create a non-root user for security
-RUN addgroup --system ssomero && adduser --system --ingroup ssomero ssomero
-
-# Create writable directories for logs and uploads
-RUN mkdir -p /app/logs /app/uploads && \
-    chown -R ssomero:ssomero /app
-
-COPY --from=build --chown=ssomero:ssomero /app/publish .
-
-USER ssomero
+COPY --from=build /app/publish .
 
 EXPOSE 8080
 
-ENV ASPNETCORE_URLS=http://+:8080
+# Allow Cloud Run to choose the port via the PORT env var; default to 8080 when not set.
 ENV ASPNETCORE_ENVIRONMENT=Production
 
-# Liveness probe: /api/health — fast, no dependency checks
-HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD wget -qO- http://localhost:8080/api/health || exit 1
+# Healthcheck uses localhost and the container's port; keep it simple for local testing
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:8080/api/health || exit 1
 
-ENTRYPOINT ["dotnet", "Ssomero.Api.dll"]
+# Use a shell wrapper so the container respects the PORT environment variable at runtime
+ENTRYPOINT ["sh", "-lc", "ASPNETCORE_URLS=http://+:${PORT:-8080} exec dotnet Ssomero.Api.dll"]

@@ -1,0 +1,30 @@
+Dev testing instructions
+
+1) Determine your dev machine LAN IP (run `ipconfig` on Windows). Example: 192.168.1.123
+
+2) Create devsettings.json with contents (replace MACHINE_IP):
+{
+  "BaseUrl": "http://MACHINE_IP:5136/api/",
+  "TimeoutSeconds": 60
+}
+
+3) On the phone (connected to same Wi-Fi):
+   - Option A (recommended): adb push the file into the app data directory:
+	   adb shell "mkdir -p /sdcard/Android/data/com.companyname.ssomero/files"
+	   adb push devsettings.json /sdcard/Android/data/com.companyname.ssomero/files/devsettings.json
+	 (MAUI maps FileSystem.AppDataDirectory to an app-specific writeable location; paths vary by device)
+
+   - Option B: Use File Transfer or an app to copy devsettings.json into the app's files directory.
+
+4) Ensure backend is running and accessible on MACHINE_IP:5136 and firewall allows inbound on that port.
+   - Verify from phone browser: http://MACHINE_IP:5136/api/health
+
+5) Install Debug APK and start app. App will read devsettings.json at startup (Debug builds only) and override BaseUrl.
+   - Logs show the effective BaseUrl via IHttpClientSetup logger.
+
+6) If using HTTPS and a self-signed cert, prefer ngrok and set BaseUrl to the ngrok HTTPS URL.
+
+Notes:
+- The debug network_security_config allows cleartext for Debug builds only.
+- Release builds are unchanged and will not permit cleartext or bypass cert validation.
+- Do not commit devsettings.json to source control.

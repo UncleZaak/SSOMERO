@@ -1,0 +1,40 @@
+2026-05-29 14:24:39.330 +03:00 [INF] OTP cleanup service started
+2026-05-29 14:24:39.504 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-29 14:24:39.507 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-29 14:24:39.526 +03:00 [INF] Server desktop-b8rchhq:25612:55e425e2 successfully announced in 1.3842 ms
+2026-05-29 14:24:39.531 +03:00 [INF] Server desktop-b8rchhq:25612:55e425e2 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-29 14:24:39.537 +03:00 [INF] Server desktop-b8rchhq:25612:55e425e2 all the dispatchers started
+2026-05-29 16:24:39.189 +03:00 [INF] OTP cleanup service started
+2026-05-29 16:24:39.307 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-29 16:24:39.312 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-29 16:24:39.334 +03:00 [INF] Server desktop-b8rchhq:39244:3deebd94 successfully announced in 1.8244 ms
+2026-05-29 16:24:39.339 +03:00 [INF] Server desktop-b8rchhq:39244:3deebd94 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-29 16:24:39.350 +03:00 [INF] Server desktop-b8rchhq:39244:3deebd94 all the dispatchers started
+2026-05-29 16:49:58.184 +03:00 [INF] OTP cleanup service started
+2026-05-29 16:49:58.269 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-29 16:49:58.270 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-29 16:49:58.281 +03:00 [INF] Server desktop-b8rchhq:37168:89f8286e successfully announced in 1.7001 ms
+2026-05-29 16:49:58.284 +03:00 [INF] Server desktop-b8rchhq:37168:89f8286e is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-29 16:49:58.288 +03:00 [INF] Server desktop-b8rchhq:37168:89f8286e all the dispatchers started
+2026-05-29 17:16:03.213 +03:00 [INF] OTP cleanup service started
+2026-05-29 17:16:03.338 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-05-29 17:16:03.340 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-05-29 17:16:03.356 +03:00 [INF] Server desktop-b8rchhq:45088:ad6dee5e successfully announced in 1.9675 ms
+2026-05-29 17:16:03.359 +03:00 [INF] Server desktop-b8rchhq:45088:ad6dee5e is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-05-29 17:16:03.370 +03:00 [INF] Server desktop-b8rchhq:45088:ad6dee5e all the dispatchers started

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Prometheus;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.ResponseCompression;
 using Serilog;
 using Ssomero.Api.BackgroundJobs;
 using Ssomero.Api.Configuration;
@@ -42,6 +43,14 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 // ---------- Graceful Shutdown ----------
 builder.WebHost.UseShutdownTimeout(TimeSpan.FromSeconds(30));
 
+// ---------- Kestrel / Request Limits ----------
+builder.WebHost.ConfigureKestrel(opts =>
+{
+    // Allow configuration of max request body size via configuration (bytes). Defaults to 10 MB.
+    var max = builder.Configuration.GetValue<long?>("RequestLimits:MaxRequestBodySizeBytes") ?? 10 * 1024 * 1024;
+    opts.Limits.MaxRequestBodySize = max;
+});
+
 // SAFE FIX: Removed explicit WriteTo.Console() and WriteTo.File() — appsettings.json
 // already declares both sinks under "Serilog:WriteTo". Adding them here a second time
 // caused every log line to be written twice (once per sink registration).
@@ -49,6 +58,20 @@ builder.WebHost.UseShutdownTimeout(TimeSpan.FromSeconds(30));
 builder.Host.UseSerilog((ctx, lc) => lc
     .ReadFrom.Configuration(ctx.Configuration)
     .Enrich.FromLogContext());
+
+// ---------- Response Compression & HSTS ----------
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json", "application/octet-stream" });
+});
+
+builder.Services.AddHsts(options =>
+{
+    options.Preload = true;
+    options.IncludeSubDomains = true;
+    options.MaxAge = TimeSpan.FromDays(365);
+});
 
 // ---------- Configuration ----------
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
@@ -327,7 +350,13 @@ using (var scope = app.Services.CreateScope())
 
 // ---------- Middleware pipeline ----------
 app.UseForwardedHeaders();
+// Security headers middleware must run early to set HSTS and CSP headers
 app.UseMiddleware<SecurityHeadersMiddleware>();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+    app.UseResponseCompression();
+}
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseSerilogRequestLogging();

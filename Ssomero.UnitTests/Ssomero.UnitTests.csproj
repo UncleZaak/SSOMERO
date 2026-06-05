@@ -13,6 +13,9 @@
          (e.g. appicon.svg) to be processed twice — once in the MAUI project and again
          here — resulting in a "duplicate file names" build error from the Resizetizer. -->
     <UseMaui>false</UseMaui>
+    <!-- Disable the resizetizer which processes images and app icons; this prevents
+         the duplicate output filename error when test projects reference MAUI apps. -->
+    <DisableResizetizer>true</DisableResizetizer>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +39,14 @@
   <ItemGroup>
     <Folder Include="Platforms\iOS\" />
     <Folder Include="Platforms\MacCatalyst\" />
+  </ItemGroup>
+
+  <!-- Remove MAUI image/icon items propagated from referenced MAUI project to avoid duplicate output filenames
+       (Resizetizer processes images transitively and can detect duplicate names like 'appicon'). -->
+  <ItemGroup>
+    <MauiImage Remove="**\Resources\AppIcon\appicon.svg" />
+    <MauiImage Remove="**\Resources\AppIcon\appiconfg.svg" />
+    <MauiIcon Remove="**\Resources\AppIcon\appicon.svg" />
   </ItemGroup>
 
 </Project>

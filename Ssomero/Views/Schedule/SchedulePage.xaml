@@ -28,14 +28,14 @@
                          SemanticProperties.HeadingLevel="Level3" />
                   <Label Text="{Binding LecturerName}" Style="{StaticResource BodyLabelStyle}" />
                   <Label FontSize="12" TextColor="{StaticResource MutedText}">
-                    <Label.Text>
-                      <MultiBinding StringFormat="{}{0:MMM dd, HH:mm} – {1:HH:mm} · {2}">
-                        <Binding Path="StartTime" />
-                        <Binding Path="EndTime" />
-                        <Binding Path="Venue" />
-                      </MultiBinding>
-                    </Label.Text>
-                  </Label>
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0:MMM dd, HH:mm} - {1:HH:mm} - {2}">
+                                                <Binding Path="StartTime" />
+                                                <Binding Path="EndTime" />
+                                                <Binding Path="Venue" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
                   <Label Text="{Binding Type}" FontSize="11" TextColor="{StaticResource SecondaryColor}" />
                 </VerticalStackLayout>
               </Grid>

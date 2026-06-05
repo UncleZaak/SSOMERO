@@ -29,10 +29,12 @@
         </Frame>
 
         <!-- Loading indicator -->
-        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
-                           Color="{StaticResource PrimaryColor}" HorizontalOptions="Center" />
-
-        <!-- ═══ HEADER: Avatar + Name + Role badge ═══ -->
+                <ActivityIndicator
+    IsRunning="{Binding IsBusy}"
+    IsVisible="{Binding IsBusy}"
+    Color="{StaticResource PrimaryColor}"
+    HorizontalOptions="Center" />
+                <!-- ═══ HEADER: Avatar + Name + Role badge ═══ -->
         <Border StrokeShape="RoundRectangle 16" Padding="16"
                 BackgroundColor="{StaticResource PrimaryColor}" StrokeThickness="0">
           <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
@@ -68,7 +70,7 @@
                       BackgroundColor="#5B21B6" StrokeThickness="1" Stroke="White"
                       HorizontalOptions="End" VerticalOptions="End"
                       IsVisible="{Binding IsUploading, Converter={StaticResource InvertBoolConverter}}">
-                <Label Text="📷" FontSize="11"
+                <Label Text="CAM" FontSize="11"
                        HorizontalOptions="Center" VerticalOptions="Center" />
               </Border>
 
@@ -195,11 +197,11 @@
             </Grid>
             <Label Text="Quick Actions" FontSize="13" FontAttributes="Bold" TextColor="#64748B" Margin="0,4,0,0"/>
             <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
-              <Button Grid.Column="0" Text="💳 Payments"
+              <Button Grid.Column="0" Text="Payments"
                       Command="{Binding NavigateToPaymentsCommand}"
                       BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
                       FontSize="13" AutomationId="StudentPaymentsButton"/>
-              <Button Grid.Column="1" Text="📊 Analytics"
+              <Button Grid.Column="1" Text="Analytics"
                       Command="{Binding NavigateToAnalyticsCommand}"
                       BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
                       FontSize="13" AutomationId="StudentAnalyticsButton"/>
@@ -224,7 +226,7 @@
               <Label Grid.Row="3" Grid.Column="1" Text="{Binding SessionsManaged}" FontSize="13" FontAttributes="Bold"/>
             </Grid>
             <Label Text="Quick Actions" FontSize="13" FontAttributes="Bold" TextColor="#64748B" Margin="0,4,0,0"/>
-            <Button Text="📚 My Classes" Command="{Binding NavigateToClassesCommand}"
+            <Button Text="My Classes" Command="{Binding NavigateToClassesCommand}"
                     BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
                     FontSize="13" AutomationId="LecturerClassesButton"/>
           </VerticalStackLayout>
@@ -244,15 +246,15 @@
             </Grid>
             <Label Text="Quick Actions" FontSize="13" FontAttributes="Bold" TextColor="#64748B" Margin="0,4,0,0"/>
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
-              <Button Grid.Column="0" Text="👥 Users"
+              <Button Grid.Column="0" Text="Users"
                       Command="{Binding NavigateToUsersCommand}"
                       BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
                       FontSize="12" AutomationId="AdminUsersButton"/>
-              <Button Grid.Column="1" Text="📋 Audit"
+              <Button Grid.Column="1" Text="Audit"
                       Command="{Binding NavigateToAuditLogsCommand}"
                       BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
                       FontSize="12" AutomationId="AdminAuditButton"/>
-              <Button Grid.Column="2" Text="📊 Analytics"
+              <Button Grid.Column="2" Text="Analytics"
                       Command="{Binding NavigateToAdminAnalyticsCommand}"
                       BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
                       FontSize="12" AutomationId="AdminAnalyticsButton"/>
@@ -265,7 +267,7 @@
                 StrokeThickness="1" Stroke="#E2E8F0" AutomationId="SecurityCard">
           <VerticalStackLayout Spacing="10">
             <Label Text="Security" FontSize="15" FontAttributes="Bold" TextColor="#0F172A"/>
-            <Button Text="🔒 Change Password"
+            <Button Text="Change Password"
                     Command="{Binding NavigateToChangePasswordCommand}"
                     BackgroundColor="#F5F3FF" TextColor="{StaticResource PrimaryColor}"
                     FontSize="14" HorizontalOptions="Start"

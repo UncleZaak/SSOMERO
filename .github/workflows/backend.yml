@@ -1,0 +1,36 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Restore
+        run: dotnet restore Ssomero.Api/Ssomero.Api.csproj
+      - name: Build
+        run: dotnet build Ssomero.Api/Ssomero.Api.csproj -c Release --no-restore
+      - name: Run tests
+        run: dotnet test Ssomero.Api.UnitTests/Ssomero.Api.UnitTests.csproj --no-build -c Release
+      - name: Publish
+        run: dotnet publish Ssomero.Api/Ssomero.Api.csproj -c Release -o publish
+      - name: Validate production configuration
+        run: |
+          echo "Checking appsettings.Production.json for embedded secrets"
+          if grep -R "Jwt\\": .*\"Secret\".*\"\S\+\"" -n Ssomero.Api/appsettings.Production.json; then
+            echo "WARNING: appsettings.Production.json may contain a JWT secret. Ensure this is empty and use env vars." >&2
+          fi
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssomero-api-publish
+          path: publish

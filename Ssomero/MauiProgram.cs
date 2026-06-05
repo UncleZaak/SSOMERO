@@ -45,6 +45,31 @@ namespace Ssomero
                 builder.Configuration.AddJsonStream(devStream);
 
             var apiSettings = builder.Configuration.GetSection("ApiSettings").Get<ApiSettings>() ?? new ApiSettings();
+            // Allow a debug-only developer override file to change BaseUrl at runtime
+            // This file is read from the app data directory on Android when present and only in DEBUG builds.
+            #if DEBUG
+            try
+            {
+                var devSettingsPath = Path.Combine(FileSystem.AppDataDirectory, "devsettings.json");
+                if (File.Exists(devSettingsPath))
+                {
+                    var devJson = File.ReadAllText(devSettingsPath);
+                    var devObj = System.Text.Json.JsonSerializer.Deserialize<ApiSettings>(devJson);
+                    if (devObj is not null && !string.IsNullOrWhiteSpace(devObj.BaseUrl))
+                    {
+                        apiSettings.BaseUrl = devObj.BaseUrl;
+                        // Keep timeout from main settings if not specified in dev override
+                        if (devObj.TimeoutSeconds > 0) apiSettings.TimeoutSeconds = devObj.TimeoutSeconds;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Avoid crashing on developer override read errors; log and continue with embedded settings
+                System.Diagnostics.Debug.WriteLine($"Dev settings load failed: {ex}");
+            }
+            #endif
+
             builder.Services.AddSingleton(apiSettings);
 
             // Logging
@@ -54,35 +79,34 @@ namespace Ssomero
             builder.Logging.SetMinimumLevel(LogLevel.Warning);
 #endif
 
-            // HttpClient configured from settings
-            // On Android emulator, localhost refers to the emulator itself.
-            // Replace with 10.0.2.2 which routes to the host machine's loopback.
-            builder.Services.AddSingleton(sp =>
-            {
-                var settings = sp.GetRequiredService<ApiSettings>();
-                var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("HttpClientSetup");
-                var baseUrl = settings.BaseUrl;
+            // Register HttpClientFactory named client for API access. The ApiService will obtain
+            // a client from the factory before each request and set the BaseAddress to the
+            // effective runtime BaseUrl (which can be changed via DeveloperSettings in DEBUG).
+            builder.Services.AddHttpClient("ApiClient")
+                .ConfigureHttpClient((sp, client) =>
+                {
+                    var settings = sp.GetRequiredService<ApiSettings>();
+                    var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("HttpClientSetup");
+                    var baseUrl = settings.BaseUrl;
 
 #if ANDROID
-                if (baseUrl.Contains("localhost", StringComparison.OrdinalIgnoreCase))
-                    baseUrl = baseUrl.Replace("localhost", "10.0.2.2", StringComparison.OrdinalIgnoreCase);
+                    if (baseUrl.Contains("localhost", StringComparison.OrdinalIgnoreCase))
+                        baseUrl = baseUrl.Replace("localhost", "10.0.2.2", StringComparison.OrdinalIgnoreCase);
 #endif
 
-                logger.LogInformation("HttpClient BaseAddress = {BaseUrl}, Timeout = {Timeout}s",
-                    baseUrl, settings.TimeoutSeconds);
+                    logger.LogInformation("Initial HttpClient BaseAddress = {BaseUrl}, Timeout = {Timeout}s",
+                        baseUrl, settings.TimeoutSeconds);
 
-                var handler = new HttpClientHandler();
+                    client.BaseAddress = new Uri(baseUrl);
+                    client.Timeout = TimeSpan.FromSeconds(settings.TimeoutSeconds);
+                });
+
+            // Developer settings and diagnostics (DEBUG-only)
 #if DEBUG
-                // Trust all certs during dev (self-signed / dev certs)
-                handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
+            builder.Services.AddSingleton<Services.DeveloperSettingsService>();
+            builder.Services.AddSingleton<Services.HealthCheckService>();
+            builder.Services.AddSingleton<Services.ConnectivityService>();
 #endif
-
-                return new HttpClient(handler)
-                {
-                    BaseAddress = new Uri(baseUrl),
-                    Timeout = TimeSpan.FromSeconds(settings.TimeoutSeconds)
-                };
-            });
 
             builder.Services.AddSingleton<Interfaces.ITopBarService, Services.TopBarService>();
             builder.Services.AddSingleton<Interfaces.IProfilePhotoService, Services.ProfilePhotoService>();
@@ -90,6 +114,8 @@ namespace Ssomero
             // Services
             builder.Services.AddSingleton<Services.TokenStorageService>();
             builder.Services.AddSingleton<Services.SessionService>();
+            // ApiService depends on IHttpClientFactory, TokenStorageService, ILogger<ApiService>, and ApiSettings.
+            // Let DI construct it so all dependencies are resolved automatically.
             builder.Services.AddSingleton<Interfaces.IApiService, Services.ApiService>();
             builder.Services.AddSingleton<Interfaces.IAuthService, Services.AuthService>();
             builder.Services.AddSingleton<Interfaces.IProfileService, Services.ProfileService>();

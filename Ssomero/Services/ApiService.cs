@@ -8,30 +8,84 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Ssomero.Interfaces;
 using Ssomero.Models;
+using Ssomero.Configuration;
+using Microsoft.Extensions.Http;
+#if DEBUG
+using Ssomero.Services;
+#endif
 
 namespace Ssomero.Services;
 
 public class ApiService : IApiService
 {
-    private readonly HttpClient _client;
+    private readonly System.Net.Http.IHttpClientFactory _clientFactory;
     private readonly TokenStorageService _tokenStorage;
     private readonly ILogger<ApiService> _logger;
+    private readonly ApiSettings _apiSettings;
     private readonly SemaphoreSlim _refreshLock = new(1, 1);
 
     // Auth endpoints return 401 for invalid credentials, NOT expired tokens.
     // They must never trigger the automatic token-refresh-and-retry flow.
     private static readonly string[] AuthPaths = ["auth/login", "auth/register", "auth/send-otp", "auth/verify-otp", "auth/refresh"];
 
-    public ApiService(HttpClient client, TokenStorageService tokenStorage, ILogger<ApiService> logger)
+    public ApiService(System.Net.Http.IHttpClientFactory clientFactory, TokenStorageService tokenStorage, ILogger<ApiService> logger, ApiSettings apiSettings)
     {
-        _client = client;
+        _clientFactory = clientFactory;
         _tokenStorage = tokenStorage;
         _logger = logger;
+        _apiSettings = apiSettings;
+    }
+
+    // Backwards-compatible constructor used by unit tests or callers that do not supply ApiSettings.
+    // Uses default ApiSettings instance so existing tests that new-up ApiService continue to compile.
+    // Made internal so the DI container does not see multiple public constructors and cause
+    // an AmbiguousConstructorException at startup. Unit tests can still access this because
+    // the assembly grants InternalsVisibleTo Ssomero.UnitTests.
+    internal ApiService(System.Net.Http.IHttpClientFactory clientFactory, TokenStorageService tokenStorage, ILogger<ApiService> logger)
+        : this(clientFactory, tokenStorage, logger, new ApiSettings())
+    {
+    }
+
+    // Backwards-compatible constructors that accept a HttpClient instance (used by many unit tests).
+    private sealed class SimpleHttpClientFactory : System.Net.Http.IHttpClientFactory
+    {
+        private readonly System.Net.Http.HttpClient _client;
+        public SimpleHttpClientFactory(System.Net.Http.HttpClient client) => _client = client;
+        public System.Net.Http.HttpClient CreateClient(string name) => _client;
+    }
+
+    // Constructors that accept an HttpClient are provided for tests/helpers that create
+    // an HttpClient directly. Make these internal to avoid DI ambiguity in production.
+    internal ApiService(System.Net.Http.HttpClient client, TokenStorageService tokenStorage, ILogger<ApiService> logger, ApiSettings apiSettings)
+        : this(new SimpleHttpClientFactory(client), tokenStorage, logger, apiSettings)
+    {
+    }
+
+    internal ApiService(System.Net.Http.HttpClient client, TokenStorageService tokenStorage, ILogger<ApiService> logger)
+        : this(new SimpleHttpClientFactory(client), tokenStorage, logger, new ApiSettings())
+    {
     }
 
     private async Task<HttpRequestMessage> CreateRequestAsync(HttpMethod method, string path, HttpContent? content = null)
     {
-        var request = new HttpRequestMessage(method, path);
+        // Create a fresh request with absolute URI (do not rely on shared HttpClient.BaseAddress being mutated)
+        var baseUrl = _apiSettings.BaseUrl ?? string.Empty;
+#if DEBUG
+        try
+        {
+            // If developer override exists, prefer it (Preferences-based service)
+            var overrideUrl = Microsoft.Maui.Storage.Preferences.Get("dev:BaseUrl", null);
+            if (!string.IsNullOrWhiteSpace(overrideUrl)) baseUrl = overrideUrl;
+        }
+        catch
+        {
+            // ignore and use configured base
+        }
+#endif
+
+        var absolute = path.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? path : (baseUrl.TrimEnd('/') + "/" + path.TrimStart('/'));
+
+        var request = new HttpRequestMessage(method, new Uri(absolute));
         if (content is not null)
         {
             content.Headers.ContentType ??= new MediaTypeHeaderValue("application/json");
@@ -49,9 +103,10 @@ public class ApiService : IApiService
     {
         var request = await CreateRequestAsync(method, path, content);
         HttpResponseMessage response;
+        var apiClient = _clientFactory.CreateClient("ApiClient");
         try
         {
-            response = await _client.SendAsync(request, ct);
+            response = await apiClient.SendAsync(request, ct);
         }
         catch (TaskCanceledException) when (ct.IsCancellationRequested)
         {
@@ -98,7 +153,7 @@ public class ApiService : IApiService
         _logger.LogInformation("Token refreshed, retrying {Method} {Path}", method, path);
         var retryContent = await CloneContentAsync(content);
         var retry = await CreateRequestAsync(method, path, retryContent);
-        return await _client.SendAsync(retry, ct);
+        return await apiClient.SendAsync(retry, ct);
     }
 
     private static async Task<HttpContent?> CloneContentAsync(HttpContent? original)
@@ -125,7 +180,8 @@ public class ApiService : IApiService
 
             var payload = JsonContent.Create(new { refreshToken });
             var request = new HttpRequestMessage(HttpMethod.Post, "auth/refresh") { Content = payload };
-            var resp = await _client.SendAsync(request, ct);
+            var client = _clientFactory.CreateClient("ApiClient");
+            var resp = await client.SendAsync(request, ct);
             if (!resp.IsSuccessStatusCode)
             {
                 _logger.LogWarning("Refresh endpoint returned {StatusCode}", resp.StatusCode);
@@ -157,7 +213,8 @@ public class ApiService : IApiService
             using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
             timeoutCts.CancelAfter(TimeSpan.FromSeconds(5));
 
-            var response = await _client.GetAsync("health", timeoutCts.Token);
+            var client = _clientFactory.CreateClient("ApiClient");
+            var response = await client.GetAsync("health", timeoutCts.Token);
             return response.IsSuccessStatusCode;
         }
         catch (Exception ex)

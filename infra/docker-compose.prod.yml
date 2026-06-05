@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  api:
+    image: ssomero/api:latest
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - JWT__Secret=${JWT__Secret}
+      - ConnectionStrings__Default=${CONNECTIONSTRINGS__DEFAULT}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

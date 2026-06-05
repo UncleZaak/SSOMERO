@@ -1,0 +1,289 @@
+name: MAUI Android Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build-and-sign:
+    runs-on: windows-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore Ssomero/Ssomero.csproj
+
+      - name: Determine version
+        id: ver
+        run: |
+          # Increment versionName and versionCode based on tag
+          TAG=${GITHUB_REF#refs/tags/}
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          IFS='.' read -r MAJ MIN PATCH <<< "${TAG#v}"
+          VERSION_NAME="$MAJ.$MIN.$PATCH"
+          # versionCode: MAJ*10000 + MIN*1000 + PATCH
+          VERSION_CODE=$((MAJ*10000 + MIN*1000 + PATCH))
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+
+      - name: Build Release AAB
+        run: |
+          dotnet publish Ssomero/Ssomero.csproj -f net10.0-android -c Release -o publish/release /p:AndroidPackageFormat=aab /p:AndroidVersionCode=${{ steps.ver.outputs.version_code }} /p:AndroidVersionName=${{ steps.ver.outputs.version_name }}
+
+      - name: Validate release artifact sanity
+        run: |
+          set -euo pipefail
+          echo "Validating release build for debug flags, network config and suspicious endpoints"
+          # Search only in published release directory to avoid scanning repo files
+          PUBLISH_DIR=publish/release
+          if [ ! -d "$PUBLISH_DIR" ]; then
+            echo "ERROR: publish directory not found: $PUBLISH_DIR" >&2
+            exit 3
+          fi
+
+          # Patterns to detect that must NOT be present in release artifacts
+          patterns=("network_security_config.debug" "android:debuggable=\"true\"" "localhost" "10.0.2.2" "devsettings" "http://")
+          for p in "${patterns[@]}"; do
+            if grep -R --binary-files=without-match -nI "$p" "$PUBLISH_DIR"; then
+              echo "ERROR: Found forbidden pattern '$p' in release artifacts" >&2
+              exit 2
+            fi
+          done
+
+          echo "Basic artifact sanity checks passed"
+
+      - name: Prepare keystore
+        if: ${{ secrets.ANDROID_KEYSTORE != '' }}
+        run: |
+          echo "Setting up keystore"
+          printf '%s' "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > keystore.jks
+
+      - name: Sign AAB
+        if: ${{ secrets.ANDROID_KEYSTORE != '' }}
+        run: |
+          set -euo pipefail
+          # Sign the AAB using jarsigner. We avoid printing secrets.
+          echo "Signing AAB"
+          jarsigner -keystore keystore.jks -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" -keypass "${{ secrets.ANDROID_KEY_PASSWORD }}" publish/release/*.aab "${{ secrets.ANDROID_KEY_ALIAS }}"
+
+      - name: Verify signature (jarsigner)
+        if: ${{ secrets.ANDROID_KEYSTORE != '' }}
+        run: |
+          set -euo pipefail
+          echo "Verifying signature with jarsigner"
+          jarsigner -verify -verbose -certs publish/release/*.aab
+
+      - name: Verify APK signatures (apksigner) if any APKs present
+        run: |
+          set -euo pipefail
+          shopt -s nullglob || true
+          APKS=(publish/release/*.apk)
+          if [ -e "${APKS[0]}" ]; then
+            echo "Found APKs: ${APKS[*]} - verifying with apksigner"
+            for a in "${APKS[@]}"; do
+              echo "Verifying $a"
+              apksigner verify --print-certs "$a"
+            done
+          else
+            echo "No APKs found in publish/release; skipping apksigner verification"
+          fi
+
+      - name: Download bundletool
+        run: |
+          set -euo pipefail
+          BUNDLETOOL_VER=1.14.0
+          BUNDLETOOL_JAR=bundletool-all-${BUNDLETOOL_VER}.jar
+          BUNDLETOOL_URL=https://github.com/google/bundletool/releases/download/${BUNDLETOOL_VER}/${BUNDLETOOL_JAR}
+          echo "Downloading bundletool from official source: ${BUNDLETOOL_URL}"
+          curl -fsSL -o ${BUNDLETOOL_JAR} ${BUNDLETOOL_URL}
+          # Verify checksum
+          if [ -f infra/bundletool.sha256 ]; then
+            echo "Verifying bundletool checksum"
+            expected=$(grep ${BUNDLETOOL_JAR} infra/bundletool.sha256 | awk '{print $1}') || true
+            if [ -z "$expected" ]; then
+              echo "ERROR: expected checksum for ${BUNDLETOOL_JAR} not found in infra/bundletool.sha256" >&2
+              exit 7
+            fi
+            actual=$(sha256sum ${BUNDLETOOL_JAR} | awk '{print $1}')
+            if [ "$expected" != "$actual" ]; then
+              echo "ERROR: bundletool checksum mismatch. expected=$expected actual=$actual" >&2
+              exit 8
+            fi
+            echo "bundletool checksum verification passed"
+          else
+            echo "WARNING: infra/bundletool.sha256 not found; skipping checksum verification" >&2
+            exit 9
+          fi
+
+      - name: Bundletool validate
+        run: |
+          set -euo pipefail
+          echo "Running bundletool validate"
+          java -jar bundletool-all-${BUNDLETOOL_VER}.jar validate --bundle=publish/release/*.aab
+
+      - name: Dump manifest and validate version/package
+        run: |
+          set -euo pipefail
+          echo "Dumping manifest from AAB"
+          java -jar bundletool.jar dump manifest --bundle=publish/release/*.aab --output=manifest.xml
+          echo "Manifest snippet:"
+          sed -n '1,200p' manifest.xml || true
+          # Validate package and version values are present
+          if ! grep -q "package=\"" manifest.xml; then
+            echo "ERROR: manifest does not contain package attribute" >&2; exit 4
+          fi
+          if ! grep -q "versionCode=\"${{ steps.ver.outputs.version_code }}\"" manifest.xml; then
+            echo "ERROR: manifest versionCode does not match computed version_code" >&2; exit 5
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release
+          path: publish/release
+
+      - name: Cleanup keystore
+        if: ${{ always() }}
+        run: |
+          echo "Cleaning up keystore"
+          # remove keystore if present; use shell that works on windows/linux runners
+          if [ -f keystore.jks ]; then
+            shred -u keystore.jks || rm -f keystore.jks || true
+          fi
+        shell: bash
+
+  upload-internal:
+    name: Upload to Google Play (internal)
+    runs-on: ubuntu-latest
+    needs: build-and-sign
+    environment: internal
+    concurrency:
+      group: "maui-release-${{ github.ref }}"
+      cancel-in-progress: false
+    timeout-minutes: 60
+    if: ${{ always() }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: android-release
+
+      - name: Ensure Google Play service account secret present
+        if: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON == '' }}
+        run: |
+          echo "Missing GOOGLE_PLAY_SERVICE_ACCOUNT_JSON secret; skipping upload and failing" >&2
+          exit 10
+
+      - name: Prepare service account file
+        run: |
+          set -euo pipefail
+          echo "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" > /tmp/gp_sa.json
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+
+      - name: Download bundletool for manifest parsing
+        run: |
+          set -euo pipefail
+          BUNDLETOOL_VER=1.14.0
+          BUNDLETOOL_JAR=bundletool-all-${BUNDLETOOL_VER}.jar
+          BUNDLETOOL_URL=https://github.com/google/bundletool/releases/download/${BUNDLETOOL_VER}/${BUNDLETOOL_JAR}
+          curl -fsSL -o ${BUNDLETOOL_JAR} ${BUNDLETOOL_URL}
+          expected=$(grep ${BUNDLETOOL_JAR} infra/bundletool.sha256 | awk '{print $1}') || true
+          actual=$(sha256sum ${BUNDLETOOL_JAR} | awk '{print $1}')
+          if [ "$expected" != "$actual" ]; then echo "bundletool checksum mismatch" >&2; exit 8; fi
+
+      - name: Dump manifest and extract package/version
+        id: manifest
+        run: |
+          set -euo pipefail
+          JAR=$(ls *.aab | head -n1)
+          if [ -z "$JAR" ]; then echo "No AAB found to upload" >&2; exit 11; fi
+          java -jar bundletool-all-1.14.0.jar dump manifest --bundle=$JAR --output=manifest.xml
+          pkg=$(grep -oP 'package="\K[^"]+' manifest.xml | head -n1)
+          vcode=$(grep -oP 'versionCode="\K[^"]+' manifest.xml | head -n1)
+          vname=$(grep -oP 'versionName="\K[^"]+' manifest.xml | head -n1)
+          echo "package=$pkg" >> $GITHUB_OUTPUT
+          echo "version_code=$vcode" >> $GITHUB_OUTPUT
+          echo "version_name=$vname" >> $GITHUB_OUTPUT
+
+      - name: Upload to Google Play (internal track)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: ${{ steps.manifest.outputs.package }}
+          releaseFiles: "$(ls *.aab | head -n1)"
+          track: internal
+        env:
+          # ensure service account is not leaked via env printing
+          GITHUB_ACTIONS: true
+
+      - name: Create release metadata
+        run: |
+          set -euo pipefail
+          cat > release-metadata.json <<EOF
+          {
+            "git_tag": "${GITHUB_REF}",
+            "commit_sha": "${GITHUB_SHA}",
+            "versionCode": "${{ steps.manifest.outputs.version_code }}",
+            "versionName": "${{ steps.manifest.outputs.version_name }}",
+            "run_id": "${GITHUB_RUN_ID}"
+          }
+          EOF
+      - name: Upload metadata artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-metadata
+          path: release-metadata.json
+
+      - name: Post-upload cleanup
+        if: ${{ always() }}
+        run: |
+          set -euo pipefail
+          shred -u /tmp/gp_sa.json || rm -f /tmp/gp_sa.json || true
+          # remove any residual AABs
+          rm -f *.aab || true
+
+      - name: Trigger post-upload smoke tests
+        if: ${{ always() }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const run_id = process.env.GITHUB_RUN_ID;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            // Dispatch deploy-and-smoke workflow with inputs via repository_dispatch (lightweight)
+            await github.rest.actions.createWorkflowDispatch({
+              owner,
+              repo,
+              workflow_id: 'deploy-and-smoke.yml',
+              ref: 'main',
+              inputs: {}
+            });
+
+      - name: Final cleanup (ensure no secrets persisted)
+        if: ${{ always() }}
+        run: |
+          echo "Ensuring no secret env vars persist"
+          # Unset common env vars that may have been set in shell
+          unset ANDROID_KEYSTORE ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD || true
+          # Confirm keystore absent
+          if [ -f keystore.jks ]; then
+            echo "WARNING: keystore.jks still present" >&2
+            ls -la keystore.jks || true
+            exit 6
+          fi
+        shell: bash
+

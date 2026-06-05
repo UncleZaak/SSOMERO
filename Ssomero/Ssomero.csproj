@@ -37,13 +37,15 @@
 		<JavaMaximumHeapSize Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">2G</JavaMaximumHeapSize>
 		<AndroidDexTool Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">d8</AndroidDexTool>
 		<AndroidEnableMultiDex Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">true</AndroidEnableMultiDex>
+
+
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" OutputFileName="appicon_main" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
@@ -59,9 +61,39 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+<!-- Disable AOT compilation for Android publish to avoid Windows-only assemblies being AOT-compiled when building on Windows hosts. -->
+<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+  <RunAOTCompilation>false</RunAOTCompilation>
+</PropertyGroup>
+
+<!-- Temporary Release safety settings to avoid aggressive trimming/AOT for Android Release debugging -->
+<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' And '$(Configuration)' == 'Release'">
+  <!-- Ensure trimming is disabled for Release to avoid removing reflection-used types -->
+  <PublishTrimmed>false</PublishTrimmed>
+  <!-- Set a conservative trim mode if trimming is enabled elsewhere -->
+  <TrimMode>copyused</TrimMode>
+  <!-- Keep AOT disabled (already set globally for android) -->
+  <RunAOTCompilation>false</RunAOTCompilation>
+  <!-- Disable Android linker to avoid aggressive removal of types used via reflection -->
+  <AndroidLinkMode>None</AndroidLinkMode>
+</PropertyGroup>
+<ItemGroup>
+  <AndroidResource Remove="Platforms\Android\Resources\xml\network_security_config.debug.xml" />
+</ItemGroup>
+
 	<ItemGroup>
 	  <AndroidResource Include="Platforms\Android\Resources\xml\network_security_config.xml" />
 	</ItemGroup>
+
+  <!-- DEBUG ONLY: include debug network security config which allows cleartext during development on real devices.
+	   This maps network_security_config.debug.xml to the Android resource name network_security_config.xml
+	   but only when building Debug configuration for Android. This keeps Release builds unchanged.
+	-->
+  <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
+	<AndroidResource Include="Platforms\Android\Resources\xml\network_security_config.debug.xml">
+	  <Link>Resources\xml\network_security_config.xml</Link>
+	</AndroidResource>
+  </ItemGroup>
 
 	<!-- Explicitly include new Lecturer pages so VS MAUI XAML Source Generator picks them up -->
 	<ItemGroup>
@@ -105,6 +137,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.8" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.8" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.8" />
 		<PackageReference Include="Plugin.LocalNotification" Version="11.1.4" />
 		<PackageReference Include="System.Drawing.Common" Version="10.0.8" />
 	</ItemGroup>
@@ -118,6 +151,11 @@
 	  <MauiXaml Update="Components\CardView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <!-- Preserve reflection and JSON serialization types used by DI and serializer via explicit PreserveDependency items -->
+	  <!-- These preserve entries reduce trimming risk for release builds. Add entries for common reflection usage. -->
+	  <AssemblyArtifact Include="System.Text.Json">
+		<Preserve>All</Preserve>
+	  </AssemblyArtifact>
 	  <MauiXaml Update="Views\Admin\AuditLogsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

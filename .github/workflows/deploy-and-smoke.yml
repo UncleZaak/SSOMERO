@@ -1,0 +1,70 @@
+name: Deploy & Smoke Tests
+
+on:
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [run-smoke-after-upload]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    environment: internal
+    needs: []
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate smoke test secrets
+        run: |
+          if [ -z "${{ secrets.SMOKE_API_BASEURL }}" ]; then echo "Missing SMOKE_API_BASEURL" >&2; exit 1; fi
+          if [ -z "${{ secrets.SMOKE_USER_EMAIL }}" ]; then echo "Missing SMOKE_USER_EMAIL" >&2; exit 1; fi
+          if [ -z "${{ secrets.SMOKE_USER_PASSWORD }}" ]; then echo "Missing SMOKE_USER_PASSWORD" >&2; exit 1; fi
+
+      - name: Run smoke tests (PowerShell)
+        run: |
+          pwsh -NoLogo -NoProfile -Command ". ./.github/scripts/smoke-test.ps1; . { param($ApiBaseUrl,$TestUserEmail,$TestUserPassword) & './.github/scripts/smoke-test.ps1' -ApiBaseUrl $ApiBaseUrl -TestUserEmail $TestUserEmail -TestUserPassword $TestUserPassword } -ApiBaseUrl '${{ secrets.SMOKE_API_BASEURL }}' -TestUserEmail '${{ secrets.SMOKE_USER_EMAIL }}' -TestUserPassword '${{ secrets.SMOKE_USER_PASSWORD }}'"
+        env:
+          SMOKE_API_BASEURL: ${{ secrets.SMOKE_API_BASEURL }}
+          SMOKE_USER_EMAIL: ${{ secrets.SMOKE_USER_EMAIL }}
+          SMOKE_USER_PASSWORD: ${{ secrets.SMOKE_USER_PASSWORD }}
+
+      - name: Upload smoke test report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-report
+          path: smoke-test-report.json
+
+      - name: Run SignalR advanced validation
+        if: ${{ always() }}
+        run: |
+          pwsh -NoLogo -NoProfile -Command "./.github/scripts/signalr-validate.ps1 -ApiBaseUrl '${{ secrets.SMOKE_API_BASEURL }}' -AccessTokenFile '' -OutputFile signalr-validation-report.json"
+        env:
+          SMOKE_API_BASEURL: ${{ secrets.SMOKE_API_BASEURL }}
+
+      - name: Upload SignalR validation report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: signalr-validation-report
+          path: signalr-validation-report.json
+
+      - name: Evaluate release gates
+        if: ${{ always() }}
+        run: |
+          pwsh -NoLogo -NoProfile -Command "./.github/scripts/evaluate-release-gate.ps1 -SmokeReport smoke-test-report.json -SignalRReport signalr-validation-report.json -OutputFile release-gate-report.json"
+
+      - name: Upload release gate report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-gate-report
+          path: release-gate-report.json
+
+      - name: Fail workflow if release gate failed
+        if: ${{ always() }}
+        run: |
+          set -e
+          $json = (Get-Content release-gate-report.json -Raw) | ConvertFrom-Json
+          if ($json.status -ne 'passed') { Write-Host 'Release gate failed' ; exit 2 }

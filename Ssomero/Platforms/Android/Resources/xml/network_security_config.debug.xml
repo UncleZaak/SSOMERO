@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <!-- DEBUG ONLY: permit cleartext to any domain for local development on real devices.
+	   This file will only be included in Debug builds via csproj configuration. Do NOT include
+	   this file in Release builds or production releases. -->
+  <base-config cleartextTrafficPermitted="true">
+	<trust-anchors>
+	  <certificates src="system" />
+	</trust-anchors>
+  </base-config>
+</network-security-config>

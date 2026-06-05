@@ -1,0 +1,45 @@
+# .dockerignore - keep Docker build context small
+# Exclude build outputs
+bin/
+obj/
+artifacts/
+publish/
+
+# Exclude Visual Studio and user files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Git
+.git/
+.gitignore
+
+# NuGet packages and tooling
+packages/
+*.nupkg
+
+# Node / other large folders
+node_modules/
+
+# Logs, databases, backups
+*.log
+*.sqlite
+*.db
+*.tar
+*.zip
+*.bak
+
+# IDE folders
+.idea/
+
+# Ignore Dockerfile published artifacts
+**/bin/**
+**/obj/**
+
+# Other generated files
+*.gen.*
+
+# Keep the repo metadata
+!.gitattributes

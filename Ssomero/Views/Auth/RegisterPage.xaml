@@ -70,11 +70,12 @@
                Keyboard="Default" />
 
         <Label Text="Date of birth" FontSize="13" TextColor="Gray" />
-        <DatePicker Date="{Binding Dob}" MaximumDate="{x:Static sys:DateTime.Today}"
-                    xmlns:sys="clr-namespace:System;assembly=netstandard"
-                    AutomationId="DobPicker" />
+                <DatePicker
+    Date="{Binding Dob}"
+    MaximumDate="2015-12-31"
+    AutomationId="DobPicker" />
 
-        <Picker Title="Select gender" SelectedItem="{Binding Gender}" AutomationId="GenderPicker">
+                <Picker Title="Select gender" SelectedItem="{Binding Gender}" AutomationId="GenderPicker">
           <Picker.ItemsSource>
             <x:Array Type="{x:Type x:String}">
               <x:String>Male</x:String>

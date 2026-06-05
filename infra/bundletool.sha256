@@ -1,0 +1,6 @@
+# SHA256 checksum for bundletool.jar
+# Populate this file with the expected SHA256 checksum for the bundletool version used by CI.
+# Example (replace with actual hex):
+# e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  bundletool-all-1.14.0.jar
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  bundletool-all-1.14.0.jar
