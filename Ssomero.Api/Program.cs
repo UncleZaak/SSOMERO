@@ -85,7 +85,32 @@ var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>() ?? 
 // For PostgreSQL add the Npgsql.EntityFrameworkCore.PostgreSQL package.
 // For SQL Server add the Microsoft.EntityFrameworkCore.SqlServer package.
 var dbProvider = builder.Configuration["Database:Provider"] ?? "sqlite";
-var connStr = builder.Configuration.GetConnectionString("Default") ?? "Data Source=ssomero.db";
+// Treat an empty connection string as not configured so the code falls back to the
+// sensible default used in development. appsettings.Production.json may contain
+// an empty string for ConnectionStrings:Default which would otherwise be taken
+// literally by GetConnectionString and result in an invalid/ephemeral SQLite
+// target at runtime.
+var configuredConnStr = builder.Configuration.GetConnectionString("Default");
+var connStr = string.IsNullOrWhiteSpace(configuredConnStr)
+    ? "Data Source=ssomero.db"
+    : configuredConnStr;
+
+// ---------- Startup diagnostics (temporary) ----------
+// Log provider and whether a connection string was configured. Avoid logging
+// the raw configuredConnStr when it may contain secrets; only log the full
+// connection string when we are using the safe default SQLite file path.
+Log.Information("Database Provider: {Provider}", dbProvider);
+Log.Information("Connection String Configured: {Configured}", !string.IsNullOrWhiteSpace(configuredConnStr));
+if (string.IsNullOrWhiteSpace(configuredConnStr))
+{
+    // Safe to log default SQLite connection string (no secrets)
+    Log.Information("SQLite Connection String: {ConnectionString}", connStr);
+}
+else
+{
+    // Configured connection string present; do not log contents to avoid secrets.
+    Log.Information("Using configured connection string from configuration or environment variables (value suppressed).");
+}
 
 builder.Services.AddDbContext<SsomeroDbContext>(opt =>
 {
@@ -344,8 +369,13 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<SsomeroDbContext>();
     var cfg = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+    // Startup migration & seed diagnostics (temporary) - avoid logging secrets
+    Log.Information("Applying database migrations...");
     await db.Database.MigrateAsync();
+    Log.Information("Database migrations completed.");
+    Log.Information("Starting database seed...");
     await DbSeeder.SeedAsync(db, cfg);
+    Log.Information("Database seed completed.");
 }
 
 // ---------- Middleware pipeline ----------
