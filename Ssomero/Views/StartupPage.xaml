@@ -23,8 +23,7 @@
           HorizontalOptions="Center"
           VerticalOptions="Center"
           Spacing="12"
-          WidthRequest="600"
-          MaxWidthRequest="760">
+          WidthRequest="600">
 
         <!-- Logo -->
         <Image x:Name="LogoImage"

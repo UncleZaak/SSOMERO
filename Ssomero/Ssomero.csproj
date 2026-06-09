@@ -80,6 +80,8 @@
   <RunAOTCompilation>false</RunAOTCompilation>
   <!-- Disable Android linker to avoid aggressive removal of types used via reflection -->
   <AndroidLinkMode>None</AndroidLinkMode>
+  <!-- Force Release Android builds to target arm64 only (packaging/RuntimeIdentifier for Release Android) -->
+  <RuntimeIdentifier>android-arm64</RuntimeIdentifier>
 </PropertyGroup>
 <ItemGroup>
   <AndroidResource Remove="Platforms\Android\Resources\xml\network_security_config.debug.xml" />
