@@ -44,9 +44,9 @@
   <!-- Remove MAUI image/icon items propagated from referenced MAUI project to avoid duplicate output filenames
        (Resizetizer processes images transitively and can detect duplicate names like 'appicon'). -->
   <ItemGroup>
-    <MauiImage Remove="**\Resources\AppIcon\appicon.svg" />
+    <MauiImage Remove="**\Resources\AppIcon\ssomero2.png" />
     <MauiImage Remove="**\Resources\AppIcon\appiconfg.svg" />
-    <MauiIcon Remove="**\Resources\AppIcon\appicon.svg" />
+    <MauiIcon Remove="**\Resources\AppIcon\ssomero.png" />
   </ItemGroup>
 
 </Project>

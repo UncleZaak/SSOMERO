@@ -66,45 +66,14 @@ namespace Ssomero
                 // Request notification permission early — safe if already granted or denied
                 _ = _notifications?.RequestPermissionAsync();
 
+                // Navigate to StartupPage as the first visible page after the native splash
                 try
                 {
-                    var token = await _tokenStorage.GetAccessTokenAsync();
-                    var isExpired = await _tokenStorage.IsTokenExpiredAsync();
-
-                    if (!string.IsNullOrEmpty(token) && !isExpired)
-                    {
-                        var role = await SecureStorage.Default.GetAsync("user_role");
-                        if (!string.IsNullOrEmpty(role))
-                        {
-                            await Navigation.DashboardNavigator.GoToDashboardAsync(role);
-                            _polling.Start(); // Begin background refresh after successful login
-
-                            // Populate top bar + flyout header identity state for auto-login users
-                            var topBar = IPlatformApplication.Current?.Services
-                                             ?.GetService(typeof(ITopBarService)) as ITopBarService;
-                            if (topBar is not null && !topBar.IsLoaded)
-                                _ = topBar.LoadAsync();
-                        }
-                        else
-                        {
-                            await _tokenStorage.ClearAsync();
-                            await shell.GoToAsync("//LoginPage");
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(token))
-                    {
-                        _logger?.LogInformation("Startup token expired, clearing session");
-                        await _tokenStorage.ClearAsync();
-                        SecureStorage.Default.Remove("user_role");
-                        await shell.GoToAsync("//LoginPage");
-                    }
+                    await shell.GoToAsync("//StartupPage");
                 }
-                catch (Exception ex)
+                catch
                 {
-                    _logger?.LogError(ex, "Auth check on startup failed");
-                    await _tokenStorage.ClearAsync();
-                    SecureStorage.Default.Remove("user_role");
-                    await shell.GoToAsync("//LoginPage");
+                    // ignore navigation errors and proceed — StartupPage may already be the default
                 }
             };
 

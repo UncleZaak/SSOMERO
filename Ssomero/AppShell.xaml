@@ -11,6 +11,7 @@
     xmlns:grades="clr-namespace:Ssomero.Views.Grades"
     xmlns:profile="clr-namespace:Ssomero.Views.Profile"
     xmlns:auth="clr-namespace:Ssomero.Views.Auth"
+    xmlns:startup="clr-namespace:Ssomero.Views"
     xmlns:admin="clr-namespace:Ssomero.Views.Admin"
     xmlns:nav="clr-namespace:Ssomero.Navigation"
     xmlns:conv="clr-namespace:Ssomero.Converters"
@@ -106,6 +107,12 @@
     <!-- ═══ ROUTES ═══
          All ShellItems use FlyoutItemIsVisible="False" so the custom FlyoutContent
          above is the SOLE navigation surface. Routes are preserved exactly. -->
+
+    <!-- Startup (first visible page after native splash) -->
+    <ShellContent Route="StartupPage"
+                  Shell.TabBarIsVisible="False"
+                  Shell.FlyoutBehavior="Disabled"
+                  ContentTemplate="{DataTemplate startup:StartupPage}" />
 
     <!-- Login (flyout + tab bar suppressed) -->
     <ShellContent Route="LoginPage"

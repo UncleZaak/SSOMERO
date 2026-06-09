@@ -44,14 +44,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" OutputFileName="appicon_main" />
+		<!-- App Icon (updated to new branding) - use single image under Resources/Images to avoid duplicate output names -->
+		<MauiIcon Include="Resources\Images\ssomero.png" ForegroundFile="Resources\Images\ssomero.png" Color="#512BD4" OutputFileName="appicon" />
 
-		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<!-- Splash Screen (updated to new branding) -->
+		<MauiSplashScreen Include="Resources\Splash\ssomero2.png" Color="#512BD4" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Exclude duplicate branding images that conflict with AppIcon/App splash outputs -->
+		<MauiImage Remove="Resources\Images\ssomero.png" />
+		<MauiImage Remove="Resources\Images\ssomero2.png" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 		
 		<!-- Custom Fonts -->
@@ -80,6 +84,18 @@
 <ItemGroup>
   <AndroidResource Remove="Platforms\Android\Resources\xml\network_security_config.debug.xml" />
 </ItemGroup>
+
+	<!-- Ensure Android mipmap resources exist for manifest references -->
+	<ItemGroup>
+	  <AndroidResource Include="Resources\AppIcon\ssomero.png">
+		<Link>mipmap/appicon.png</Link>
+	  </AndroidResource>
+	  <AndroidResource Include="Resources\AppIcon\ssomero.png">
+		<Link>mipmap/appicon_round.png</Link>
+	  </AndroidResource>
+	</ItemGroup>
+
+
 
 	<ItemGroup>
 	  <AndroidResource Include="Platforms\Android\Resources\xml\network_security_config.xml" />
@@ -235,6 +251,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Shared\UserAvatarView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\StartupPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Student\AnalyticsPage.xaml">
