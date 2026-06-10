@@ -1,0 +1,68 @@
+2026-06-09 13:09:57.399 +03:00 [INF] Database Provider: sqlite
+2026-06-09 13:09:57.478 +03:00 [INF] Connection String Configured: true
+2026-06-09 13:09:57.486 +03:00 [INF] Using configured connection string from configuration or environment variables (value suppressed).
+2026-06-09 13:09:59.344 +03:00 [INF] Applying database migrations...
+2026-06-09 13:10:01.854 +03:00 [INF] Database migrations completed.
+2026-06-09 13:10:01.856 +03:00 [INF] Starting database seed...
+2026-06-09 13:10:02.415 +03:00 [INF] Database seed completed.
+2026-06-09 13:10:04.561 +03:00 [INF] OTP cleanup service started
+2026-06-09 13:10:05.581 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-06-09 13:10:05.584 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-06-09 13:10:05.703 +03:00 [INF] Server desktop-b8rchhq:22716:f3ac702e successfully announced in 6.5806 ms
+2026-06-09 13:10:05.728 +03:00 [INF] Server desktop-b8rchhq:22716:f3ac702e is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-06-09 13:10:06.132 +03:00 [INF] Server desktop-b8rchhq:22716:f3ac702e all the dispatchers started
+2026-06-09 13:15:05.775 +03:00 [INF] Database Provider: sqlite
+2026-06-09 13:15:05.934 +03:00 [INF] Connection String Configured: true
+2026-06-09 13:15:05.945 +03:00 [INF] Using configured connection string from configuration or environment variables (value suppressed).
+2026-06-09 13:15:07.792 +03:00 [INF] Applying database migrations...
+2026-06-09 13:15:12.313 +03:00 [INF] Database migrations completed.
+2026-06-09 13:15:12.315 +03:00 [INF] Starting database seed...
+2026-06-09 13:15:13.257 +03:00 [INF] Database seed completed.
+2026-06-09 13:15:14.932 +03:00 [INF] OTP cleanup service started
+2026-06-09 13:15:16.137 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-06-09 13:15:16.140 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-06-09 13:15:16.254 +03:00 [INF] Server desktop-b8rchhq:22024:f7ecc759 successfully announced in 4.617 ms
+2026-06-09 13:15:16.317 +03:00 [INF] Server desktop-b8rchhq:22024:f7ecc759 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-06-09 13:15:16.681 +03:00 [INF] Server desktop-b8rchhq:22024:f7ecc759 all the dispatchers started
+2026-06-09 13:42:03.064 +03:00 [INF] Database Provider: sqlite
+2026-06-09 13:42:03.253 +03:00 [INF] Connection String Configured: true
+2026-06-09 13:42:03.292 +03:00 [INF] Using configured connection string from configuration or environment variables (value suppressed).
+2026-06-09 13:42:05.496 +03:00 [INF] Applying database migrations...
+2026-06-09 13:42:10.128 +03:00 [INF] Database migrations completed.
+2026-06-09 13:42:10.131 +03:00 [INF] Starting database seed...
+2026-06-09 13:42:10.959 +03:00 [INF] Database seed completed.
+2026-06-09 13:42:12.610 +03:00 [INF] OTP cleanup service started
+2026-06-09 13:42:15.301 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-06-09 13:42:15.303 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-06-09 13:42:15.415 +03:00 [INF] Server desktop-b8rchhq:10844:fadc6d1f successfully announced in 5.5431 ms
+2026-06-09 13:42:15.461 +03:00 [INF] Server desktop-b8rchhq:10844:fadc6d1f is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-06-09 13:42:15.794 +03:00 [INF] Server desktop-b8rchhq:10844:fadc6d1f all the dispatchers started
+2026-06-09 14:21:45.284 +03:00 [INF] Database Provider: sqlite
+2026-06-09 14:21:45.635 +03:00 [INF] Connection String Configured: true
+2026-06-09 14:21:45.657 +03:00 [INF] Using configured connection string from configuration or environment variables (value suppressed).
+2026-06-09 14:21:48.069 +03:00 [INF] Applying database migrations...
+2026-06-09 14:21:52.339 +03:00 [INF] Database migrations completed.
+2026-06-09 14:21:52.342 +03:00 [INF] Starting database seed...
+2026-06-09 14:21:53.215 +03:00 [INF] Database seed completed.
+2026-06-09 14:21:54.917 +03:00 [INF] OTP cleanup service started
+2026-06-09 14:21:55.925 +03:00 [INF] Starting Hangfire Server using job storage: 'In-Memory Storage'
+2026-06-09 14:21:55.928 +03:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2026-06-09 14:21:56.034 +03:00 [INF] Server desktop-b8rchhq:22928:0f20869c successfully announced in 4.5487 ms
+2026-06-09 14:21:56.051 +03:00 [INF] Server desktop-b8rchhq:22928:0f20869c is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2026-06-09 14:21:56.322 +03:00 [INF] Server desktop-b8rchhq:22928:0f20869c all the dispatchers started

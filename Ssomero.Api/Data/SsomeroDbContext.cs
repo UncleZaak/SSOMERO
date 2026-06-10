@@ -61,6 +61,10 @@ public class SsomeroDbContext : DbContext
     public DbSet<ClassSession> ClassSessions => Set<ClassSession>();
     public DbSet<ClassMaterial> ClassMaterials => Set<ClassMaterial>();
 
+    // Invitations
+    public DbSet<Invitation> Invitations => Set<Invitation>();
+    public DbSet<InvitationAudit> InvitationAudits => Set<InvitationAudit>();
+
     // Payments & Subscriptions
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<Subscription> Subscriptions => Set<Subscription>();
@@ -341,6 +345,28 @@ public class SsomeroDbContext : DbContext
              .OnDelete(DeleteBehavior.Restrict);
             e.HasIndex(v => new { v.ElectionId, v.VoterStudentId }).IsUnique();
             e.HasQueryFilter(v => !v.Election.IsDeleted);
+        });
+
+        // ---- Invitation ----
+        mb.Entity<Invitation>(e =>
+        {
+            e.HasKey(i => i.Id);
+            e.HasIndex(i => i.TokenHash).IsUnique();
+            e.HasIndex(i => new { i.Status, i.ExpiresAt });
+            e.HasIndex(i => new { i.ClassId, i.Status });
+            e.Property(i => i.InviteeContact).HasMaxLength(320);
+            e.Property(i => i.TokenHash).HasMaxLength(512);
+            e.Property(i => i.TokenKeyId).HasMaxLength(64);
+            e.Property(i => i.Status).HasMaxLength(32).IsRequired();
+        });
+
+        mb.Entity<InvitationAudit>(e =>
+        {
+            e.HasKey(a => a.Id);
+            e.HasIndex(a => a.InvitationId);
+            e.HasIndex(a => a.Timestamp);
+            e.Property(a => a.EventType).HasMaxLength(32).IsRequired();
+            e.Property(a => a.CorrelationId).HasMaxLength(64);
         });
     }
 }
