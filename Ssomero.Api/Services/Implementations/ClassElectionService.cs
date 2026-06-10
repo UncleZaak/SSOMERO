@@ -146,7 +146,16 @@ public sealed class ClassElectionService : IClassElectionService
         if (election.Status == "Completed")
             return await BuildDtoAsync(election, Guid.Empty, ct);
 
-        await using var tx = await _db.Database.BeginTransactionAsync(ct);
+        // The InMemory EF provider does not support transactions and will emit a
+        // TransactionIgnoredWarning which by default is logged as an exception in tests.
+        // Detect the provider and only begin a transaction when supported.
+        var providerName = _db.Database.ProviderName ?? string.Empty;
+        var tx = (Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction?)null;
+        if (!providerName.Contains("InMemory", StringComparison.OrdinalIgnoreCase))
+        {
+            tx = await _db.Database.BeginTransactionAsync(ct);
+        }
+
         try
         {
             var candidates = await _db.ClassElectionCandidates
@@ -191,14 +200,21 @@ public sealed class ClassElectionService : IClassElectionService
             election.CompletedAt = DateTime.UtcNow;
 
             await _db.SaveChangesAsync(ct);
-            await tx.CommitAsync(ct);
+            if (tx != null)
+                await tx.CommitAsync(ct);
 
             _logger.LogInformation("Election {ElectionId} finalized. Winner: {WinnerId}.", electionId, winner.StudentId);
         }
         catch
         {
-            await tx.RollbackAsync(ct);
+            if (tx != null)
+                await tx.RollbackAsync(ct);
             throw;
+        }
+        finally
+        {
+            if (tx != null)
+                await tx.DisposeAsync();
         }
 
         return await BuildDtoAsync(election, Guid.Empty, ct);

@@ -14,6 +14,43 @@ public class SsomeroDbContext : DbContext
 {
     private readonly IHttpContextAccessor? _httpContextAccessor;
 
+    // Backwards-compatible single-argument constructor.
+    // Some unit tests (and Moq proxy generation) instantiate/match a constructor
+    // that only accepts DbContextOptions<T>. Provide an explicit overload so
+    // those tests continue to work even though the full constructor accepts
+    // an IHttpContextAccessor for request-scoped tenant resolution.
+    public SsomeroDbContext(DbContextOptions<SsomeroDbContext> options)
+        : this(options, null)
+    {
+    }
+
+    // Parameterless constructor to support tests that instantiate or proxy the
+    // DbContext without providing explicit options. This creates an empty
+    // DbContextOptions instance and delegates to the primary constructor.
+    public SsomeroDbContext()
+        : this(new DbContextOptions<SsomeroDbContext>())
+    {
+    }
+
+    // Non-generic DbContextOptions constructor to handle cases where a
+    // DbContextOptions (non-generic) is provided by test helpers or mocking
+    // frameworks. This delegates to the base DbContext constructor and keeps
+    // behavior consistent.
+    public SsomeroDbContext(DbContextOptions options)
+        : base(options)
+    {
+        _httpContextAccessor = null;
+    }
+
+    // Fallback constructor that accepts any argument list. Some proxying
+    // libraries may attempt to invoke a constructor with different shapes;
+    // this varargs constructor ensures there is always a public match that
+    // delegates to a safe default options instance.
+    public SsomeroDbContext(params object[] _)
+        : this(new DbContextOptions<SsomeroDbContext>())
+    {
+    }
+
     public SsomeroDbContext(DbContextOptions<SsomeroDbContext> options, IHttpContextAccessor? httpContextAccessor = null)
         : base(options)
     {

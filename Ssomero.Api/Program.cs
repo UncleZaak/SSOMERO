@@ -173,6 +173,10 @@ builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<OtpService>();
 builder.Services.AddScoped<ClassService>();
+// Invitation repository
+builder.Services.AddScoped<Ssomero.Api.Repositories.Interfaces.IInvitationRepository, Ssomero.Api.Repositories.InvitationRepository>();
+builder.Services.AddScoped<Ssomero.Api.Services.Interfaces.IInvitationService, Ssomero.Api.Services.Implementations.InvitationService>();
+builder.Services.AddSingleton<Ssomero.Api.Security.IKeyProvider, Ssomero.Api.Security.ConfigurationKeyProvider>();
 builder.Services.AddHostedService<OtpCleanupService>();
 
 // ---------- Infrastructure Services ----------
