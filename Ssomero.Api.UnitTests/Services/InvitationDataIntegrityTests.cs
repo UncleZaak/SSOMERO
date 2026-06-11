@@ -187,26 +187,71 @@ public class InvitationDataIntegrityTests
     [TestMethod]
     public async Task DuplicateInvitationId_ShouldBeRejected()
     {
-        var db = CreateDbContext(nameof(DuplicateInvitationId_ShouldBeRejected));
-        var repo = new InvitationRepository(db);
-        var id = Guid.NewGuid();
-        var inv1 = new Invitation { Id = id, InviterId = Guid.NewGuid(), Purpose = "p", TokenHash = "h1", TokenKeyId = "k", Status = "Created", CreatedAt = DateTime.UtcNow, ExpiresAt = DateTime.UtcNow.AddHours(1) };
-        await repo.CreateAsync(inv1);
-        var inv2 = new Invitation { Id = id, InviterId = Guid.NewGuid(), Purpose = "p", TokenHash = "h2", TokenKeyId = "k", Status = "Created", CreatedAt = DateTime.UtcNow, ExpiresAt = DateTime.UtcNow.AddHours(1) };
-        await Assert.ThrowsExceptionAsync<DbUpdateException>(() => repo.CreateAsync(inv2));
+        // Use SQLite in-memory to enforce PK uniqueness reliably
+        var connection = new SqliteConnection("DataSource=:memory:");
+        await connection.OpenAsync();
+        try
+        {
+            var options = new DbContextOptionsBuilder<SsomeroDbContext>().UseSqlite(connection).Options;
+            // First context: create the initial record
+            using (var db = new SsomeroDbContext(options))
+            {
+                db.Database.EnsureCreated();
+                var repo = new InvitationRepository(db);
+                var id = Guid.NewGuid();
+                var inv1 = new Invitation { Id = id, InviterId = Guid.NewGuid(), Purpose = "p", TokenHash = "h1", TokenKeyId = "k", Status = "Created", CreatedAt = DateTime.UtcNow, ExpiresAt = DateTime.UtcNow.AddHours(1) };
+                await repo.CreateAsync(inv1);
+            }
+
+            // New context: attempt to insert another entity with the same PK to force a DB-level constraint violation
+            using (var db2 = new SsomeroDbContext(options))
+            {
+                var repo2 = new InvitationRepository(db2);
+                // get existing id without tracking
+                var existingId = db2.Invitations.Select(i => i.Id).First();
+                var inv2 = new Invitation { Id = existingId, InviterId = Guid.NewGuid(), Purpose = "p", TokenHash = "h2", TokenKeyId = "k", Status = "Created", CreatedAt = DateTime.UtcNow, ExpiresAt = DateTime.UtcNow.AddHours(1) };
+                await Assert.ThrowsExceptionAsync<DbUpdateException>(() => repo2.CreateAsync(inv2));
+            }
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
     }
 
     [TestMethod]
     public async Task DuplicateAuditId_ShouldBeRejected()
     {
-        var db = CreateDbContext(nameof(DuplicateAuditId_ShouldBeRejected));
-        var repo = new InvitationRepository(db);
-        var inv = new Invitation { Id = Guid.NewGuid(), InviterId = Guid.NewGuid(), Purpose = "p", TokenHash = "h", TokenKeyId = "k", Status = "Created", CreatedAt = DateTime.UtcNow, ExpiresAt = DateTime.UtcNow.AddHours(1) };
-        await repo.CreateAsync(inv);
-        var id = Guid.NewGuid();
-        var a1 = new InvitationAudit { Id = id, InvitationId = inv.Id, EventType = "Created", Timestamp = DateTime.UtcNow };
-        await repo.AddAuditAsync(a1);
-        var a2 = new InvitationAudit { Id = id, InvitationId = inv.Id, EventType = "Created", Timestamp = DateTime.UtcNow };
-        await Assert.ThrowsExceptionAsync<DbUpdateException>(() => repo.AddAuditAsync(a2));
+        // Use SQLite in-memory to enforce PK uniqueness reliably
+        var connection = new SqliteConnection("DataSource=:memory:");
+        await connection.OpenAsync();
+        try
+        {
+            var options = new DbContextOptionsBuilder<SsomeroDbContext>().UseSqlite(connection).Options;
+            // First context: create invitation and initial audit
+            using (var db = new SsomeroDbContext(options))
+            {
+                db.Database.EnsureCreated();
+                var repo = new InvitationRepository(db);
+                var inv = new Invitation { Id = Guid.NewGuid(), InviterId = Guid.NewGuid(), Purpose = "p", TokenHash = "h", TokenKeyId = "k", Status = "Created", CreatedAt = DateTime.UtcNow, ExpiresAt = DateTime.UtcNow.AddHours(1) };
+                await repo.CreateAsync(inv);
+                var id = Guid.NewGuid();
+                var a1 = new InvitationAudit { Id = id, InvitationId = inv.Id, EventType = "Created", Timestamp = DateTime.UtcNow };
+                await repo.AddAuditAsync(a1);
+            }
+
+            // New context: attempt to insert another audit with the same PK
+            using (var db2 = new SsomeroDbContext(options))
+            {
+                var repo2 = new InvitationRepository(db2);
+                var existingAuditId = db2.InvitationAudits.Select(a => a.Id).First();
+                var a2 = new InvitationAudit { Id = existingAuditId, InvitationId = db2.Invitations.Select(i => i.Id).First(), EventType = "Created", Timestamp = DateTime.UtcNow };
+                await Assert.ThrowsExceptionAsync<DbUpdateException>(() => repo2.AddAuditAsync(a2));
+            }
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
     }
 }

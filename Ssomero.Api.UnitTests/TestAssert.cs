@@ -89,5 +89,12 @@ namespace Ssomero.Api.UnitTests
                 MST.Fail($"Expected exception of type {typeof(TException)}, but caught {ex.GetType()}.");
             }
         }
+
+        // Backwards-compatible helper used by older tests
+        public static Task ThrowsExceptionAsync<TException>(Func<Task> action)
+            where TException : Exception
+        {
+            return ThrowsExactlyAsync<TException>(action);
+        }
     }
 }

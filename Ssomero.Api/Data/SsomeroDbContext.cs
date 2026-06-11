@@ -101,6 +101,9 @@ public class SsomeroDbContext : DbContext
     // Invitations
     public DbSet<Invitation> Invitations => Set<Invitation>();
     public DbSet<InvitationAudit> InvitationAudits => Set<InvitationAudit>();
+    // Invitation delivery tracking
+    public DbSet<InvitationDelivery> InvitationDeliveries => Set<InvitationDelivery>();
+    public DbSet<InvitationDeliveryAudit> InvitationDeliveryAudits => Set<InvitationDeliveryAudit>();
 
     // Payments & Subscriptions
     public DbSet<Payment> Payments => Set<Payment>();
@@ -401,6 +404,26 @@ public class SsomeroDbContext : DbContext
         {
             e.HasKey(a => a.Id);
             e.HasIndex(a => a.InvitationId);
+            e.HasIndex(a => a.Timestamp);
+            e.Property(a => a.EventType).HasMaxLength(32).IsRequired();
+            e.Property(a => a.CorrelationId).HasMaxLength(64);
+        });
+
+        // Invitation delivery tracking
+        mb.Entity<InvitationDelivery>(e =>
+        {
+            e.HasKey(d => d.Id);
+            e.HasIndex(d => d.InvitationId);
+            e.HasIndex(d => d.Status);
+            e.Property(d => d.Recipient).HasMaxLength(320).IsRequired();
+            e.Property(d => d.Subject).HasMaxLength(200).IsRequired();
+            e.Property(d => d.Status).HasMaxLength(32).IsRequired();
+        });
+
+        mb.Entity<InvitationDeliveryAudit>(e =>
+        {
+            e.HasKey(a => a.Id);
+            e.HasIndex(a => a.DeliveryId);
             e.HasIndex(a => a.Timestamp);
             e.Property(a => a.EventType).HasMaxLength(32).IsRequired();
             e.Property(a => a.CorrelationId).HasMaxLength(64);

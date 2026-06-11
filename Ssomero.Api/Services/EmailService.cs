@@ -31,18 +31,26 @@ public class EmailService
     /// </summary>
     public virtual async Task SendEmailAsync(string toEmail, string subject, string body)
     {
+        await SendEmailAsync(toEmail, subject, body, isHtml: false, metadata: null);
+    }
+
+    /// <summary>
+    /// Sends an email with optional HTML body and metadata for future tracing.
+    /// </summary>
+    public virtual async Task SendEmailAsync(string toEmail, string subject, string body, bool isHtml, string? metadata)
+    {
         if (string.IsNullOrWhiteSpace(_settings.SenderEmail) || string.IsNullOrWhiteSpace(_settings.Password))
             throw new InvalidOperationException(
                 "SMTP credentials are not configured. "
                 + "Set EmailSettings:SenderEmail and EmailSettings:Password via environment variables or user-secrets.");
-
         using var message = new MailMessage();
         message.From = new MailAddress(_settings.SenderEmail, _settings.SenderName);
         message.To.Add(new MailAddress(toEmail));
         message.Subject = subject;
         message.Body = body;
-        message.IsBodyHtml = false;
+        message.IsBodyHtml = isHtml;
 
+        // metadata is not used for SMTP but may be useful for logging/tracing in future
         using var client = new SmtpClient(_settings.SmtpServer, _settings.Port);
         client.DeliveryMethod = SmtpDeliveryMethod.Network;
         client.Credentials = new NetworkCredential(_settings.SenderEmail, _settings.Password);

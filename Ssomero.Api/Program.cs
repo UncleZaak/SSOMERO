@@ -171,6 +171,9 @@ else
 // ---------- Services ----------
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<Ssomero.Api.Repositories.Interfaces.IInvitationDeliveryRepository, Ssomero.Api.Repositories.InvitationDeliveryRepository>();
+builder.Services.AddScoped<Ssomero.Api.Services.InvitationEmailTemplateService>();
+builder.Services.AddScoped<Ssomero.Api.Jobs.InvitationEmailJob>();
 builder.Services.AddScoped<OtpService>();
 builder.Services.AddScoped<ClassService>();
 // Invitation repository
@@ -231,6 +234,10 @@ builder.Services.AddHangfire(cfg =>
         cfg.UseInMemoryStorage(); // SAFE FALLBACK for dev / SQLite environments
 });
 builder.Services.AddHangfireServer();
+
+// Register the internal job client abstraction and the Hangfire adapter for production.
+builder.Services.AddScoped<Ssomero.Api.Services.IJobClient, Ssomero.Api.Services.HangfireJobClient>();
+builder.Services.AddScoped<Ssomero.Api.Services.InvitationEmailQueueService>();
 
 // ---------- Controllers ----------
 builder.Services.AddControllers();
